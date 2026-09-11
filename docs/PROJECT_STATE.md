@@ -12,7 +12,7 @@ Active objective: Stop NightBasis Alpha work after the amended re-audit produced
 - Repository: local Git repository; no remote configured
 - Worktree: `/home/rouma/projects/nightbasis`
 - Branch: `main`
-- Implementation checkpoint: `0b826c136674f9c3a9965dfa9a2ca77830bf59d2`
+- Re-audit checkpoint: `10daa75161d26d1658663004d3f6b0f745581878`
 - Protected releases/artifacts: none
 
 ## Constraints
@@ -78,3 +78,4 @@ Active objective: Stop NightBasis Alpha work after the amended re-audit produced
 | 2026-09-11T16:15:28+01:00 | Codex | Completed strict live data audit | Failed: 4/12 eligible tradables and 55/60 common usable sessions; downstream work blocked |
 | 2026-09-11T16:15:28+01:00 | Codex | Created local Day-1 checkpoint | Commit `0b826c1`; push unavailable because no remote is configured and GitHub auth is expired |
 | 2026-09-11T21:03:22+01:00 | Codex | Completed amended 15-minute re-audit | 57 strategy days triggers Desk contingency; core-only recommended; no downstream work started |
+| 2026-09-11T21:03:22+01:00 | Codex | Created local re-audit checkpoint | Commit `10daa75`; push unavailable because no remote is configured and GitHub auth is expired |
