@@ -1,0 +1,52 @@
+{
+  "cost_scenarios": {
+    "15.0": {
+      "annualized_return": -0.025015001697200168,
+      "annualized_volatility": 0.004548343218991388,
+      "calendar_days_observed": 23,
+      "flat_days": 20,
+      "max_drawdown": -0.001595064810729463,
+      "pending_days": 7,
+      "round_trip_turnover_nav": 0.4,
+      "sharpe": -5.567393343926313,
+      "sortino": -5.455846206933739,
+      "total_return": -0.001595064810729463,
+      "trade_count": 5,
+      "traded_days": 3,
+      "win_rate": 0.2
+    },
+    "25.0": {
+      "annualized_return": -0.031189360166599456,
+      "annualized_volatility": 0.005501816843021032,
+      "calendar_days_observed": 23,
+      "flat_days": 20,
+      "max_drawdown": -0.0019946666313283012,
+      "pending_days": 7,
+      "round_trip_turnover_nav": 0.4,
+      "sharpe": -5.756324275031939,
+      "sortino": -5.624825006572158,
+      "total_return": -0.0019946666313283012,
+      "trade_count": 5,
+      "traded_days": 3,
+      "win_rate": 0.0
+    },
+    "37.5": {
+      "annualized_return": -0.03885386512933309,
+      "annualized_volatility": 0.006723733114987026,
+      "calendar_days_observed": 23,
+      "flat_days": 20,
+      "max_drawdown": -0.0024940429719203516,
+      "pending_days": 7,
+      "round_trip_turnover_nav": 0.4,
+      "sharpe": -5.8903326145826105,
+      "sortino": -5.744057782065997,
+      "total_return": -0.0024940429719203516,
+      "trade_count": 5,
+      "traded_days": 3,
+      "win_rate": 0.0
+    }
+  },
+  "freeze_sha256": "0898cca4374ae68dfbc85ae73138f710539d314800de8548d3b37f28fd0ba5a0",
+  "observed_through": "2026-09-11",
+  "period": "OOS_PROVISIONAL"
+}
