@@ -12,7 +12,7 @@ Active objective: Build NightBasis Desk for AI Trading Desk / Information Extrac
 - Repository: local Git repository; no remote configured
 - Worktree: `/home/rouma/projects/nightbasis`
 - Branch: `main`
-- Latest substantive checkpoint: `e5f3456d3d0858140df8758e79e7eeae3abb1249` (provisional OOS artifacts); IS freeze checkpoint: `c92b9bd776ce43cf71d94ba90d3db23622b4395c`
+- Latest substantive checkpoint: `142f061` (Desk schema and IS fixtures); protected IS freeze checkpoint: `c92b9bd776ce43cf71d94ba90d3db23622b4395c`
 - Protected releases/artifacts: price-only freeze hash `0898cca...` and commit `c92b9bd`; do not alter its model, thresholds, costs, universe, entry clock, or flat-inclusive ledgers
 
 ## Constraints
@@ -72,6 +72,7 @@ Active objective: Build NightBasis Desk for AI Trading Desk / Information Extrac
 | Provisional OOS | failed price-only research bar | At 25 bps/side: 23 observed days, 20 flat, 5 trades, -0.1995% return, Sharpe -5.76; 7 dates pending, 2026-09-11 |
 | Git checkpoint | local only | IS freeze `c92b9bd`; provisional OOS `e5f3456`; no remote configured and GitHub authentication expired, 2026-09-11 |
 | Desk schema and fixture checks | passed | 12/12 unit tests; all JSON parses; every IS fixture has all 8 instruments at anchor plus four snapshots; `compileall` and `git diff --check` pass, 2026-09-11 |
+| Desk checkpoint | local only | Commit `142f061`; fixture regeneration is byte-stable; no remote configured and GitHub authentication expired, 2026-09-11 |
 
 ## Risks And Blockers
 
@@ -109,3 +110,4 @@ Active objective: Build NightBasis Desk for AI Trading Desk / Information Extrac
 | 2026-09-11T21:53:29+01:00 | Codex | Ran first no-refit OOS evaluation | Price-only baseline fails provisionally at all costs; seven dates pending; Alpha title retained |
 | 2026-09-11T21:53:29+01:00 | Codex | Created local OOS checkpoint | Commit `e5f3456`; push unavailable because no remote is configured and GitHub auth is expired |
 | 2026-09-11T22:57:06+01:00 | Codex | Relocked NightBasis Desk and built schema/raw fixtures | Three IS-only fixtures complete; 12/12 tests pass; LLM and replay not started |
+| 2026-09-11T22:57:06+01:00 | Codex | Created local Desk schema checkpoint | Commit `142f061`; push unavailable because no remote is configured and GitHub auth is expired |
