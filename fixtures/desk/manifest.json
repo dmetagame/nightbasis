@@ -1,0 +1,29 @@
+{
+  "fixture_version": "1.0.0",
+  "fixtures": [
+    {
+      "fixture_id": "flat-rgoogl-2026-08-14",
+      "fixture_sha256": "83e41bdcadd4127dae5ba3fbdfd60e8d35d5a00632c98cf062e3027087cd1e6b",
+      "focus_symbol": "RGOOGLUSDT",
+      "path": "fixtures/desk/flat-rgoogl-2026-08-14/raw-input.json",
+      "scenario": "flat_night",
+      "session_date_et": "2026-08-14"
+    },
+    {
+      "fixture_id": "material-news-rgoogl-2026-07-23",
+      "fixture_sha256": "e4a37b1e279bdefd49146073db27b8cd70072591ad19055e680a66e0e45d9466",
+      "focus_symbol": "RGOOGLUSDT",
+      "path": "fixtures/desk/material-news-rgoogl-2026-07-23/raw-input.json",
+      "scenario": "material_news",
+      "session_date_et": "2026-07-23"
+    },
+    {
+      "fixture_id": "large-move-no-event-rtsla-2026-06-23",
+      "fixture_sha256": "4b0bde995302a47abf3cdb5e17b8f4767ad82260d142e8375bcddff36574bcd8",
+      "focus_symbol": "RTSLAUSDT",
+      "path": "fixtures/desk/large-move-no-event-rtsla-2026-06-23/raw-input.json",
+      "scenario": "large_move_no_qualifying_news",
+      "session_date_et": "2026-06-23"
+    }
+  ]
+}

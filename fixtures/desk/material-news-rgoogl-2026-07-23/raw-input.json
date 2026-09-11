@@ -1,0 +1,627 @@
+{
+  "event_retrieval": {
+    "items": [
+      {
+        "event_id": "sec-0001652044-26-000066",
+        "headline": "Alphabet Announces Second Quarter 2026 Results",
+        "published_at_et": "2026-07-22T16:01:36-04:00",
+        "raw_excerpt": "Alphabet revenues increased 24% to $119.8 billion; Google Cloud revenues increased 82% to $24.8 billion.",
+        "source_name": "SEC EDGAR",
+        "source_type": "sec_8k_exhibit_99_1",
+        "structured_facts": {
+          "alphabet_revenue_usd_billions": 119.8,
+          "alphabet_revenue_yoy_pct": 24.0,
+          "diluted_eps_usd": 9.11,
+          "google_cloud_revenue_usd_billions": 24.8,
+          "google_cloud_revenue_yoy_pct": 82.0,
+          "operating_margin_pct": 34.0
+        },
+        "symbols": [
+          "RGOOGLUSDT"
+        ],
+        "url": "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000066/googexhibit991q22026.htm"
+      }
+    ],
+    "scope": [
+      "SEC EDGAR"
+    ],
+    "window_end_et": "2026-07-23T08:30:00-04:00",
+    "window_start_et": "2026-07-22T16:00:00-04:00"
+  },
+  "fixture_id": "material-news-rgoogl-2026-07-23",
+  "fixture_sha256": "e4a37b1e279bdefd49146073db27b8cd70072591ad19055e680a66e0e45d9466",
+  "fixture_version": "1.0.0",
+  "focus_move_to_midnight": -0.043116251598438016,
+  "focus_symbol": "RGOOGLUSDT",
+  "frozen_models": {
+    "RAAPLUSDT:weekend_or_holiday": {
+      "coefficients": [
+        0.00048273218511900496,
+        0.06152528467273832,
+        0.05435013300343898
+      ],
+      "derivation": "BTC/ETH coefficients and scale inherited from frozen IS weeknight model",
+      "residual_scale": 0.004234680331895392,
+      "training_rows": 0
+    },
+    "RAAPLUSDT:weeknight": {
+      "coefficients": [
+        0.00048273218511900496,
+        -0.3417304540177256,
+        0.06152528467273832,
+        0.05435013300343898
+      ],
+      "derivation": "IS weeknight ridge",
+      "residual_scale": 0.004234680331895392,
+      "training_rows": 44
+    },
+    "RGOOGLUSDT:weekend_or_holiday": {
+      "coefficients": [
+        -0.0011675673268784637,
+        0.015581503507264866,
+        -0.13370241265445326
+      ],
+      "derivation": "BTC/ETH coefficients and scale inherited from frozen IS weeknight model",
+      "residual_scale": 0.0049659430111338035,
+      "training_rows": 0
+    },
+    "RGOOGLUSDT:weeknight": {
+      "coefficients": [
+        -0.0011675673268784637,
+        0.9202886303283109,
+        0.015581503507264866,
+        -0.13370241265445326
+      ],
+      "derivation": "IS weeknight ridge",
+      "residual_scale": 0.0049659430111338035,
+      "training_rows": 44
+    },
+    "RNVDAUSDT:weekend_or_holiday": {
+      "coefficients": [
+        -0.00031576724858607534,
+        -0.05371718352891125,
+        0.11042034400913876
+      ],
+      "derivation": "BTC/ETH coefficients and scale inherited from frozen IS weeknight model",
+      "residual_scale": 0.003426955487981201,
+      "training_rows": 0
+    },
+    "RNVDAUSDT:weeknight": {
+      "coefficients": [
+        -0.00031576724858607534,
+        1.0244219115695692,
+        -0.05371718352891125,
+        0.11042034400913876
+      ],
+      "derivation": "IS weeknight ridge",
+      "residual_scale": 0.003426955487981201,
+      "training_rows": 44
+    },
+    "RTSLAUSDT:weekend_or_holiday": {
+      "coefficients": [
+        -0.001501744665684111,
+        -0.10357421386056659,
+        0.1804766397582121
+      ],
+      "derivation": "BTC/ETH coefficients and scale inherited from frozen IS weeknight model",
+      "residual_scale": 0.003846439183372026,
+      "training_rows": 0
+    },
+    "RTSLAUSDT:weeknight": {
+      "coefficients": [
+        -0.001501744665684111,
+        0.8639505045664789,
+        -0.10357421386056659,
+        0.1804766397582121
+      ],
+      "derivation": "IS weeknight ridge",
+      "residual_scale": 0.003846439183372026,
+      "training_rows": 44
+    }
+  },
+  "market": {
+    "BTCUSDT": {
+      "role": "factor_crypto",
+      "session_anchor_16_15": {
+        "close": 65940.4,
+        "high": 65984.99,
+        "low": 65895.2,
+        "open": 65934.43,
+        "ts": 1784751300000,
+        "turnover": 805869.18892542,
+        "volume": 12.222103
+      },
+      "session_quality": {
+        "coverage": 1.0,
+        "date": "2026-07-23",
+        "kind": "weeknight",
+        "spread_proxy_bps": 1.1962615908751386,
+        "turnover": 59323682.69239051,
+        "usable": true,
+        "volume": 903.1995600000001
+      },
+      "snapshots": {
+        "00:00": {
+          "close": 65673.24,
+          "high": 65674.97,
+          "low": 65595.01,
+          "open": 65660.99,
+          "ts": 1784779200000,
+          "turnover": 885968.09619801,
+          "volume": 13.498123
+        },
+        "08:30": {
+          "close": 65115.0,
+          "high": 65421.2,
+          "low": 65096.11,
+          "open": 65421.2,
+          "ts": 1784809800000,
+          "turnover": 3023342.05914849,
+          "volume": 46.360228
+        },
+        "16:30": {
+          "close": 65944.99,
+          "high": 65949.63,
+          "low": 65910.0,
+          "open": 65940.4,
+          "ts": 1784752200000,
+          "turnover": 213279.82977098,
+          "volume": 3.234764
+        },
+        "20:00": {
+          "close": 66185.0,
+          "high": 66249.99,
+          "low": 66064.73,
+          "open": 66110.0,
+          "ts": 1784764800000,
+          "turnover": 1315173.94472882,
+          "volume": 19.880674
+        }
+      }
+    },
+    "ETHUSDT": {
+      "role": "factor_crypto",
+      "session_anchor_16_15": {
+        "close": 1927.63,
+        "high": 1930.23,
+        "low": 1927.13,
+        "open": 1929.11,
+        "ts": 1784751300000,
+        "turnover": 157413.742793,
+        "volume": 81.6116
+      },
+      "session_quality": {
+        "coverage": 1.0,
+        "date": "2026-07-23",
+        "kind": "weeknight",
+        "spread_proxy_bps": 2.21343962089854,
+        "turnover": 33863619.330881,
+        "usable": true,
+        "volume": 17585.2431
+      },
+      "snapshots": {
+        "00:00": {
+          "close": 1922.72,
+          "high": 1922.72,
+          "low": 1918.72,
+          "open": 1920.41,
+          "ts": 1784779200000,
+          "turnover": 466564.156557,
+          "volume": 242.9489
+        },
+        "08:30": {
+          "close": 1904.71,
+          "high": 1919.27,
+          "low": 1903.59,
+          "open": 1919.27,
+          "ts": 1784809800000,
+          "turnover": 1221568.523853,
+          "volume": 639.5115
+        },
+        "16:30": {
+          "close": 1927.96,
+          "high": 1929.06,
+          "low": 1926.4,
+          "open": 1927.63,
+          "ts": 1784752200000,
+          "turnover": 42037.673435,
+          "volume": 21.8064
+        },
+        "20:00": {
+          "close": 1934.88,
+          "high": 1938.32,
+          "low": 1933.47,
+          "open": 1934.26,
+          "ts": 1784764800000,
+          "turnover": 2323726.731682,
+          "volume": 1200.8435
+        }
+      }
+    },
+    "RAAPLUSDT": {
+      "role": "tradable",
+      "session_anchor_16_15": {
+        "close": 325.4,
+        "high": 326.053,
+        "low": 325.4,
+        "open": 326.053,
+        "ts": 1784751300000,
+        "turnover": 8956031.098719697,
+        "volume": 27486.829402
+      },
+      "session_quality": {
+        "coverage": 1.0,
+        "date": "2026-07-23",
+        "factor_available": true,
+        "kind": "weeknight",
+        "raw_usable": true,
+        "spread_proxy_bps": 0.4806892838723521,
+        "turnover": 253891950.9850463,
+        "usable": true,
+        "volume": 782597.6527620002
+      },
+      "snapshots": {
+        "00:00": {
+          "close": 325.5,
+          "high": 325.5,
+          "low": 325.24,
+          "open": 325.41,
+          "ts": 1784779200000,
+          "turnover": 76442.96,
+          "volume": 235.0
+        },
+        "08:30": {
+          "close": 324.12,
+          "high": 324.43,
+          "low": 323.679,
+          "open": 323.94,
+          "ts": 1784809800000,
+          "turnover": 12185861.65932828,
+          "volume": 37607.90997
+        },
+        "16:30": {
+          "close": 325.9,
+          "high": 325.9,
+          "low": 325.4,
+          "open": 325.4,
+          "ts": 1784752200000,
+          "turnover": 6464244.37018435,
+          "volume": 19844.547822
+        },
+        "20:00": {
+          "close": 325.58,
+          "high": 325.88,
+          "low": 325.45,
+          "open": 325.73,
+          "ts": 1784764800000,
+          "turnover": 209399.42,
+          "volume": 643.0
+        }
+      }
+    },
+    "RGOOGLUSDT": {
+      "role": "tradable",
+      "session_anchor_16_15": {
+        "close": 342.334,
+        "high": 350.67,
+        "low": 340.29,
+        "open": 348.778,
+        "ts": 1784751300000,
+        "turnover": 632151069.7738184,
+        "volume": 1836545.069557
+      },
+      "session_quality": {
+        "coverage": 1.0,
+        "date": "2026-07-23",
+        "factor_available": true,
+        "kind": "weeknight",
+        "raw_usable": true,
+        "spread_proxy_bps": 3.7396289014834707,
+        "turnover": 4105161182.9302697,
+        "usable": true,
+        "volume": 12348459.813405
+      },
+      "snapshots": {
+        "00:00": {
+          "close": 333.81,
+          "high": 333.81,
+          "low": 333.26,
+          "open": 333.74,
+          "ts": 1784779200000,
+          "turnover": 2583178.54,
+          "volume": 7746.0
+        },
+        "08:30": {
+          "close": 324.33,
+          "high": 325.203,
+          "low": 323.619,
+          "open": 324.91,
+          "ts": 1784809800000,
+          "turnover": 84526542.37177867,
+          "volume": 260657.44107299994
+        },
+        "16:30": {
+          "close": 341.46,
+          "high": 343.15,
+          "low": 338.47,
+          "open": 341.99,
+          "ts": 1784752200000,
+          "turnover": 279462185.95872533,
+          "volume": 818525.686904
+        },
+        "20:00": {
+          "close": 333.88,
+          "high": 334.4,
+          "low": 330.722,
+          "open": 331.31,
+          "ts": 1784764800000,
+          "turnover": 12268211.49,
+          "volume": 36877.0
+        }
+      }
+    },
+    "RNVDAUSDT": {
+      "role": "tradable",
+      "session_anchor_16_15": {
+        "close": 212.76,
+        "high": 212.914,
+        "low": 212.513,
+        "open": 212.69,
+        "ts": 1784751300000,
+        "turnover": 70508197.9733286,
+        "volume": 331399.834523
+      },
+      "session_quality": {
+        "coverage": 1.0,
+        "date": "2026-07-23",
+        "factor_available": true,
+        "kind": "weeknight",
+        "raw_usable": true,
+        "spread_proxy_bps": 3.7432496560119617,
+        "turnover": 1059733095.1465266,
+        "usable": true,
+        "volume": 5012688.426886002
+      },
+      "snapshots": {
+        "00:00": {
+          "close": 211.73,
+          "high": 211.76,
+          "low": 211.21,
+          "open": 211.61,
+          "ts": 1784779200000,
+          "turnover": 1112545.58,
+          "volume": 5262.0
+        },
+        "08:30": {
+          "close": 209.01,
+          "high": 209.853,
+          "low": 208.969,
+          "open": 209.6,
+          "ts": 1784809800000,
+          "turnover": 68102862.47284487,
+          "volume": 325379.139023
+        },
+        "16:30": {
+          "close": 212.41,
+          "high": 212.706,
+          "low": 212.377,
+          "open": 212.44,
+          "ts": 1784752200000,
+          "turnover": 41299813.24956274,
+          "volume": 194342.459547
+        },
+        "20:00": {
+          "close": 212.31,
+          "high": 212.67,
+          "low": 211.94,
+          "open": 212.31,
+          "ts": 1784764800000,
+          "turnover": 1060.095,
+          "volume": 5.0
+        }
+      }
+    },
+    "RQQQUSDT": {
+      "role": "factor_primary",
+      "session_anchor_16_15": {
+        "close": 706.35,
+        "high": 707.62,
+        "low": 706.35,
+        "open": 707.34,
+        "ts": 1784751300000,
+        "turnover": 297643838.9345014,
+        "volume": 421132.59058500006
+      },
+      "session_quality": {
+        "coverage": 1.0,
+        "date": "2026-07-23",
+        "kind": "weeknight",
+        "spread_proxy_bps": 0.5673975034667573,
+        "turnover": 2234146851.8154745,
+        "usable": true,
+        "volume": 3179897.512276999
+      },
+      "snapshots": {
+        "00:00": {
+          "close": 704.67,
+          "high": 704.67,
+          "low": 703.11,
+          "open": 704.06,
+          "ts": 1784779200000,
+          "turnover": 2759893.94,
+          "volume": 3922.0
+        },
+        "08:30": {
+          "close": 696.14,
+          "high": 698.212,
+          "low": 695.932,
+          "open": 697.97,
+          "ts": 1784809800000,
+          "turnover": 201229871.3582482,
+          "volume": 288721.20136999997
+        },
+        "16:30": {
+          "close": 705.89,
+          "high": 706.745,
+          "low": 705.855,
+          "open": 706.39,
+          "ts": 1784752200000,
+          "turnover": 66191550.40928298,
+          "volume": 93728.53460700001
+        },
+        "20:00": {
+          "close": 705.46,
+          "high": 705.56,
+          "low": 704.52,
+          "open": 704.52,
+          "ts": 1784764800000,
+          "turnover": 704.739,
+          "volume": 1.0
+        }
+      }
+    },
+    "RSPYUSDT": {
+      "role": "factor_fallback",
+      "session_anchor_16_15": {
+        "close": 748.524,
+        "high": 749.034,
+        "low": 748.33,
+        "open": 748.814,
+        "ts": 1784751300000,
+        "turnover": 378630359.3881165,
+        "volume": 505776.494773
+      },
+      "session_quality": {
+        "coverage": 1.0,
+        "date": "2026-07-23",
+        "kind": "weeknight",
+        "spread_proxy_bps": 0.0,
+        "turnover": 2077504256.043721,
+        "usable": true,
+        "volume": 2786239.966185
+      },
+      "snapshots": {
+        "00:00": {
+          "close": 746.63,
+          "high": 746.63,
+          "low": 745.97,
+          "open": 746.41,
+          "ts": 1784779200000,
+          "turnover": 1041004.07,
+          "volume": 1395.0
+        },
+        "08:30": {
+          "close": 740.74,
+          "high": 742.051,
+          "low": 740.633,
+          "open": 742.05,
+          "ts": 1784809800000,
+          "turnover": 181647972.30819684,
+          "volume": 245033.60944700002
+        },
+        "16:30": {
+          "close": 748.48,
+          "high": 748.579,
+          "low": 748.06,
+          "open": 748.48,
+          "ts": 1784752200000,
+          "turnover": 189210360.29386887,
+          "volume": 252800.10257600003
+        },
+        "20:00": {
+          "close": 746.94,
+          "high": 747.11,
+          "low": 746.64,
+          "open": 746.651,
+          "ts": 1784764800000,
+          "turnover": 10840240.45,
+          "volume": 14514.0
+        }
+      }
+    },
+    "RTSLAUSDT": {
+      "role": "tradable",
+      "session_anchor_16_15": {
+        "close": 365.7,
+        "high": 366.82,
+        "low": 360.25,
+        "open": 364.0,
+        "ts": 1784751300000,
+        "turnover": 340168249.801723,
+        "volume": 937272.771563
+      },
+      "session_quality": {
+        "coverage": 1.0,
+        "date": "2026-07-23",
+        "factor_available": true,
+        "kind": "weeknight",
+        "raw_usable": true,
+        "spread_proxy_bps": 4.886723726192838,
+        "turnover": 3118496230.533033,
+        "usable": true,
+        "volume": 8763074.484324
+      },
+      "snapshots": {
+        "00:00": {
+          "close": 357.35,
+          "high": 357.52,
+          "low": 356.67,
+          "open": 357.52,
+          "ts": 1784779200000,
+          "turnover": 6603478.86,
+          "volume": 18495.0
+        },
+        "08:30": {
+          "close": 345.53,
+          "high": 345.985,
+          "low": 345.07,
+          "open": 345.79,
+          "ts": 1784809800000,
+          "turnover": 92872321.84987172,
+          "volume": 268721.018452
+        },
+        "16:30": {
+          "close": 364.7,
+          "high": 366.001,
+          "low": 363.95,
+          "open": 365.53,
+          "ts": 1784752200000,
+          "turnover": 139986137.67652607,
+          "volume": 383600.91053000005
+        },
+        "20:00": {
+          "close": 359.81,
+          "high": 360.44,
+          "low": 358.05,
+          "open": 359.49,
+          "ts": 1784764800000,
+          "turnover": 358.618,
+          "volume": 1.0
+        }
+      }
+    }
+  },
+  "scenario": "material_news",
+  "selection_basis": "Alphabet earnings 8-K was public before the first desk snapshot and the focus rToken made a large IS move.",
+  "selection_partition": "IS",
+  "session_anchor": {
+    "bar": {
+      "close": 342.334,
+      "high": 350.67,
+      "low": 340.29,
+      "open": 348.778,
+      "ts": 1784751300000,
+      "turnover": 632151069.7738184,
+      "volume": 1836545.069557
+    },
+    "name": "16:15"
+  },
+  "session_date_et": "2026-07-23",
+  "source_integrity": {
+    "audit_sha256": "c56ff78d58916d5328afa729eb9f7f85b7557fa5a13d4ade17b1438bdf7d8d0b",
+    "market_snapshot_captured_at": "2026-09-11T20:40:17.594301+00:00",
+    "market_snapshot_sha256": "1b799416618665318eab340eeaaa2ff96ba3c068068ad9ef25dfc4eb84226ec6",
+    "price_control_commit": "c92b9bd776ce43cf71d94ba90d3db23622b4395c",
+    "price_control_freeze_sha256": "0898cca4374ae68dfbc85ae73138f710539d314800de8548d3b37f28fd0ba5a0"
+  }
+}

@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nightbasis.local/schemas/desk-record.schema.json",
+  "title": "NightBasis Desk Record",
+  "description": "One explanatory record for one tradable rToken at one frozen desk snapshot. It is not an order or executable signal.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_id",
+    "fixture_id",
+    "session_date_et",
+    "symbol",
+    "snapshot",
+    "price_state",
+    "quality",
+    "event_json",
+    "llm",
+    "label",
+    "kill_criteria",
+    "memo"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "record_id": { "type": "string", "minLength": 1 },
+    "fixture_id": { "type": "string", "minLength": 1 },
+    "session_date_et": { "type": "string", "format": "date" },
+    "symbol": { "enum": ["RNVDAUSDT", "RTSLAUSDT", "RAAPLUSDT", "RGOOGLUSDT"] },
+    "snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "as_of_et", "source_bar_timestamp_ms"],
+      "properties": {
+        "name": { "enum": ["16:30", "20:00", "00:00", "08:30"] },
+        "as_of_et": { "type": "string", "format": "date-time" },
+        "source_bar_timestamp_ms": { "type": "integer" }
+      }
+    },
+    "price_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["anchor_price", "snapshot_price", "y", "m_hat", "z", "residual_scale", "factor_contributions"],
+      "properties": {
+        "anchor_price": { "type": "number", "exclusiveMinimum": 0 },
+        "snapshot_price": { "type": "number", "exclusiveMinimum": 0 },
+        "y": { "type": "number", "description": "Cumulative rToken log return from 16:15 ET to this snapshot." },
+        "m_hat": { "type": "number", "description": "Frozen price-only model estimate using factor returns over the same horizon." },
+        "z": { "type": "number", "description": "Conventional residual z=(y-m_hat)/frozen residual scale; positive means rich versus factors." },
+        "residual_scale": { "type": "number", "exclusiveMinimum": 0 },
+        "factor_contributions": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["intercept", "equity", "btc", "eth", "sum"],
+          "properties": {
+            "intercept": { "type": "number" },
+            "equity": { "type": ["number", "null"] },
+            "btc": { "type": "number" },
+            "eth": { "type": "number" },
+            "sum": { "type": "number" }
+          }
+        }
+      }
+    },
+    "quality": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["volume_positive", "coverage", "coverage_pass", "spread_proxy_bps", "spread_pass", "equity_factor", "factor_pass"],
+      "properties": {
+        "volume_positive": { "type": "boolean" },
+        "coverage": { "type": "number", "minimum": 0, "maximum": 1 },
+        "coverage_pass": { "type": "boolean" },
+        "spread_proxy_bps": { "type": ["number", "null"], "minimum": 0 },
+        "spread_pass": { "type": "boolean" },
+        "equity_factor": { "enum": ["RQQQUSDT", "RSPYUSDT", "BTC_ETH"] },
+        "factor_pass": { "type": "boolean" }
+      }
+    },
+    "event_json": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["window_start_et", "as_of_et", "items", "retrieval_scope"],
+      "properties": {
+        "window_start_et": { "type": "string", "format": "date-time" },
+        "as_of_et": { "type": "string", "format": "date-time" },
+        "retrieval_scope": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["event_id", "published_at_et", "source_name", "url", "headline", "raw_excerpt", "content_sha256"],
+            "properties": {
+              "event_id": { "type": "string" },
+              "published_at_et": { "type": "string", "format": "date-time" },
+              "source_name": { "type": "string" },
+              "url": { "type": "string", "format": "uri" },
+              "headline": { "type": "string" },
+              "raw_excerpt": { "type": "string" },
+              "content_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+            }
+          }
+        }
+      }
+    },
+    "llm": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["prompt_version", "model", "temperature", "cache_key", "direction", "materiality", "confidence", "novelty_gate", "explanation"],
+      "properties": {
+        "prompt_version": { "type": "string" },
+        "model": { "type": "string" },
+        "temperature": { "const": 0 },
+        "cache_key": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "direction": { "type": "number", "minimum": -1, "maximum": 1 },
+        "materiality": { "type": "number", "minimum": 0, "maximum": 1 },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "signed_info": { "type": "number", "minimum": -1, "maximum": 1 },
+        "novelty_gate": { "type": "boolean" },
+        "explanation": { "type": "string" }
+      }
+    },
+    "label": { "enum": ["priced", "incomplete", "washout", "stand_down"] },
+    "kill_criteria": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["killed", "reasons", "checks"],
+      "properties": {
+        "killed": { "type": "boolean" },
+        "reasons": { "type": "array", "items": { "type": "string" } },
+        "checks": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["schema_valid", "snapshot_present", "coverage_pass", "spread_pass", "factor_pass", "event_timestamps_valid", "llm_json_valid"],
+          "properties": {
+            "schema_valid": { "type": "boolean" },
+            "snapshot_present": { "type": "boolean" },
+            "coverage_pass": { "type": "boolean" },
+            "spread_pass": { "type": "boolean" },
+            "factor_pass": { "type": "boolean" },
+            "event_timestamps_valid": { "type": "boolean" },
+            "llm_json_valid": { "type": "boolean" }
+          }
+        }
+      }
+    },
+    "memo": { "type": "string", "minLength": 1 }
+  }
+}

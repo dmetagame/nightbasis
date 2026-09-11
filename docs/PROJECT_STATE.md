@@ -3,9 +3,9 @@
 > Living handoff for Codex sessions. Read this file before working. Do not put
 > secrets or raw credential-bearing values here.
 
-Last updated: `2026-09-11T21:53:29+01:00`
-Status: `ALPHA ACTIVE; PRICE-ONLY BASELINE FAILED PROVISIONAL OOS`
-Active objective: Preserve the failed price-only control and decide the next Alpha experiment without OOS retuning.
+Last updated: `2026-09-11T22:57:06+01:00`
+Status: `DESK RELOCKED; SCHEMA AND RAW FIXTURES COMPLETE`
+Active objective: Build NightBasis Desk for AI Trading Desk / Information Extraction & Signal Generation without creating a new executable alpha policy.
 
 ## Workspace
 
@@ -13,11 +13,13 @@ Active objective: Preserve the failed price-only control and decide the next Alp
 - Worktree: `/home/rouma/projects/nightbasis`
 - Branch: `main`
 - Latest substantive checkpoint: `e5f3456d3d0858140df8758e79e7eeae3abb1249` (provisional OOS artifacts); IS freeze checkpoint: `c92b9bd776ce43cf71d94ba90d3db23622b4395c`
-- Protected releases/artifacts: none
+- Protected releases/artifacts: price-only freeze hash `0898cca...` and commit `c92b9bd`; do not alter its model, thresholds, costs, universe, entry clock, or flat-inclusive ledgers
 
 ## Constraints
 
-- Do not build the LLM pipeline until the price-only ledger exists.
+- Track and product are relocked to `AI Trading Desk / Information Extraction & Signal Generation / NightBasis Desk`.
+- The price-only Alpha is closed. Its frozen model and ledgers remain a published negative control and the Playbook mirror; do not retune them for P&L.
+- Do not implement a new executable alpha policy. The LLM explains and labels; it never trades.
 - `rQQQ` is the primary equity factor and `rSPY` is fallback; either may make a name-session usable. BTC and ETH are supplementary factors. None is tradable.
 - Frozen split: IS 2026-06-02 through 2026-08-19; OOS 2026-08-20 through 2026-09-18. Keep all calendar days, including flat days, in daily returns.
 - Weekend/US-holiday nights use BTC+ETH-only fair value, require z >= 1.5, and prohibit washout entries. Weeknights require rQQQ or rSPY and use the locked z entry. Long/flat only.
@@ -48,7 +50,11 @@ Active objective: Preserve the failed price-only control and decide the next Alp
 - Froze the IS model and thresholds in `reports/price-only-freeze.json` before any OOS read. Internal freeze hash: `0898cca4374ae68dfbc85ae73138f710539d314800de8548d3b37f28fd0ba5a0`.
 - IS at the 25 bps-per-side base case: 79 calendar days, 72 flat, 7 traded, 10 trades, -0.1502% total return, Sharpe -2.96, Sortino -3.32, max drawdown -0.1502%. This price-only baseline is weak; it remains frozen so the OOS test is honest.
 - Ran the first OOS read with no refit. Through 2026-09-11 the base case has 23 observed calendar days, 20 flats, 3 traded days, 5 trades, -0.1995% total return, Sharpe -5.76, Sortino -5.62, max drawdown -0.1995%, and 0% win rate. Seven future dates remain pending.
-- Wrote `reports/price-only-metrics.md` with the audit recount and all IS/OOS cost scenarios. The price-only baseline fails the research bar even at 15 bps per side; this checkpoint does not retitle the locked Alpha track.
+- Wrote `reports/price-only-metrics.md` with the audit recount and all IS/OOS cost scenarios. The price-only baseline failed the research bar even at 15 bps per side and was subsequently closed by user direction.
+- Relocked the product as NightBasis Desk under AI Trading Desk / Information Extraction & Signal Generation.
+- Added `schemas/desk-record.schema.json` for per-name records at 16:30, 20:00, 00:00, and 08:30 ET, including y, frozen-model fair value, residual z, factor contributions, quality flags, event JSON, label, kill criteria, and memo.
+- Locked three IS-only raw replay fixtures: rGOOGL 2026-08-14 flat; rGOOGL 2026-07-23 material Alphabet earnings; rTSLA 2026-06-23 large move with no qualifying Tesla SEC/IR event in the bounded window.
+- Added deterministic fixture generation in `src/nightbasis/desk_fixtures.py`; no prompt, cached LLM output, replay CLI, or executable signal policy was implemented in this checkpoint.
 
 ## Verification
 
@@ -65,6 +71,7 @@ Active objective: Preserve the failed price-only control and decide the next Alp
 | IS freeze | completed | Thresholds/models frozen with hash `0898cca...`; OOS not read, 2026-09-11 |
 | Provisional OOS | failed price-only research bar | At 25 bps/side: 23 observed days, 20 flat, 5 trades, -0.1995% return, Sharpe -5.76; 7 dates pending, 2026-09-11 |
 | Git checkpoint | local only | IS freeze `c92b9bd`; provisional OOS `e5f3456`; no remote configured and GitHub authentication expired, 2026-09-11 |
+| Desk schema and fixture checks | passed | 12/12 unit tests; all JSON parses; every IS fixture has all 8 instruments at anchor plus four snapshots; `compileall` and `git diff --check` pass, 2026-09-11 |
 
 ## Risks And Blockers
 
@@ -73,19 +80,20 @@ Active objective: Preserve the failed price-only control and decide the next Alp
 - The earlier 57-day contingency is superseded: it omitted BTC/ETH-only weekend/holiday nights. The corrected count is 83 and Alpha remains active.
 - Seven OOS calendar days (2026-09-12 through 2026-09-18) are future relative to the audit and were not fabricated as observed data.
 - OOS has only 23 observable calendar days as of 2026-09-11; the remaining seven must not be fabricated.
-- The price-only rule is negative in both IS and provisional OOS at every specified cost. It must remain a frozen control, not be tuned after this read.
-- A 30-calendar-day rolling OOS Sharpe and final two-bar classification are unavailable until 2026-09-18 data is captured.
+- The price-only rule is negative in both IS and provisional OOS at every specified cost. It is closed as Alpha and must remain a frozen negative control.
+- “No qualifying company event” is bounded to the fixture's named SEC/IR sources and time window; it is not a universal claim that no public information existed.
+- The schema is complete, but the prompt, deterministic label rules, cached outputs, and offline replay command do not yet exist.
 
 ## Next Actions
 
-1. Keep the Alpha Factory / After-Hours Information Pricing title; do not retune against provisional OOS.
-2. On user direction, either implement the pre-specified information feature as a distinct Alpha experiment or wait to refresh the seven pending OOS dates.
-3. Configure a remote and refresh GitHub CLI authentication before claiming remote backup.
+1. Freeze the LLM prompt using only the product thesis and IS fixtures; temperature zero and content-addressed JSON cache.
+2. Implement per-name/per-snapshot record construction and offline `make demo-replay` under five minutes.
+3. Keep Playbook limited to the frozen price-only negative control; configure a remote/authentication before claiming remote backup.
 
 ## Session Handoff
 
 - Inspect `reports/data-audit.md` and the per-session evidence in `reports/data-audit.json`.
-- The weekend-aware audit is `PASS`; continue only with the ordered price-only/freeze/OOS tasks.
+- The Desk schema and raw fixtures are the current handoff. Do not resume Alpha tuning or use OOS nights to choose prompt text or labels.
 
 ## Change Log
 
@@ -100,3 +108,4 @@ Active objective: Preserve the failed price-only control and decide the next Alp
 | 2026-09-11T21:51:19+01:00 | Codex | Implemented and froze price-only IS baseline | Freeze `0898cca...`; base-cost IS Sharpe -2.96; OOS remains unread |
 | 2026-09-11T21:53:29+01:00 | Codex | Ran first no-refit OOS evaluation | Price-only baseline fails provisionally at all costs; seven dates pending; Alpha title retained |
 | 2026-09-11T21:53:29+01:00 | Codex | Created local OOS checkpoint | Commit `e5f3456`; push unavailable because no remote is configured and GitHub auth is expired |
+| 2026-09-11T22:57:06+01:00 | Codex | Relocked NightBasis Desk and built schema/raw fixtures | Three IS-only fixtures complete; 12/12 tests pass; LLM and replay not started |
