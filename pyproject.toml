@@ -10,6 +10,7 @@ requires-python = ">=3.10"
 
 [project.scripts]
 nightbasis = "nightbasis.audit_data:main"
+nightbasis-price = "nightbasis.price_backtest:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

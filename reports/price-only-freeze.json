@@ -1,0 +1,132 @@
+{
+  "audit_sha256": "c56ff78d58916d5328afa729eb9f7f85b7557fa5a13d4ade17b1438bdf7d8d0b",
+  "book": [
+    "RNVDAUSDT",
+    "RTSLAUSDT",
+    "RAAPLUSDT",
+    "RGOOGLUSDT"
+  ],
+  "created_at": "2026-09-11T20:50:45.509386+00:00",
+  "factors": {
+    "weekend_or_holiday": [
+      "BTCUSDT",
+      "ETHUSDT"
+    ],
+    "weeknight": [
+      "RQQQUSDT",
+      "RSPYUSDT",
+      "BTCUSDT",
+      "ETHUSDT"
+    ]
+  },
+  "freeze_sha256": "0898cca4374ae68dfbc85ae73138f710539d314800de8548d3b37f28fd0ba5a0",
+  "models": {
+    "RAAPLUSDT:weekend_or_holiday": {
+      "coefficients": [
+        0.00048273218511900496,
+        0.06152528467273832,
+        0.05435013300343898
+      ],
+      "derivation": "BTC/ETH coefficients and scale inherited from frozen IS weeknight model",
+      "residual_scale": 0.004234680331895392,
+      "training_rows": 0
+    },
+    "RAAPLUSDT:weeknight": {
+      "coefficients": [
+        0.00048273218511900496,
+        -0.3417304540177256,
+        0.06152528467273832,
+        0.05435013300343898
+      ],
+      "derivation": "IS weeknight ridge",
+      "residual_scale": 0.004234680331895392,
+      "training_rows": 44
+    },
+    "RGOOGLUSDT:weekend_or_holiday": {
+      "coefficients": [
+        -0.0011675673268784637,
+        0.015581503507264866,
+        -0.13370241265445326
+      ],
+      "derivation": "BTC/ETH coefficients and scale inherited from frozen IS weeknight model",
+      "residual_scale": 0.0049659430111338035,
+      "training_rows": 0
+    },
+    "RGOOGLUSDT:weeknight": {
+      "coefficients": [
+        -0.0011675673268784637,
+        0.9202886303283109,
+        0.015581503507264866,
+        -0.13370241265445326
+      ],
+      "derivation": "IS weeknight ridge",
+      "residual_scale": 0.0049659430111338035,
+      "training_rows": 44
+    },
+    "RNVDAUSDT:weekend_or_holiday": {
+      "coefficients": [
+        -0.00031576724858607534,
+        -0.05371718352891125,
+        0.11042034400913876
+      ],
+      "derivation": "BTC/ETH coefficients and scale inherited from frozen IS weeknight model",
+      "residual_scale": 0.003426955487981201,
+      "training_rows": 0
+    },
+    "RNVDAUSDT:weeknight": {
+      "coefficients": [
+        -0.00031576724858607534,
+        1.0244219115695692,
+        -0.05371718352891125,
+        0.11042034400913876
+      ],
+      "derivation": "IS weeknight ridge",
+      "residual_scale": 0.003426955487981201,
+      "training_rows": 44
+    },
+    "RTSLAUSDT:weekend_or_holiday": {
+      "coefficients": [
+        -0.001501744665684111,
+        -0.10357421386056659,
+        0.1804766397582121
+      ],
+      "derivation": "BTC/ETH coefficients and scale inherited from frozen IS weeknight model",
+      "residual_scale": 0.003846439183372026,
+      "training_rows": 0
+    },
+    "RTSLAUSDT:weeknight": {
+      "coefficients": [
+        -0.001501744665684111,
+        0.8639505045664789,
+        -0.10357421386056659,
+        0.1804766397582121
+      ],
+      "derivation": "IS weeknight ridge",
+      "residual_scale": 0.003846439183372026,
+      "training_rows": 44
+    }
+  },
+  "snapshot_sha256": "1b799416618665318eab340eeaaa2ff96ba3c068068ad9ef25dfc4eb84226ec6",
+  "split": {
+    "is_end": "2026-08-19",
+    "is_start": "2026-06-02",
+    "oos_end": "2026-09-18",
+    "oos_start": "2026-08-20"
+  },
+  "thresholds": {
+    "base_cost_per_side_bps": 25.0,
+    "costs_per_side_bps": [
+      15.0,
+      25.0,
+      37.5
+    ],
+    "decision_time_et": "00:00:00",
+    "exit_time_et": "09:00:00",
+    "fair_return_floor": 0.0,
+    "position_weight": 0.04,
+    "ridge_lambda": 1e-06,
+    "weekend_observed_return_floor": 0.0,
+    "weekend_z": 1.5,
+    "weeknight_z": 1.0
+  }
+}

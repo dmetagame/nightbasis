@@ -3,9 +3,9 @@
 > Living handoff for Codex sessions. Read this file before working. Do not put
 > secrets or raw credential-bearing values here.
 
-Last updated: `2026-09-11T21:45:06+01:00`
-Status: `ALPHA ACTIVE; WEEKEND AUDIT PASSED`
-Active objective: Build and freeze the price-only NightBasis backtest before the first OOS read.
+Last updated: `2026-09-11T21:51:19+01:00`
+Status: `PRICE-ONLY IS FROZEN; OOS UNREAD`
+Active objective: Preserve the committed IS freeze, then run the first no-refit OOS evaluation.
 
 ## Workspace
 
@@ -44,6 +44,9 @@ Active objective: Build and freeze the price-only NightBasis backtest before the
 - Re-audited with 15-minute candles. Core+add and core-only each provide 57 strategy days; add contributes zero unique days. Recommended core-only.
 - Recounted calendar nights under the weekend rule: core-only has 83 strategy days (57 weeknight, 26 weekend/holiday), so the Alpha continuation gate passes.
 - Persisted the exact public Bitget input snapshot at `data/market-snapshot.json.gz` (SHA-256 `1b799416618665318eab340eeaaa2ff96ba3c068068ad9ef25dfc4eb84226ec6`).
+- Implemented `src/nightbasis/price_backtest.py`: exact-anchor price-only fair value, long/flat execution, flat-inclusive daily ledgers, and 15/25/37.5 bps-per-side cost scenarios.
+- Froze the IS model and thresholds in `reports/price-only-freeze.json` before any OOS read. Internal freeze hash: `0898cca4374ae68dfbc85ae73138f710539d314800de8548d3b37f28fd0ba5a0`.
+- IS at the 25 bps-per-side base case: 79 calendar days, 72 flat, 7 traded, 10 trades, -0.1502% total return, Sharpe -2.96, Sortino -3.32, max drawdown -0.1502%. This price-only baseline is weak; it remains frozen so the OOS test is honest.
 
 ## Verification
 
@@ -56,6 +59,8 @@ Active objective: Build and freeze the price-only NightBasis backtest before the
 | Amended re-audit | contingency triggered | 57 core+add strategy days; 57 core-only; 79 IS and 30 OOS calendar days including flats; only 23 OOS days observable on 2026-09-11 |
 | Re-audit tests | passed | 4/4 unit tests, static compilation, JSON assertions, and `git diff --check`, 2026-09-11 |
 | Weekend-rule audit | passed | 83 core-only strategy days: 57 weeknight + 26 weekend/holiday; 79 IS and 30 OOS calendar days including flats, 2026-09-11 |
+| Price-only unit/static checks | passed | 9/9 tests, `compileall`, and `git diff --check`, 2026-09-11 |
+| IS freeze | completed | Thresholds/models frozen with hash `0898cca...`; OOS not read, 2026-09-11 |
 
 ## Risks And Blockers
 
@@ -67,9 +72,9 @@ Active objective: Build and freeze the price-only NightBasis backtest before the
 
 ## Next Actions
 
-1. Implement the price-only fair-value model and IS ledger from the frozen snapshot.
-2. Freeze thresholds/model artifacts before any OOS read.
-3. Run the first OOS evaluation with flat days included; keep September 12–18 marked pending until observable.
+1. Commit the IS-only implementation, ledgers, metrics, and freeze as an immutable checkpoint.
+2. Run the first no-refit OOS evaluation with flat days included; keep September 12–18 marked pending until observable.
+3. Report IS/OOS side by side without retitling to Desk while OOS remains provisional.
 
 ## Session Handoff
 
@@ -86,3 +91,4 @@ Active objective: Build and freeze the price-only NightBasis backtest before the
 | 2026-09-11T21:03:22+01:00 | Codex | Completed amended 15-minute re-audit | 57 strategy days triggers Desk contingency; core-only recommended; no downstream work started |
 | 2026-09-11T21:03:22+01:00 | Codex | Created local re-audit checkpoint | Commit `10daa75`; push unavailable because no remote is configured and GitHub auth is expired |
 | 2026-09-11T21:45:06+01:00 | Codex | Applied weekend/holiday rule and persisted market snapshot | PASS: 83 core-only strategy days; Alpha contingency overridden |
+| 2026-09-11T21:51:19+01:00 | Codex | Implemented and froze price-only IS baseline | Freeze `0898cca...`; base-cost IS Sharpe -2.96; OOS remains unread |
