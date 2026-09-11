@@ -12,7 +12,7 @@ Active objective: Preserve the failed price-only control and decide the next Alp
 - Repository: local Git repository; no remote configured
 - Worktree: `/home/rouma/projects/nightbasis`
 - Branch: `main`
-- Current checkpoint: `c92b9bd776ce43cf71d94ba90d3db23622b4395c` (IS freeze; OOS artifacts not yet committed)
+- Latest substantive checkpoint: `e5f3456d3d0858140df8758e79e7eeae3abb1249` (provisional OOS artifacts); IS freeze checkpoint: `c92b9bd776ce43cf71d94ba90d3db23622b4395c`
 - Protected releases/artifacts: none
 
 ## Constraints
@@ -64,6 +64,7 @@ Active objective: Preserve the failed price-only control and decide the next Alp
 | Price-only unit/static checks | passed | 9/9 tests, `compileall`, and `git diff --check`, 2026-09-11 |
 | IS freeze | completed | Thresholds/models frozen with hash `0898cca...`; OOS not read, 2026-09-11 |
 | Provisional OOS | failed price-only research bar | At 25 bps/side: 23 observed days, 20 flat, 5 trades, -0.1995% return, Sharpe -5.76; 7 dates pending, 2026-09-11 |
+| Git checkpoint | local only | IS freeze `c92b9bd`; provisional OOS `e5f3456`; no remote configured and GitHub authentication expired, 2026-09-11 |
 
 ## Risks And Blockers
 
@@ -77,9 +78,9 @@ Active objective: Preserve the failed price-only control and decide the next Alp
 
 ## Next Actions
 
-1. Commit the provisional OOS ledgers, metrics, and readout without changing the frozen model.
-2. Keep the Alpha Factory / After-Hours Information Pricing title; do not retune against provisional OOS.
-3. On user direction, either implement the pre-specified information feature as a distinct Alpha experiment or wait to refresh the seven pending OOS dates.
+1. Keep the Alpha Factory / After-Hours Information Pricing title; do not retune against provisional OOS.
+2. On user direction, either implement the pre-specified information feature as a distinct Alpha experiment or wait to refresh the seven pending OOS dates.
+3. Configure a remote and refresh GitHub CLI authentication before claiming remote backup.
 
 ## Session Handoff
 
@@ -98,3 +99,4 @@ Active objective: Preserve the failed price-only control and decide the next Alp
 | 2026-09-11T21:45:06+01:00 | Codex | Applied weekend/holiday rule and persisted market snapshot | PASS: 83 core-only strategy days; Alpha contingency overridden |
 | 2026-09-11T21:51:19+01:00 | Codex | Implemented and froze price-only IS baseline | Freeze `0898cca...`; base-cost IS Sharpe -2.96; OOS remains unread |
 | 2026-09-11T21:53:29+01:00 | Codex | Ran first no-refit OOS evaluation | Price-only baseline fails provisionally at all costs; seven dates pending; Alpha title retained |
+| 2026-09-11T21:53:29+01:00 | Codex | Created local OOS checkpoint | Commit `e5f3456`; push unavailable because no remote is configured and GitHub auth is expired |
