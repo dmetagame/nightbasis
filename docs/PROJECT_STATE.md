@@ -12,7 +12,7 @@ Active objective: Preserve the frozen Desk label policy and prepare the next non
 - Repository: local Git repository; no remote configured
 - Worktree: `/home/rouma/projects/nightbasis`
 - Branch: `main`
-- Latest substantive checkpoint: `142f061` (Desk schema and IS fixtures); protected IS freeze checkpoint: `c92b9bd776ce43cf71d94ba90d3db23622b4395c`
+- Latest substantive checkpoint: `89e190c` (offline Desk replay); protected IS freeze checkpoint: `c92b9bd776ce43cf71d94ba90d3db23622b4395c`
 - Protected releases/artifacts: price-only freeze hash `0898cca...` and commit `c92b9bd`; do not alter its model, thresholds, costs, universe, entry clock, or flat-inclusive ledgers
 
 ## Constraints
@@ -81,6 +81,7 @@ Active objective: Preserve the frozen Desk label policy and prepare the next non
 | Desk schema and fixture checks | passed | 12/12 unit tests; all JSON parses; every IS fixture has all 8 instruments at anchor plus four snapshots; `compileall` and `git diff --check` pass, 2026-09-11 |
 | Desk checkpoint | local only | Commit `142f061`; fixture regeneration is byte-stable; no remote configured and GitHub authentication expired, 2026-09-11 |
 | Desk replay checks | passed | 18/18 tests; 12 cached event scores and 12 records schema-validated; point-in-time exclusion and label boundaries tested; offline replay 0.04s, 2026-09-11 |
+| Desk replay checkpoint | local only | Commit `89e190c`; protected price-control artifacts unchanged from `c92b9bd`; no remote/auth, 2026-09-11 |
 
 ## Risks And Blockers
 
@@ -121,3 +122,4 @@ Active objective: Preserve the frozen Desk label policy and prepare the next non
 | 2026-09-11T22:57:06+01:00 | Codex | Relocked NightBasis Desk and built schema/raw fixtures | Three IS-only fixtures complete; 12/12 tests pass; LLM and replay not started |
 | 2026-09-11T22:57:06+01:00 | Codex | Created local Desk schema checkpoint | Commit `142f061`; push unavailable because no remote is configured and GitHub auth is expired |
 | 2026-09-11T23:25:30+01:00 | Codex | Implemented frozen point-in-time Desk replay | Prompt/schema, 12 cached scores, deterministic labeler, and 0.04s offline Make target complete; no execution policy |
+| 2026-09-11T23:25:30+01:00 | Codex | Created local offline-replay checkpoint | Commit `89e190c`; push unavailable because no remote is configured and GitHub auth is expired |
