@@ -29,26 +29,23 @@ NY = ZoneInfo("America/New_York")
 UTC = dt.timezone.utc
 REQUEST_LOCK = threading.Lock()
 NEXT_REQUEST_AT = 0.0
-MIN_REQUEST_INTERVAL_SECONDS = 0.125  # 8 requests/sec, below documented 20/sec/IP.
+MIN_REQUEST_INTERVAL_SECONDS = 0.15  # Conservative global cap after observed 429s.
 
-TRADABLE_SYMBOLS = (
-    "RAAPLUSDT",
-    "RAMDUSDT",
-    "RCRCLUSDT",
-    "RCVXUSDT",
-    "RGOOGLUSDT",
-    "RINTCUSDT",
-    "RMETAUSDT",
-    "RMRVLUSDT",
-    "RMSTRUSDT",
-    "RMUUSDT",
+CORE_SYMBOLS = (
     "RNVDAUSDT",
-    "RORCLUSDT",
-    "ROXYUSDT",
     "RTSLAUSDT",
-    "RXOMUSDT",
+    "RAAPLUSDT",
+    "RGOOGLUSDT",
 )
-FACTOR_SYMBOLS = ("RSPYUSDT", "RQQQUSDT")
+ADD_SYMBOLS = ("RAMDUSDT", "RCVXUSDT", "ROXYUSDT", "RMETAUSDT")
+TRADABLE_SYMBOLS = CORE_SYMBOLS + ADD_SYMBOLS
+EQUITY_FACTOR_SYMBOLS = ("RQQQUSDT", "RSPYUSDT")
+CRYPTO_FACTOR_SYMBOLS = ("BTCUSDT", "ETHUSDT")
+FACTOR_SYMBOLS = EQUITY_FACTOR_SYMBOLS + CRYPTO_FACTOR_SYMBOLS
+IS_START = dt.date(2026, 6, 2)
+IS_END = dt.date(2026, 8, 19)
+OOS_START = dt.date(2026, 8, 20)
+OOS_END = dt.date(2026, 9, 18)
 
 # NYSE full-day closures inside the native rToken history available at audit.
 NYSE_HOLIDAYS_2026 = {
@@ -56,7 +53,7 @@ NYSE_HOLIDAYS_2026 = {
     dt.date(2026, 7, 3),
     dt.date(2026, 9, 7),
 }
-NYSE_EARLY_CLOSES_2026 = {dt.date(2026, 7, 2): dt.time(13, 0)}
+BAR_MINUTES = 15
 
 
 def median(values: Iterable[float]) -> float | None:
@@ -68,7 +65,7 @@ def iso_from_ms(value: int) -> str:
     return dt.datetime.fromtimestamp(value / 1000, UTC).isoformat()
 
 
-def get_json(path: str, params: dict[str, Any], attempts: int = 5) -> dict[str, Any]:
+def get_json(path: str, params: dict[str, Any], attempts: int = 8) -> dict[str, Any]:
     global NEXT_REQUEST_AT
     url = f"{API_BASE}{path}?{urllib.parse.urlencode(params)}"
     last_error: Exception | None = None
@@ -101,9 +98,9 @@ def fetch_instruments() -> dict[str, dict[str, Any]]:
 
 
 def history_chunks(start_ms: int, end_ms: int) -> list[tuple[int, int]]:
-    # Keep every response below the 100-row endpoint limit. One hour overlap is
+    # Keep every response below the 100-row endpoint limit. One bar overlap is
     # intentional; rows are deduplicated by timestamp after collection.
-    step_ms = 99 * 60 * 60 * 1000
+    step_ms = 99 * BAR_MINUTES * 60 * 1000
     chunks: list[tuple[int, int]] = []
     cursor = start_ms
     while cursor < end_ms:
@@ -113,7 +110,7 @@ def history_chunks(start_ms: int, end_ms: int) -> list[tuple[int, int]]:
     return chunks
 
 
-def fetch_hourly_history(symbols: Iterable[str], start_ms: int, end_ms: int) -> dict[str, list[dict[str, float]]]:
+def fetch_history(symbols: Iterable[str], start_ms: int, end_ms: int) -> dict[str, list[dict[str, float]]]:
     jobs = [(symbol, left, right) for symbol in symbols for left, right in history_chunks(start_ms, end_ms)]
 
     def fetch(job: tuple[str, int, int]) -> tuple[str, list[list[str]]]:
@@ -123,7 +120,7 @@ def fetch_hourly_history(symbols: Iterable[str], start_ms: int, end_ms: int) -> 
             {
                 "category": "SPOT",
                 "symbol": symbol,
-                "interval": "1H",
+                "interval": "15m",
                 "startTime": left,
                 "endTime": right,
                 "type": "market",
@@ -196,9 +193,8 @@ def session_windows(start: dt.date, end: dt.date, now: dt.datetime) -> list[tupl
         if target < start:
             continue
         previous = dates[index - 1]
-        close_time = NYSE_EARLY_CLOSES_2026.get(previous, dt.time(16, 0))
-        left = dt.datetime.combine(previous, close_time, NY).astimezone(UTC)
-        right = dt.datetime.combine(target, dt.time(9, 30), NY).astimezone(UTC)
+        left = dt.datetime.combine(previous, dt.time(16, 15), NY).astimezone(UTC)
+        right = dt.datetime.combine(target, dt.time(9, 0), NY).astimezone(UTC)
         if right <= now:
             windows.append((target, left, right))
     return windows
@@ -232,7 +228,7 @@ def audit_symbol(
     launch_ms: int,
     spread_limit_bps: float,
 ) -> tuple[dict[str, Any], set[str]]:
-    positive = [bar for bar in bars if bar["volume"] > 0]
+    positive = [bar for bar in bars if bar["volume"] > 0 and bar["ts"] >= launch_ms]
     first_live = iso_from_ms(int(positive[0]["ts"])) if positive else None
     sessions: list[dict[str, Any]] = []
     usable_dates: set[str] = set()
@@ -241,7 +237,7 @@ def audit_symbol(
         if right.timestamp() * 1000 < launch_ms:
             continue
         selected = bars_in_window(bars, left, right)
-        expected = max(1, round((right - left).total_seconds() / 3600))
+        expected = max(1, round((right - left).total_seconds() / (BAR_MINUTES * 60)))
         coverage = len(selected) / expected
         volume = sum(row["volume"] for row in selected)
         turnover = sum(row["turnover"] for row in selected)
@@ -306,47 +302,50 @@ def markdown_report(report: dict[str, Any]) -> str:
         "",
         f"Generated: `{report['generated_at']}`",
         "",
-        "Historical spread is a Corwin-Schultz OHLC estimate, not an observed order-book spread. "
-        "Median quoted spread and platform turnover are repeated live ticker snapshots.",
+        f"Observed market data ends at `{report['observed_through']}`; the frozen OOS window ends "
+        f"at `{report['split']['oos_end']}`. Future days are counted in the frozen daily-return "
+        "calendar but are not treated as observed.",
         "",
-        "| Symbol | First live volume | Zero-volume sessions | Usable sessions | Median platform turnover (24h) | Median quoted spread | Historical spread proxy | Eligible |",
-        "| --- | --- | ---: | ---: | ---: | ---: | ---: | :---: |",
+        "Historical spread is a Corwin-Schultz estimate from 15-minute OHLC, not an observed "
+        "order-book spread. Median quoted spread and platform turnover are repeated live ticker snapshots.",
+        "",
+        "| Tier | Symbol | First live volume | Zero-volume sessions | Usable sessions | Median platform turnover (24h) | Median quoted spread | Historical spread proxy |",
+        "| --- | --- | --- | ---: | ---: | ---: | ---: | ---: |",
     ]
     for item in report["tradables"]:
         first = item["first_live_volume_at"][:10] if item["first_live_volume_at"] else "n/a"
         lines.append(
-            f"| {item['symbol']} | {first} | {item['zero_volume_fraction']:.1%} | "
+            f"| {item['tier']} | {item['symbol']} | {first} | {item['zero_volume_fraction']:.1%} | "
             f"{item['usable_sessions']} | ${format_number(item['median_live_platform_turnover_24h'], 0)} | "
             f"{format_number(item['median_live_quoted_spread_bps'])} bps | "
-            f"{format_number(item['median_historical_spread_proxy_bps'])} bps | "
-            f"{'yes' if item['eligible'] else 'no'} |"
+            f"{format_number(item['median_historical_spread_proxy_bps'])} bps |"
         )
     lines.extend(
         [
             "",
-            f"**Eligible book:** {', '.join(report['eligible_book']) if report['eligible_book'] else 'none'}",
+            f"**Strategy days, core + add:** {report['strategy_days']['core_plus_add']}",
             "",
-            f"**Eligible tradables:** {len(report['eligible_book'])} / {report['thresholds']['min_eligible_assets']} required",
+            f"**Strategy days, core only:** {report['strategy_days']['core_only']}",
             "",
-            f"**Common usable sessions:** {report['split']['common_usable_sessions']}",
+            f"**Incremental days supplied by add tier:** {report['strategy_days']['incremental_add_days']}",
+            "",
+            f"**IS daily-return calendar:** {report['split']['is_days_including_flats']} days "
+            f"(`{report['split']['is_start']}` through `{report['split']['is_end']}`)",
+            "",
+            f"**OOS daily-return calendar:** {report['split']['oos_days_including_flats']} days "
+            f"(`{report['split']['oos_start']}` through `{report['split']['oos_end']}`); "
+            f"{report['split']['oos_days_observed']} observed and {report['split']['oos_days_future']} future as of audit",
+            "",
+            f"**Recommendation:** `{report['recommendation']['choice']}` — {report['recommendation']['reason']}",
             "",
             f"**Audit result:** {report['status']}",
             "",
         ]
     )
-    if report["split"].get("is_start"):
-        lines.append(
-            f"Provisional split from audited sessions: IS `{report['split']['is_start']}` through "
-            f"`{report['split']['is_end']}` ({report['split']['is_sessions']} sessions); OOS "
-            f"`{report['split']['oos_start']}` through `{report['split']['oos_end']}` "
-            f"({report['split']['oos_sessions']} sessions)."
-        )
-    else:
-        lines.append(f"No valid split: {report['split']['reason']}")
     lines.extend(["", "## Factor-only instruments", ""])
     for item in report["factors"]:
         lines.append(
-            f"- `{item['symbol']}`: {item['usable_sessions']} usable sessions; "
+            f"- `{item['symbol']}` ({item['factor_role']}): {item['usable_sessions']} raw usable sessions; "
             f"{item['zero_volume_fraction']:.1%} zero-volume sessions."
         )
     lines.append("")
@@ -355,27 +354,36 @@ def markdown_report(report: dict[str, Any]) -> str:
 
 def run(args: argparse.Namespace) -> dict[str, Any]:
     now = dt.datetime.now(UTC)
-    start = dt.date.fromisoformat(args.start)
-    end = min(dt.date.fromisoformat(args.end) if args.end else now.date(), now.date())
+    start = IS_START
+    requested_end = OOS_END
+    observed_end = min(requested_end, now.astimezone(NY).date())
     symbols = TRADABLE_SYMBOLS + FACTOR_SYMBOLS
     instruments = fetch_instruments()
 
     missing = [symbol for symbol in symbols if symbol not in instruments]
     if missing:
         raise RuntimeError(f"Missing instruments: {missing}")
-    invalid = [
-        symbol
-        for symbol in symbols
-        if instruments[symbol].get("isReality") != "yes" or instruments[symbol].get("status") != "online"
-    ]
+    reality_symbols = set(TRADABLE_SYMBOLS + EQUITY_FACTOR_SYMBOLS)
+    invalid = [symbol for symbol in symbols if instruments[symbol].get("status") != "online"]
+    invalid.extend(symbol for symbol in reality_symbols if instruments[symbol].get("isReality") != "yes")
     if invalid:
-        raise RuntimeError(f"Not online Reality instruments: {invalid}")
+        raise RuntimeError(f"Invalid or offline instruments: {sorted(set(invalid))}")
 
-    start_ms = int(dt.datetime.combine(start, dt.time(0), UTC).timestamp() * 1000)
+    fetch_start = start - dt.timedelta(days=7)
+    start_ms = int(dt.datetime.combine(fetch_start, dt.time(0), UTC).timestamp() * 1000)
     end_ms = int(now.timestamp() * 1000)
-    histories = fetch_hourly_history(symbols, start_ms, end_ms)
+    histories = fetch_history(symbols, start_ms, end_ms)
+    # The main fetch begins one week before IS, which is sufficient for every
+    # frozen tradable except any instrument launched earlier. Fetch only those
+    # short early segments so "first live volume" is not a fetch-window artifact.
+    for symbol in TRADABLE_SYMBOLS:
+        launch_ms = int(instruments[symbol]["launchTime"])
+        if launch_ms < start_ms:
+            early = fetch_history((symbol,), launch_ms, start_ms).get(symbol, [])
+            combined = {int(bar["ts"]): bar for bar in early + histories.get(symbol, [])}
+            histories[symbol] = [combined[key] for key in sorted(combined)]
     tickers = fetch_ticker_samples(symbols, args.ticker_samples, args.ticker_interval)
-    windows = session_windows(start, end, now)
+    windows = session_windows(start, observed_end, now)
 
     reports: dict[str, dict[str, Any]] = {}
     usable: dict[str, set[str]] = {}
@@ -392,82 +400,98 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         reports[symbol] = item
         usable[symbol] = dates
 
-    eligible = []
+    equity_factor_dates = usable["RQQQUSDT"] | usable["RSPYUSDT"]
     for symbol in TRADABLE_SYMBOLS:
-        item = reports[symbol]
-        item["eligible"] = bool(
-            item["usable_sessions"] >= args.min_usable_sessions
-            and item["zero_volume_fraction"] <= args.max_zero_volume_fraction
-            and (item["median_live_platform_turnover_24h"] or 0) >= args.min_platform_turnover
-            and (item["median_live_quoted_spread_bps"] or math.inf) <= args.spread_limit_bps
-        )
-        if item["eligible"]:
-            eligible.append(symbol)
+        raw_dates = usable[symbol]
+        final_dates = raw_dates & equity_factor_dates
+        reports[symbol]["raw_usable_sessions"] = len(raw_dates)
+        reports[symbol]["usable_sessions"] = len(final_dates)
+        reports[symbol]["tier"] = "core" if symbol in CORE_SYMBOLS else "add"
+        for session in reports[symbol]["sessions"]:
+            session["raw_usable"] = session["usable"]
+            session["equity_factor_available"] = session["date"] in equity_factor_dates
+            session["usable"] = session["raw_usable"] and session["equity_factor_available"]
+        usable[symbol] = final_dates
 
+    factor_roles = {
+        "RQQQUSDT": "primary equity factor",
+        "RSPYUSDT": "fallback equity factor",
+        "BTCUSDT": "supplementary crypto factor",
+        "ETHUSDT": "supplementary crypto factor",
+    }
     for symbol in FACTOR_SYMBOLS:
-        reports[symbol]["eligible"] = None
+        reports[symbol]["factor_role"] = factor_roles[symbol]
 
-    common_dates: list[str] = []
-    if eligible:
-        for target, _, _ in windows:
-            date_text = target.isoformat()
-            required = math.ceil(0.80 * len(eligible))
-            tradable_coverage = sum(date_text in usable[symbol] for symbol in eligible) >= required
-            factors_available = all(date_text in usable[symbol] for symbol in FACTOR_SYMBOLS)
-            if tradable_coverage and factors_available:
-                common_dates.append(date_text)
-
-    breadth_passes = len(eligible) >= args.min_eligible_assets
-    history_passes = len(common_dates) >= args.min_total_sessions and len(common_dates) > args.oos_sessions
-    if breadth_passes and history_passes:
-        oos_start_index = len(common_dates) - args.oos_sessions
-        split = {
-            "common_usable_sessions": len(common_dates),
-            "is_start": common_dates[0],
-            "is_end": common_dates[oos_start_index - 1],
-            "is_sessions": oos_start_index,
-            "oos_start": common_dates[oos_start_index],
-            "oos_end": common_dates[-1],
-            "oos_sessions": args.oos_sessions,
+    core_dates = set().union(*(usable[symbol] for symbol in CORE_SYMBOLS))
+    add_dates = set().union(*(usable[symbol] for symbol in ADD_SYMBOLS))
+    strategy_dates = core_dates | add_dates
+    incremental_add_dates = add_dates - core_dates
+    healthy_adds = [symbol for symbol in ADD_SYMBOLS if reports[symbol]["usable_sessions"] >= 30]
+    if len(healthy_adds) >= 3 and len(incremental_add_dates) >= 3:
+        recommendation = {
+            "choice": "keep-add",
+            "reason": (
+                f"{len(healthy_adds)} add-tier names each provide at least 30 usable sessions; "
+                f"the tier contributes {len(incremental_add_dates)} unique strategy days and broadens cross-sectional choice."
+            ),
         }
-        status = "PASS"
     else:
-        failures = []
-        if not breadth_passes:
-            failures.append(f"eligible tradables {len(eligible)} < {args.min_eligible_assets}")
-        if not history_passes:
-            failures.append(
-                f"common usable sessions {len(common_dates)} < {args.min_total_sessions} "
-                f"with {args.oos_sessions} OOS sessions required"
-            )
-        split = {
-            "common_usable_sessions": len(common_dates),
-            "reason": "; ".join(failures),
+        recommendation = {
+            "choice": "core-only",
+            "reason": (
+                f"The add tier supplies only {len(incremental_add_dates)} unique strategy days; "
+                "it does not improve calendar coverage and adds execution/model-selection complexity."
+            ),
         }
-        status = "FAIL"
+
+    is_days = (IS_END - IS_START).days + 1
+    oos_days = (OOS_END - OOS_START).days + 1
+    observed_oos_end = min(observed_end, OOS_END)
+    observed_oos_days = max(0, (observed_oos_end - OOS_START).days + 1)
+    split = {
+        "is_start": IS_START.isoformat(),
+        "is_end": IS_END.isoformat(),
+        "is_days_including_flats": is_days,
+        "oos_start": OOS_START.isoformat(),
+        "oos_end": OOS_END.isoformat(),
+        "oos_days_including_flats": oos_days,
+        "oos_days_observed": observed_oos_days,
+        "oos_days_future": oos_days - observed_oos_days,
+    }
+    status = "PASS" if len(strategy_dates) >= args.min_strategy_days else "DESK_CONTINGENCY"
 
     return {
         "generated_at": now.isoformat(),
         "status": status,
         "definitions": {
-            "session": "Previous NYSE close through 09:30 ET of the target NYSE session",
+            "session": "16:15 ET after the previous NYSE session through 09:00 ET of the target NYSE session",
             "zero_volume_fraction": "Fraction of post-launch completed overnight sessions with aggregate API candle volume equal to zero",
             "median_turnover": "Median platformTurnover24h across repeated live ticker snapshots",
             "median_spread": "Median top-of-book quoted spread across repeated live ticker snapshots",
-            "historical_spread_proxy": "Median Corwin-Schultz estimate from 1H OHLC bars; not observed bid/ask",
-            "usable_session": f">=80% hourly coverage, nonzero aggregate volume, historical spread proxy <= {args.spread_limit_bps} bps",
+            "historical_spread_proxy": "Median Corwin-Schultz estimate from 15m OHLC bars; not observed bid/ask",
+            "usable_session": f">=80% 15m-bar coverage, nonzero aggregate volume, historical spread proxy <= {args.spread_limit_bps} bps, and rQQQ or rSPY usable",
+            "daily_returns": "Every calendar day in the frozen split is retained; days without a position have zero strategy return",
         },
         "thresholds": {
-            "min_usable_sessions_per_symbol": args.min_usable_sessions,
-            "max_zero_volume_fraction": args.max_zero_volume_fraction,
-            "min_live_platform_turnover_24h": args.min_platform_turnover,
-            "max_live_quoted_spread_bps": args.spread_limit_bps,
-            "min_eligible_assets": args.min_eligible_assets,
-            "min_common_usable_sessions": args.min_total_sessions,
-            "oos_sessions": args.oos_sessions,
+            "min_coverage": 0.80,
+            "max_historical_spread_proxy_bps": args.spread_limit_bps,
+            "min_strategy_days": args.min_strategy_days,
         },
-        "eligible_book": eligible,
+        "observed_through": observed_end.isoformat(),
+        "frozen_book": {
+            "core": list(CORE_SYMBOLS),
+            "add": list(ADD_SYMBOLS),
+            "factors": list(FACTOR_SYMBOLS),
+        },
+        "strategy_days": {
+            "core_plus_add": len(strategy_dates),
+            "core_only": len(core_dates),
+            "incremental_add_days": len(incremental_add_dates),
+            "core_plus_add_is": sum(IS_START.isoformat() <= day <= IS_END.isoformat() for day in strategy_dates),
+            "core_plus_add_oos_observed": sum(OOS_START.isoformat() <= day <= observed_end.isoformat() for day in strategy_dates),
+        },
         "split": split,
+        "recommendation": recommendation,
         "tradables": [reports[symbol] for symbol in TRADABLE_SYMBOLS],
         "factors": [reports[symbol] for symbol in FACTOR_SYMBOLS],
     }
@@ -475,19 +499,12 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--start", default="2026-06-02")
-    parser.add_argument("--end")
     parser.add_argument("--output", type=Path, default=Path("reports/data-audit.json"))
     parser.add_argument("--markdown", type=Path, default=Path("reports/data-audit.md"))
     parser.add_argument("--ticker-samples", type=int, default=12)
     parser.add_argument("--ticker-interval", type=float, default=2.0)
     parser.add_argument("--spread-limit-bps", type=float, default=20.0)
-    parser.add_argument("--min-platform-turnover", type=float, default=50_000.0)
-    parser.add_argument("--max-zero-volume-fraction", type=float, default=0.10)
-    parser.add_argument("--min-usable-sessions", type=int, default=60)
-    parser.add_argument("--min-eligible-assets", type=int, default=12)
-    parser.add_argument("--min-total-sessions", type=int, default=60)
-    parser.add_argument("--oos-sessions", type=int, default=30)
+    parser.add_argument("--min-strategy-days", type=int, default=60)
     return parser.parse_args(argv)
 
 

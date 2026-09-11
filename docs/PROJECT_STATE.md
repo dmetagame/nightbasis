@@ -3,9 +3,9 @@
 > Living handoff for Codex sessions. Read this file before working. Do not put
 > secrets or raw credential-bearing values here.
 
-Last updated: `2026-09-11T16:15:28+01:00`
-Status: `BLOCKED AT DAY-1 DATA GATE`
-Active objective: Resolve or accept the failed NightBasis data audit before any downstream strategy work.
+Last updated: `2026-09-11T21:03:22+01:00`
+Status: `DESK-TRACK CONTINGENCY TRIGGERED`
+Active objective: Stop NightBasis Alpha work after the amended re-audit produced fewer than 60 strategy days; await the next Desk-track instruction.
 
 ## Workspace
 
@@ -18,8 +18,8 @@ Active objective: Resolve or accept the failed NightBasis data audit before any 
 ## Constraints
 
 - Day-1 audit only; do not build the LLM pipeline, Agent Hub demo, or submission prose until `audit-data` passes.
-- `rSPY` and `rQQQ` are factor-only instruments and can never enter the tradable eligible book.
-- Determine IS/OOS boundaries from sessions with nonzero volume and usable spread; do not assume calendar ranges.
+- `rQQQ` is the primary equity factor and `rSPY` is fallback; either may make a name-session usable. BTC and ETH are supplementary factors. None is tradable.
+- Frozen split: IS 2026-06-02 through 2026-08-19; OOS 2026-08-20 through 2026-09-18. Keep all calendar days, including flat days, in daily returns.
 - Historical Reality order books/fills are whitelist-gated. Never mislabel an OHLC spread estimate as observed bid/ask.
 - Long/flat only; the later strategy term is “buy uninformed washout.”
 - Python is authoritative for news features; the eventual Playbook mirror is price-only.
@@ -28,8 +28,9 @@ Active objective: Resolve or accept the failed NightBasis data audit before any 
 
 ## Current Context
 
-- Candidate tradables: `rAAPL`, `rAMD`, `rCRCL`, `rCVX`, `rGOOGL`, `rINTC`, `rMETA`, `rMRVL`, `rMSTR`, `rMU`, `rNVDA`, `rORCL`, `rOXY`, `rTSLA`, `rXOM`.
-- Factors: `rSPY`, `rQQQ`; future cross-asset factors also include BTC and ETH.
+- Frozen core: `rNVDA`, `rTSLA`, `rAAPL`, `rGOOGL`.
+- Frozen add tier: `rAMD`, `rCVX`, `rOXY`, `rMETA`.
+- Out unless newly audited: `rORCL`, `rCRCL`, `rMRVL`, `rINTC`, `rMSTR`, `rMU`, `rXOM`.
 - Public UTA v3 supplies instruments, historical OHLCV/turnover, live platform turnover, and best bid/ask.
 - Historical session spread is screened with a labeled Corwin-Schultz OHLC proxy; live ticker snapshots provide observed median quoted spread.
 
@@ -38,7 +39,8 @@ Active objective: Resolve or accept the failed NightBasis data audit before any 
 - Initialized the repository and minimal standard-library audit package.
 - Added `src/nightbasis/audit_data.py` and deterministic unit coverage for pagination, flat-price spread, and the Juneteenth calendar closure.
 - Generated `reports/data-audit.json` and `reports/data-audit.md` from live public Bitget UTA data.
-- Enforced a 12-symbol breadth gate, 60 usable-session history gate, and factor availability for both `rSPY` and `rQQQ`.
+- Replaced the superseded internal gate with the frozen core/add book, either-factor rule, exact 16:15–09:00 ET window, and flat-inclusive calendar split.
+- Re-audited with 15-minute candles. Core+add and core-only each provide 57 strategy days; add contributes zero unique days. Recommended core-only.
 
 ## Verification
 
@@ -47,26 +49,26 @@ Active objective: Resolve or accept the failed NightBasis data audit before any 
 | Git/GitHub | blocked | Local repo initialized; no remote; `gh auth status` reports expired authentication, 2026-09-11 |
 | Unit tests | passed | `PYTHONPATH=src python3 -m unittest discover -s tests -v` → 3/3 passed, 2026-09-11 |
 | Static compilation | passed | `python3 -m compileall -q src tests`, 2026-09-11 |
-| Live data audit | failed as designed | 4/12 required tradables eligible; 55/60 required common usable sessions; command exited 2, 2026-09-11 |
-| Report integrity | passed | JSON asserts `FAIL`, 4 eligible symbols, and 55 common sessions; `git diff --check` passed, 2026-09-11 |
+| Superseded first audit | superseded | Prior 12-name/intersection gate was replaced by user instruction, 2026-09-11 |
+| Amended re-audit | contingency triggered | 57 core+add strategy days; 57 core-only; 79 IS and 30 OOS calendar days including flats; only 23 OOS days observable on 2026-09-11 |
+| Re-audit tests | passed | 4/4 unit tests, static compilation, JSON assertions, and `git diff --check`, 2026-09-11 |
 
 ## Risks And Blockers
 
 - GitHub backup is blocked until authentication is refreshed and a remote is configured.
 - Historical spread is necessarily an estimator without Reality data whitelist access.
-- Only `rAAPL`, `rGOOGL`, `rNVDA`, and `rTSLA` have at least 60 usable sessions under the locked filters.
-- The common calendar falls to 55 sessions when both factor-only instruments are required; `rSPY` itself has only 57 usable sessions.
-- No IS/OOS boundary is valid under the gate. Do not proceed to the LLM, Playbook, Agent Hub demo, or submission layers.
+- The amended audit yields 57 strategy days, below the user-mandated 60-day Alpha continuation threshold; switch to the Desk-track contingency.
+- Seven OOS calendar days (2026-09-12 through 2026-09-18) are future relative to the audit and were not fabricated as observed data.
+- Do not build the NightBasis LLM pipeline or other Alpha layers.
 
 ## Next Actions
 
-1. Decide whether to obtain whitelisted historical spread data, change the historical spread proxy/coverage definition with methodological justification, or abandon NightBasis as alpha.
-2. Rerun the same audit after any approved methodology change; downstream work remains prohibited until status is `PASS`.
+1. Await explicit scope for the Desk-track contingency; do not infer or build it from this audit-only task.
 
 ## Session Handoff
 
 - Inspect `reports/data-audit.md` and the per-session evidence in `reports/data-audit.json`.
-- The current audit status is `FAIL`; do not proceed past Day 1.
+- The amended audit status is `DESK_CONTINGENCY`; NightBasis Alpha work stops here.
 
 ## Change Log
 
@@ -75,3 +77,4 @@ Active objective: Resolve or accept the failed NightBasis data audit before any 
 | 2026-09-11T15:16:29+01:00 | Codex | Initialized NightBasis Day-1 audit | Implementation in progress; remote/auth blockers recorded |
 | 2026-09-11T16:15:28+01:00 | Codex | Completed strict live data audit | Failed: 4/12 eligible tradables and 55/60 common usable sessions; downstream work blocked |
 | 2026-09-11T16:15:28+01:00 | Codex | Created local Day-1 checkpoint | Commit `0b826c1`; push unavailable because no remote is configured and GitHub auth is expired |
+| 2026-09-11T21:03:22+01:00 | Codex | Completed amended 15-minute re-audit | 57 strategy days triggers Desk contingency; core-only recommended; no downstream work started |
