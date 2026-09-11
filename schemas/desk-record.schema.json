@@ -10,6 +10,7 @@
     "record_id",
     "fixture_id",
     "session_date_et",
+    "session_start_et",
     "symbol",
     "snapshot",
     "price_state",
@@ -25,6 +26,7 @@
     "record_id": { "type": "string", "minLength": 1 },
     "fixture_id": { "type": "string", "minLength": 1 },
     "session_date_et": { "type": "string", "format": "date" },
+    "session_start_et": { "type": "string", "format": "date-time" },
     "symbol": { "enum": ["RNVDAUSDT", "RTSLAUSDT", "RAAPLUSDT", "RGOOGLUSDT"] },
     "snapshot": {
       "type": "object",
@@ -37,7 +39,7 @@
       }
     },
     "price_state": {
-      "type": "object",
+      "type": ["object", "null"],
       "additionalProperties": false,
       "required": ["anchor_price", "snapshot_price", "y", "m_hat", "z", "residual_scale", "factor_contributions"],
       "properties": {
@@ -71,7 +73,7 @@
         "coverage_pass": { "type": "boolean" },
         "spread_proxy_bps": { "type": ["number", "null"], "minimum": 0 },
         "spread_pass": { "type": "boolean" },
-        "equity_factor": { "enum": ["RQQQUSDT", "RSPYUSDT", "BTC_ETH"] },
+        "equity_factor": { "enum": ["RQQQUSDT", "RSPYUSDT", "BTC_ETH", null] },
         "factor_pass": { "type": "boolean" }
       }
     },
@@ -104,7 +106,7 @@
     "llm": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["prompt_version", "model", "temperature", "cache_key", "direction", "materiality", "confidence", "novelty_gate", "explanation"],
+      "required": ["prompt_version", "model", "temperature", "cache_key", "direction", "materiality", "confidence", "signed_info", "novelty_gate", "explanation"],
       "properties": {
         "prompt_version": { "type": "string" },
         "model": { "type": "string" },

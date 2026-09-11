@@ -3,7 +3,7 @@
   "fixtures": [
     {
       "fixture_id": "flat-rgoogl-2026-08-14",
-      "fixture_sha256": "83e41bdcadd4127dae5ba3fbdfd60e8d35d5a00632c98cf062e3027087cd1e6b",
+      "fixture_sha256": "274f050d0bcb16db1165d6e238f1ac7fc38ffe872605ee6bd6f46b58b99f5d08",
       "focus_symbol": "RGOOGLUSDT",
       "path": "fixtures/desk/flat-rgoogl-2026-08-14/raw-input.json",
       "scenario": "flat_night",

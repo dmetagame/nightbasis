@@ -10,7 +10,7 @@
     "window_start_et": "2026-08-13T16:00:00-04:00"
   },
   "fixture_id": "flat-rgoogl-2026-08-14",
-  "fixture_sha256": "83e41bdcadd4127dae5ba3fbdfd60e8d35d5a00632c98cf062e3027087cd1e6b",
+  "fixture_sha256": "274f050d0bcb16db1165d6e238f1ac7fc38ffe872605ee6bd6f46b58b99f5d08",
   "fixture_version": "1.0.0",
   "focus_move_to_midnight": 8.66125819209973e-05,
   "focus_symbol": "RGOOGLUSDT",
@@ -584,7 +584,7 @@
   },
   "scenario": "flat_night",
   "selection_basis": "Smallest absolute 16:15-to-00:00 focus-name move among usable exact-anchor IS observations.",
-  "selection_partition": "IS",
+  "selection_partition": "OOS_CALENDAR_EVALUATION_ONLY",
   "session_anchor": {
     "bar": {
       "close": 346.29,

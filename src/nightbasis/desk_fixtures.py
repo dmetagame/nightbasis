@@ -41,6 +41,7 @@ FIXTURES: tuple[dict[str, Any], ...] = (
         "fixture_id": "flat-rgoogl-2026-08-14",
         "scenario": "flat_night",
         "session_date_et": "2026-08-14",
+        "selection_partition": "OOS_CALENDAR_EVALUATION_ONLY",
         "focus_symbol": "RGOOGLUSDT",
         "selection_basis": "Smallest absolute 16:15-to-00:00 focus-name move among usable exact-anchor IS observations.",
         "event_retrieval": {
@@ -55,6 +56,7 @@ FIXTURES: tuple[dict[str, Any], ...] = (
         "fixture_id": "material-news-rgoogl-2026-07-23",
         "scenario": "material_news",
         "session_date_et": "2026-07-23",
+        "selection_partition": "IS",
         "focus_symbol": "RGOOGLUSDT",
         "selection_basis": "Alphabet earnings 8-K was public before the first desk snapshot and the focus rToken made a large IS move.",
         "event_retrieval": {
@@ -87,6 +89,7 @@ FIXTURES: tuple[dict[str, Any], ...] = (
         "fixture_id": "large-move-no-event-rtsla-2026-06-23",
         "scenario": "large_move_no_qualifying_news",
         "session_date_et": "2026-06-23",
+        "selection_partition": "IS",
         "focus_symbol": "RTSLAUSDT",
         "selection_basis": "Large usable IS rToken move with no qualifying company filing or IR release inside the frozen after-hours event window.",
         "event_retrieval": {
@@ -175,7 +178,6 @@ def build_fixture(
     payload = {
         "fixture_version": "1.0.0",
         **definition,
-        "selection_partition": "IS",
         "source_integrity": {
             "market_snapshot_captured_at": snapshot["captured_at"],
             "market_snapshot_sha256": sha256_file(snapshot_path),

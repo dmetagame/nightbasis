@@ -20,11 +20,15 @@ class DeskFixtureTests(unittest.TestCase):
         cls.audit = load_audit(cls.audit_path)
         cls.freeze = json.loads((ROOT / "reports/price-only-freeze.json").read_text())
 
-    def test_fixture_dates_are_is_only(self):
+    def test_fixture_partitions_are_locked(self):
         for definition in FIXTURES:
             day = dt.date.fromisoformat(definition["session_date_et"])
             self.assertGreaterEqual(day, IS_START)
             self.assertLessEqual(day, IS_END)
+        partitions = {item["scenario"]: item["selection_partition"] for item in FIXTURES}
+        self.assertEqual(partitions["flat_night"], "OOS_CALENDAR_EVALUATION_ONLY")
+        self.assertEqual(partitions["material_news"], "IS")
+        self.assertEqual(partitions["large_move_no_qualifying_news"], "IS")
 
     def test_fixture_has_every_market_snapshot(self):
         for definition in FIXTURES:

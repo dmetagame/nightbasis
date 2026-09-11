@@ -3,9 +3,9 @@
 > Living handoff for Codex sessions. Read this file before working. Do not put
 > secrets or raw credential-bearing values here.
 
-Last updated: `2026-09-11T22:57:06+01:00`
-Status: `DESK RELOCKED; SCHEMA AND RAW FIXTURES COMPLETE`
-Active objective: Build NightBasis Desk for AI Trading Desk / Information Extraction & Signal Generation without creating a new executable alpha policy.
+Last updated: `2026-09-11T23:25:30+01:00`
+Status: `DESK OFFLINE REPLAY COMPLETE`
+Active objective: Preserve the frozen Desk label policy and prepare the next non-execution demo layer.
 
 ## Workspace
 
@@ -20,6 +20,8 @@ Active objective: Build NightBasis Desk for AI Trading Desk / Information Extrac
 - Track and product are relocked to `AI Trading Desk / Information Extraction & Signal Generation / NightBasis Desk`.
 - The price-only Alpha is closed. Its frozen model and ledgers remain a published negative control and the Playbook mirror; do not retune them for P&L.
 - Do not implement a new executable alpha policy. The LLM explains and labels; it never trades.
+- Frozen Desk thresholds: incomplete signed_info >= 0.65 with abs(y) < 1%; priced at abs(y) >= 1% with event-direction agreement; washout only without an event when y < 0, z >= 1.25, and weeknight; stand_down has precedence. Do not retune.
+- Each record is point-in-time. Evidence must be timestamped at or before its snapshot, and later snapshots cannot affect earlier labels.
 - `rQQQ` is the primary equity factor and `rSPY` is fallback; either may make a name-session usable. BTC and ETH are supplementary factors. None is tradable.
 - Frozen split: IS 2026-06-02 through 2026-08-19; OOS 2026-08-20 through 2026-09-18. Keep all calendar days, including flat days, in daily returns.
 - Weekend/US-holiday nights use BTC+ETH-only fair value, require z >= 1.5, and prohibit washout entries. Weeknights require rQQQ or rSPY and use the locked z entry. Long/flat only.
@@ -55,6 +57,11 @@ Active objective: Build NightBasis Desk for AI Trading Desk / Information Extrac
 - Added `schemas/desk-record.schema.json` for per-name records at 16:30, 20:00, 00:00, and 08:30 ET, including y, frozen-model fair value, residual z, factor contributions, quality flags, event JSON, label, kill criteria, and memo.
 - Locked three IS-only raw replay fixtures: rGOOGL 2026-08-14 flat; rGOOGL 2026-07-23 material Alphabet earnings; rTSLA 2026-06-23 large move with no qualifying Tesla SEC/IR event in the bounded window.
 - Added deterministic fixture generation in `src/nightbasis/desk_fixtures.py`; no prompt, cached LLM output, replay CLI, or executable signal policy was implemented in this checkpoint.
+- Added frozen `prompts/event_score_v1.txt` (SHA-256 `0cc1b90b...`) and `schemas/event-score.schema.json`. The prompt forbids price-derived event direction and all trading instructions.
+- Added human-v1, temperature-zero, content-addressed event-score caches for exactly the three locked fixtures and four snapshots each.
+- Added deterministic point-in-time labeling and record construction in `src/nightbasis/desk_replay.py`; the 4x3 focus-name matrix is all `stand_down` under the supplied thresholds.
+- Added offline `make demo-replay`, defaulting to the material-news fixture. It emits four schema-valid records in about 0.04 seconds and contains no network client or order path.
+- Corrected the 2026-08-14 flat fixture metadata to `OOS_CALENDAR_EVALUATION_ONLY`; the Desk prompt and label thresholds were not fitted to it, and the published price control was not refit. News and washout-candidate fixtures remain IS.
 
 ## Verification
 
@@ -73,6 +80,7 @@ Active objective: Build NightBasis Desk for AI Trading Desk / Information Extrac
 | Git checkpoint | local only | IS freeze `c92b9bd`; provisional OOS `e5f3456`; no remote configured and GitHub authentication expired, 2026-09-11 |
 | Desk schema and fixture checks | passed | 12/12 unit tests; all JSON parses; every IS fixture has all 8 instruments at anchor plus four snapshots; `compileall` and `git diff --check` pass, 2026-09-11 |
 | Desk checkpoint | local only | Commit `142f061`; fixture regeneration is byte-stable; no remote configured and GitHub authentication expired, 2026-09-11 |
+| Desk replay checks | passed | 18/18 tests; 12 cached event scores and 12 records schema-validated; point-in-time exclusion and label boundaries tested; offline replay 0.04s, 2026-09-11 |
 
 ## Risks And Blockers
 
@@ -83,18 +91,19 @@ Active objective: Build NightBasis Desk for AI Trading Desk / Information Extrac
 - OOS has only 23 observable calendar days as of 2026-09-11; the remaining seven must not be fabricated.
 - The price-only rule is negative in both IS and provisional OOS at every specified cost. It is closed as Alpha and must remain a frozen negative control.
 - “No qualifying company event” is bounded to the fixture's named SEC/IR sources and time window; it is not a universal claim that no public information existed.
-- The schema is complete, but the prompt, deterministic label rules, cached outputs, and offline replay command do not yet exist.
+- All locked focus-name records resolve to `stand_down`; this is faithful to the supplied thresholds but visually less varied than a hand-picked demo.
+- The environment has jsonschema 3.2.0 and warns that the Draft 2020-12 metaschema is unavailable; its available validator accepts all 24 objects, and standard-library JSON parsing also passes.
 
 ## Next Actions
 
-1. Freeze the LLM prompt using only the product thesis and IS fixtures; temperature zero and content-addressed JSON cache.
-2. Implement per-name/per-snapshot record construction and offline `make demo-replay` under five minutes.
-3. Keep Playbook limited to the frozen price-only negative control; configure a remote/authentication before claiming remote backup.
+1. Keep Playbook limited to the frozen price-only negative control; do not add an execution path.
+2. On user direction, add presentation/demo integration around the existing offline records without changing dates, names, thresholds, or labels.
+3. Configure a remote/authentication before claiming remote backup.
 
 ## Session Handoff
 
 - Inspect `reports/data-audit.md` and the per-session evidence in `reports/data-audit.json`.
-- The Desk schema and raw fixtures are the current handoff. Do not resume Alpha tuning or use OOS nights to choose prompt text or labels.
+- The offline Desk replay is the current handoff. Do not resume Alpha tuning or use later/OOS nights to change prompt text, thresholds, or labels.
 
 ## Change Log
 
@@ -111,3 +120,4 @@ Active objective: Build NightBasis Desk for AI Trading Desk / Information Extrac
 | 2026-09-11T21:53:29+01:00 | Codex | Created local OOS checkpoint | Commit `e5f3456`; push unavailable because no remote is configured and GitHub auth is expired |
 | 2026-09-11T22:57:06+01:00 | Codex | Relocked NightBasis Desk and built schema/raw fixtures | Three IS-only fixtures complete; 12/12 tests pass; LLM and replay not started |
 | 2026-09-11T22:57:06+01:00 | Codex | Created local Desk schema checkpoint | Commit `142f061`; push unavailable because no remote is configured and GitHub auth is expired |
+| 2026-09-11T23:25:30+01:00 | Codex | Implemented frozen point-in-time Desk replay | Prompt/schema, 12 cached scores, deterministic labeler, and 0.04s offline Make target complete; no execution policy |

@@ -36,8 +36,8 @@ does not create a new trading policy.
 - `stand_down`: data quality, event timing, conflicting evidence, or invalid LLM
   output prevents a defensible classification.
 
-These semantics were specified from the product thesis and IS fixtures. OOS data
-was not used to select fixture dates, labels, or prompt language.
+These semantics are frozen from the supplied policy. OOS data was not used to
+select thresholds or prompt language.
 
 ## Deterministic kill criteria
 
@@ -55,7 +55,9 @@ or place an order.
 
 ## Locked replay fixtures
 
-All three sessions are inside IS (2026-06-02 through 2026-08-19), and every
+The news and washout-candidate sessions are IS fixtures. The 2026-08-14 flat
+fixture is explicitly marked `OOS_CALENDAR_EVALUATION_ONLY`: the frozen rule is
+applied to it, and it is not used to fit the prompt, score, or thresholds. Every
 requested focus-symbol snapshot exists in the frozen Bitget data.
 
 | Scenario | Session date | Focus | 16:15 anchor | 16:30 | 20:00 | 00:00 | 08:30 | Move to 00:00 | Coverage | CS spread proxy |
@@ -85,3 +87,31 @@ Each fixture contains exact 15-minute OHLCV/turnover bars for the four core name
 and four factors at the 16:15 anchor plus all four desk snapshots, session-quality
 evidence, the unchanged frozen model, bounded event retrieval, source hashes, and
 a content hash for the fixture itself.
+
+## Frozen point-in-time label policy
+
+`stand_down` has precedence. Otherwise, `priced` and `incomplete` require a
+qualifying event available by the record's `as_of_et`; `incomplete` requires
+`signed_info >= 0.65` and `abs(y) < 1%`; `priced` requires `abs(y) >= 1%` and
+agreement between the signs of `y` and event direction; `washout` requires no
+qualifying event, `y < 0`, `z >= 1.25`, and a weeknight. Any unmatched record is
+`stand_down`. Each snapshot is evaluated independently, so 08:30 inputs cannot
+affect earlier records.
+
+| Snapshot ET | Flat rGOOGL | News rGOOGL | Washout-candidate rTSLA |
+| --- | --- | --- | --- |
+| 16:30 | `stand_down` | `stand_down` | `stand_down` |
+| 20:00 | `stand_down` | `stand_down` | `stand_down` |
+| 00:00 | `stand_down` | `stand_down` | `stand_down` |
+| 08:30 | `stand_down` | `stand_down` | `stand_down` |
+
+## Offline replay artifacts
+
+- Frozen prompt: `prompts/event_score_v1.txt`
+- Event-score output contract: `schemas/event-score.schema.json`
+- Cached scores: one `event-score-human-v1.json` beside each raw fixture
+- Deterministic record builder and labeler: `src/nightbasis/desk_replay.py`
+- Judge command: `make demo-replay`
+
+The default replay uses the material-news fixture, performs no network access,
+emits four focus-name records as JSON, and contains no order or execution path.
