@@ -12,7 +12,7 @@ Active objective: Resolve or accept the failed NightBasis data audit before any 
 - Repository: local Git repository; no remote configured
 - Worktree: `/home/rouma/projects/nightbasis`
 - Branch: `main`
-- Commit: none yet
+- Implementation checkpoint: `0b826c136674f9c3a9965dfa9a2ca77830bf59d2`
 - Protected releases/artifacts: none
 
 ## Constraints
@@ -74,3 +74,4 @@ Active objective: Resolve or accept the failed NightBasis data audit before any 
 | --- | --- | --- | --- |
 | 2026-09-11T15:16:29+01:00 | Codex | Initialized NightBasis Day-1 audit | Implementation in progress; remote/auth blockers recorded |
 | 2026-09-11T16:15:28+01:00 | Codex | Completed strict live data audit | Failed: 4/12 eligible tradables and 55/60 common usable sessions; downstream work blocked |
+| 2026-09-11T16:15:28+01:00 | Codex | Created local Day-1 checkpoint | Commit `0b826c1`; push unavailable because no remote is configured and GitHub auth is expired |

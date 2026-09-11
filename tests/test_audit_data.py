@@ -20,7 +20,5 @@ class AuditDataTests(unittest.TestCase):
         self.assertNotIn(dt.date(2026, 6, 19), dates)
         self.assertIn(dt.date(2026, 6, 22), dates)
 
-
 if __name__ == "__main__":
     unittest.main()
-

@@ -1,2 +1,1 @@
 """NightBasis research package."""
-

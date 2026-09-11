@@ -13,4 +13,3 @@ nightbasis = "nightbasis.audit_data:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
-
