@@ -1,6 +1,6 @@
 # NightBasis Day-1 Data Audit
 
-Generated: `2026-09-11T19:57:52.772411+00:00`
+Generated: `2026-09-11T20:40:17.594301+00:00`
 
 Observed market data ends at `2026-09-11`; the frozen OOS window ends at `2026-09-18`. Future days are counted in the frozen daily-return calendar but are not treated as observed.
 
@@ -8,18 +8,24 @@ Historical spread is a Corwin-Schultz estimate from 15-minute OHLC, not an obser
 
 | Tier | Symbol | First live volume | Zero-volume sessions | Usable sessions | Median platform turnover (24h) | Median quoted spread | Historical spread proxy |
 | --- | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| core | RNVDAUSDT | 2026-04-23 | 0.0% | 57 | $408,012 | 1.15 bps | 2.46 bps |
-| core | RTSLAUSDT | 2026-06-01 | 0.0% | 57 | $79,399 | 2.74 bps | 2.08 bps |
-| core | RAAPLUSDT | 2026-06-01 | 0.0% | 57 | $120,657 | 0.60 bps | 1.35 bps |
-| core | RGOOGLUSDT | 2026-06-01 | 0.0% | 57 | $932,134 | 3.84 bps | 1.59 bps |
-| add | RAMDUSDT | 2026-06-02 | 0.0% | 57 | $3,866,121 | 3.49 bps | 2.43 bps |
-| add | RCVXUSDT | 2026-06-09 | 0.0% | 50 | $994,012 | 34.64 bps | 0.00 bps |
-| add | ROXYUSDT | 2026-06-10 | 0.0% | 51 | $12,792,639 | 24.42 bps | 0.00 bps |
-| add | RMETAUSDT | 2026-06-01 | 0.0% | 57 | $399,915 | 10.81 bps | 1.90 bps |
+| core | RNVDAUSDT | 2026-04-23 | 1.0% | 82 | $425,233 | 0.92 bps | 2.26 bps |
+| core | RTSLAUSDT | 2026-06-01 | 1.0% | 66 | $79,819 | 0.82 bps | 1.57 bps |
+| core | RAAPLUSDT | 2026-06-01 | 1.0% | 67 | $171,274 | 2.11 bps | 1.07 bps |
+| core | RGOOGLUSDT | 2026-06-01 | 1.0% | 67 | $938,703 | 5.32 bps | 1.11 bps |
+| add | RAMDUSDT | 2026-06-02 | 1.0% | 67 | $3,866,121 | 3.69 bps | 2.41 bps |
+| add | RCVXUSDT | 2026-06-09 | 17.0% | 50 | $994,012 | 41.99 bps | 0.00 bps |
+| add | ROXYUSDT | 2026-06-10 | 17.2% | 51 | $12,792,639 | 27.68 bps | 0.00 bps |
+| add | RMETAUSDT | 2026-06-01 | 2.0% | 65 | $400,037 | 8.34 bps | 1.72 bps |
 
-**Strategy days, core + add:** 57
+**Strategy days, core + add:** 83
 
-**Strategy days, core only:** 57
+- Weeknight: 57
+- Weekend/holiday: 26
+
+**Strategy days, core only:** 83
+
+- Weeknight: 57
+- Weekend/holiday: 26
 
 **Incremental days supplied by add tier:** 0
 
@@ -29,12 +35,12 @@ Historical spread is a Corwin-Schultz estimate from 15-minute OHLC, not an obser
 
 **Recommendation:** `core-only` — The add tier supplies only 0 unique strategy days; it does not improve calendar coverage and adds execution/model-selection complexity.
 
-**Audit result:** DESK_CONTINGENCY
+**Audit result:** PASS
 
 
 ## Factor-only instruments
 
-- `RQQQUSDT` (primary equity factor): 57 raw usable sessions; 0.0% zero-volume sessions.
-- `RSPYUSDT` (fallback equity factor): 57 raw usable sessions; 0.0% zero-volume sessions.
-- `BTCUSDT` (supplementary crypto factor): 71 raw usable sessions; 0.0% zero-volume sessions.
-- `ETHUSDT` (supplementary crypto factor): 71 raw usable sessions; 0.0% zero-volume sessions.
+- `RQQQUSDT` (primary equity factor): 65 raw usable sessions; 4.9% zero-volume sessions.
+- `RSPYUSDT` (fallback equity factor): 61 raw usable sessions; 8.8% zero-volume sessions.
+- `BTCUSDT` (supplementary crypto factor): 102 raw usable sessions; 0.0% zero-volume sessions.
+- `ETHUSDT` (supplementary crypto factor): 102 raw usable sessions; 0.0% zero-volume sessions.

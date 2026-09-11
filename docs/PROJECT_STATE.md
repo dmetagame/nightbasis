@@ -3,9 +3,9 @@
 > Living handoff for Codex sessions. Read this file before working. Do not put
 > secrets or raw credential-bearing values here.
 
-Last updated: `2026-09-11T21:03:22+01:00`
-Status: `DESK-TRACK CONTINGENCY TRIGGERED`
-Active objective: Stop NightBasis Alpha work after the amended re-audit produced fewer than 60 strategy days; await the next Desk-track instruction.
+Last updated: `2026-09-11T21:45:06+01:00`
+Status: `ALPHA ACTIVE; WEEKEND AUDIT PASSED`
+Active objective: Build and freeze the price-only NightBasis backtest before the first OOS read.
 
 ## Workspace
 
@@ -17,9 +17,10 @@ Active objective: Stop NightBasis Alpha work after the amended re-audit produced
 
 ## Constraints
 
-- Day-1 audit only; do not build the LLM pipeline, Agent Hub demo, or submission prose until `audit-data` passes.
+- Do not build the LLM pipeline until the price-only ledger exists.
 - `rQQQ` is the primary equity factor and `rSPY` is fallback; either may make a name-session usable. BTC and ETH are supplementary factors. None is tradable.
 - Frozen split: IS 2026-06-02 through 2026-08-19; OOS 2026-08-20 through 2026-09-18. Keep all calendar days, including flat days, in daily returns.
+- Weekend/US-holiday nights use BTC+ETH-only fair value, require z >= 1.5, and prohibit washout entries. Weeknights require rQQQ or rSPY and use the locked z entry. Long/flat only.
 - Historical Reality order books/fills are whitelist-gated. Never mislabel an OHLC spread estimate as observed bid/ask.
 - Long/flat only; the later strategy term is “buy uninformed washout.”
 - Python is authoritative for news features; the eventual Playbook mirror is price-only.
@@ -41,6 +42,8 @@ Active objective: Stop NightBasis Alpha work after the amended re-audit produced
 - Generated `reports/data-audit.json` and `reports/data-audit.md` from live public Bitget UTA data.
 - Replaced the superseded internal gate with the frozen core/add book, either-factor rule, exact 16:15–09:00 ET window, and flat-inclusive calendar split.
 - Re-audited with 15-minute candles. Core+add and core-only each provide 57 strategy days; add contributes zero unique days. Recommended core-only.
+- Recounted calendar nights under the weekend rule: core-only has 83 strategy days (57 weeknight, 26 weekend/holiday), so the Alpha continuation gate passes.
+- Persisted the exact public Bitget input snapshot at `data/market-snapshot.json.gz` (SHA-256 `1b799416618665318eab340eeaaa2ff96ba3c068068ad9ef25dfc4eb84226ec6`).
 
 ## Verification
 
@@ -52,23 +55,26 @@ Active objective: Stop NightBasis Alpha work after the amended re-audit produced
 | Superseded first audit | superseded | Prior 12-name/intersection gate was replaced by user instruction, 2026-09-11 |
 | Amended re-audit | contingency triggered | 57 core+add strategy days; 57 core-only; 79 IS and 30 OOS calendar days including flats; only 23 OOS days observable on 2026-09-11 |
 | Re-audit tests | passed | 4/4 unit tests, static compilation, JSON assertions, and `git diff --check`, 2026-09-11 |
+| Weekend-rule audit | passed | 83 core-only strategy days: 57 weeknight + 26 weekend/holiday; 79 IS and 30 OOS calendar days including flats, 2026-09-11 |
 
 ## Risks And Blockers
 
 - GitHub backup is blocked until authentication is refreshed and a remote is configured.
 - Historical spread is necessarily an estimator without Reality data whitelist access.
-- The amended audit yields 57 strategy days, below the user-mandated 60-day Alpha continuation threshold; switch to the Desk-track contingency.
+- The earlier 57-day contingency is superseded: it omitted BTC/ETH-only weekend/holiday nights. The corrected count is 83 and Alpha remains active.
 - Seven OOS calendar days (2026-09-12 through 2026-09-18) are future relative to the audit and were not fabricated as observed data.
-- Do not build the NightBasis LLM pipeline or other Alpha layers.
+- OOS has only 23 observable calendar days as of 2026-09-11; the remaining seven must not be fabricated.
 
 ## Next Actions
 
-1. Await explicit scope for the Desk-track contingency; do not infer or build it from this audit-only task.
+1. Implement the price-only fair-value model and IS ledger from the frozen snapshot.
+2. Freeze thresholds/model artifacts before any OOS read.
+3. Run the first OOS evaluation with flat days included; keep September 12–18 marked pending until observable.
 
 ## Session Handoff
 
 - Inspect `reports/data-audit.md` and the per-session evidence in `reports/data-audit.json`.
-- The amended audit status is `DESK_CONTINGENCY`; NightBasis Alpha work stops here.
+- The weekend-aware audit is `PASS`; continue only with the ordered price-only/freeze/OOS tasks.
 
 ## Change Log
 
@@ -79,3 +85,4 @@ Active objective: Stop NightBasis Alpha work after the amended re-audit produced
 | 2026-09-11T16:15:28+01:00 | Codex | Created local Day-1 checkpoint | Commit `0b826c1`; push unavailable because no remote is configured and GitHub auth is expired |
 | 2026-09-11T21:03:22+01:00 | Codex | Completed amended 15-minute re-audit | 57 strategy days triggers Desk contingency; core-only recommended; no downstream work started |
 | 2026-09-11T21:03:22+01:00 | Codex | Created local re-audit checkpoint | Commit `10daa75`; push unavailable because no remote is configured and GitHub auth is expired |
+| 2026-09-11T21:45:06+01:00 | Codex | Applied weekend/holiday rule and persisted market snapshot | PASS: 83 core-only strategy days; Alpha contingency overridden |

@@ -10,6 +10,8 @@ from __future__ import annotations
 import argparse
 import concurrent.futures
 import datetime as dt
+import gzip
+import hashlib
 import json
 import math
 import statistics
@@ -171,6 +173,25 @@ def fetch_ticker_samples(symbols: Iterable[str], samples: int, interval_seconds:
     return result
 
 
+def write_snapshot(
+    path: Path,
+    captured_at: dt.datetime,
+    instruments: dict[str, dict[str, Any]],
+    histories: dict[str, list[dict[str, float]]],
+) -> str:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = {
+        "captured_at": captured_at.isoformat(),
+        "bar_interval": "15m",
+        "source": f"{API_BASE}/api/v3/market/history-candles",
+        "instruments": {symbol: instruments[symbol] for symbol in histories},
+        "bars": histories,
+    }
+    with gzip.open(path, "wt", encoding="utf-8") as handle:
+        json.dump(payload, handle, separators=(",", ":"), sort_keys=True)
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
 def is_trading_date(day: dt.date) -> bool:
     return day.weekday() < 5 and day not in NYSE_HOLIDAYS_2026
 
@@ -185,18 +206,17 @@ def trading_dates(start: dt.date, end: dt.date) -> list[dt.date]:
     return dates
 
 
-def session_windows(start: dt.date, end: dt.date, now: dt.datetime) -> list[tuple[dt.date, dt.datetime, dt.datetime]]:
-    dates = trading_dates(start - dt.timedelta(days=7), end)
+def session_windows(start: dt.date, end: dt.date, now: dt.datetime) -> list[tuple[dt.date, dt.datetime, dt.datetime, str]]:
     windows = []
-    for index in range(1, len(dates)):
-        target = dates[index]
-        if target < start:
-            continue
-        previous = dates[index - 1]
+    target = start
+    while target <= end:
+        previous = target - dt.timedelta(days=1)
         left = dt.datetime.combine(previous, dt.time(16, 15), NY).astimezone(UTC)
         right = dt.datetime.combine(target, dt.time(9, 0), NY).astimezone(UTC)
         if right <= now:
-            windows.append((target, left, right))
+            kind = "weeknight" if is_trading_date(previous) and is_trading_date(target) else "weekend_or_holiday"
+            windows.append((target, left, right, kind))
+        target += dt.timedelta(days=1)
     return windows
 
 
@@ -223,7 +243,7 @@ def bars_in_window(bars: list[dict[str, float]], left: dt.datetime, right: dt.da
 def audit_symbol(
     symbol: str,
     bars: list[dict[str, float]],
-    windows: list[tuple[dt.date, dt.datetime, dt.datetime]],
+    windows: list[tuple[dt.date, dt.datetime, dt.datetime, str]],
     ticker_samples: list[dict[str, float]],
     launch_ms: int,
     spread_limit_bps: float,
@@ -233,7 +253,7 @@ def audit_symbol(
     sessions: list[dict[str, Any]] = []
     usable_dates: set[str] = set()
 
-    for target, left, right in windows:
+    for target, left, right, kind in windows:
         if right.timestamp() * 1000 < launch_ms:
             continue
         selected = bars_in_window(bars, left, right)
@@ -262,6 +282,7 @@ def audit_symbol(
         sessions.append(
             {
                 "date": date_text,
+                "kind": kind,
                 "coverage": coverage,
                 "volume": volume,
                 "turnover": turnover,
@@ -325,7 +346,13 @@ def markdown_report(report: dict[str, Any]) -> str:
             "",
             f"**Strategy days, core + add:** {report['strategy_days']['core_plus_add']}",
             "",
+            f"- Weeknight: {report['strategy_days']['core_plus_add_weeknight']}",
+            f"- Weekend/holiday: {report['strategy_days']['core_plus_add_weekend_or_holiday']}",
+            "",
             f"**Strategy days, core only:** {report['strategy_days']['core_only']}",
+            "",
+            f"- Weeknight: {report['strategy_days']['core_only_weeknight']}",
+            f"- Weekend/holiday: {report['strategy_days']['core_only_weekend_or_holiday']}",
             "",
             f"**Incremental days supplied by add tier:** {report['strategy_days']['incremental_add_days']}",
             "",
@@ -382,6 +409,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             early = fetch_history((symbol,), launch_ms, start_ms).get(symbol, [])
             combined = {int(bar["ts"]): bar for bar in early + histories.get(symbol, [])}
             histories[symbol] = [combined[key] for key in sorted(combined)]
+    snapshot_sha256 = write_snapshot(args.snapshot, now, instruments, histories)
     tickers = fetch_ticker_samples(symbols, args.ticker_samples, args.ticker_interval)
     windows = session_windows(start, observed_end, now)
 
@@ -401,16 +429,25 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         usable[symbol] = dates
 
     equity_factor_dates = usable["RQQQUSDT"] | usable["RSPYUSDT"]
+    crypto_factor_dates = usable["BTCUSDT"] & usable["ETHUSDT"]
+    date_kind = {target.isoformat(): kind for target, _, _, kind in windows}
+    permitted_factor_dates = {
+        date_text
+        for date_text, kind in date_kind.items()
+        if (kind == "weeknight" and date_text in equity_factor_dates)
+        or (kind == "weekend_or_holiday" and date_text in crypto_factor_dates)
+    }
     for symbol in TRADABLE_SYMBOLS:
         raw_dates = usable[symbol]
-        final_dates = raw_dates & equity_factor_dates
+        final_dates = raw_dates & permitted_factor_dates
         reports[symbol]["raw_usable_sessions"] = len(raw_dates)
         reports[symbol]["usable_sessions"] = len(final_dates)
         reports[symbol]["tier"] = "core" if symbol in CORE_SYMBOLS else "add"
         for session in reports[symbol]["sessions"]:
             session["raw_usable"] = session["usable"]
-            session["equity_factor_available"] = session["date"] in equity_factor_dates
-            session["usable"] = session["raw_usable"] and session["equity_factor_available"]
+            factor_available = session["date"] in permitted_factor_dates
+            session["factor_available"] = factor_available
+            session["usable"] = session["raw_usable"] and factor_available
         usable[symbol] = final_dates
 
     factor_roles = {
@@ -426,6 +463,10 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     add_dates = set().union(*(usable[symbol] for symbol in ADD_SYMBOLS))
     strategy_dates = core_dates | add_dates
     incremental_add_dates = add_dates - core_dates
+    weeknight_strategy_dates = {day for day in strategy_dates if date_kind[day] == "weeknight"}
+    weekend_strategy_dates = {day for day in strategy_dates if date_kind[day] == "weekend_or_holiday"}
+    core_weeknight_dates = {day for day in core_dates if date_kind[day] == "weeknight"}
+    core_weekend_dates = {day for day in core_dates if date_kind[day] == "weekend_or_holiday"}
     healthy_adds = [symbol for symbol in ADD_SYMBOLS if reports[symbol]["usable_sessions"] >= 30]
     if len(healthy_adds) >= 3 and len(incremental_add_dates) >= 3:
         recommendation = {
@@ -469,7 +510,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             "median_turnover": "Median platformTurnover24h across repeated live ticker snapshots",
             "median_spread": "Median top-of-book quoted spread across repeated live ticker snapshots",
             "historical_spread_proxy": "Median Corwin-Schultz estimate from 15m OHLC bars; not observed bid/ask",
-            "usable_session": f">=80% 15m-bar coverage, nonzero aggregate volume, historical spread proxy <= {args.spread_limit_bps} bps, and rQQQ or rSPY usable",
+            "usable_session": f">=80% 15m-bar coverage, nonzero aggregate volume, and historical spread proxy <= {args.spread_limit_bps} bps; weeknights additionally require rQQQ or rSPY, weekend/holiday nights require BTC and ETH",
             "daily_returns": "Every calendar day in the frozen split is retained; days without a position have zero strategy return",
         },
         "thresholds": {
@@ -478,6 +519,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             "min_strategy_days": args.min_strategy_days,
         },
         "observed_through": observed_end.isoformat(),
+        "market_snapshot": {"path": str(args.snapshot), "sha256": snapshot_sha256},
         "frozen_book": {
             "core": list(CORE_SYMBOLS),
             "add": list(ADD_SYMBOLS),
@@ -485,7 +527,11 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         },
         "strategy_days": {
             "core_plus_add": len(strategy_dates),
+            "core_plus_add_weeknight": len(weeknight_strategy_dates),
+            "core_plus_add_weekend_or_holiday": len(weekend_strategy_dates),
             "core_only": len(core_dates),
+            "core_only_weeknight": len(core_weeknight_dates),
+            "core_only_weekend_or_holiday": len(core_weekend_dates),
             "incremental_add_days": len(incremental_add_dates),
             "core_plus_add_is": sum(IS_START.isoformat() <= day <= IS_END.isoformat() for day in strategy_dates),
             "core_plus_add_oos_observed": sum(OOS_START.isoformat() <= day <= observed_end.isoformat() for day in strategy_dates),
@@ -501,6 +547,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, default=Path("reports/data-audit.json"))
     parser.add_argument("--markdown", type=Path, default=Path("reports/data-audit.md"))
+    parser.add_argument("--snapshot", type=Path, default=Path("data/market-snapshot.json.gz"))
     parser.add_argument("--ticker-samples", type=int, default=12)
     parser.add_argument("--ticker-interval", type=float, default=2.0)
     parser.add_argument("--spread-limit-bps", type=float, default=20.0)
