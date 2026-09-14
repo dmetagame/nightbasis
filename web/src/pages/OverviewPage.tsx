@@ -50,7 +50,7 @@ export function OverviewPage() {
 
       <section className="overview-section home-replay">
         <SectionLabel index="Live desk">A frozen night, replayed point by point</SectionLabel>
-        <ReplayPanel />
+        <ReplayPanel compact />
       </section>
 
       <section className="overview-section">

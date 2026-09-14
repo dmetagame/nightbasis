@@ -135,7 +135,7 @@ export function MotionPage() {
               Follow a real overnight session from the filing to the opening bell.
               The interface moves only to show how the evidence changes.
             </p>
-            {reduced && <p className="reduced-note">Reduced motion active: pins, scrubs, and Lenis are off.</p>}
+            {reduced && <p className="reduced-note">Reduced motion is on.</p>}
           </div>
         </div>
       </section>

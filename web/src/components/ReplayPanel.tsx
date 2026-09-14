@@ -19,7 +19,11 @@ function signed(value: number, digits = 2) {
   return `${value > 0 ? "+" : ""}${value.toFixed(digits)}%`;
 }
 
-export function ReplayPanel() {
+type ReplayPanelProps = {
+  compact?: boolean;
+};
+
+export function ReplayPanel({ compact = false }: ReplayPanelProps) {
   const reduced = useReducedMotion();
   const [fixtureIndex, setFixtureIndex] = useState(1);
   const [snapshotIndex, setSnapshotIndex] = useState(0);
@@ -54,7 +58,10 @@ export function ReplayPanel() {
   };
 
   return (
-    <section className="replay-shell" aria-label="Frozen NightBasis Desk replay">
+    <section
+      className={compact ? "replay-shell is-compact" : "replay-shell"}
+      aria-label="Frozen NightBasis Desk replay"
+    >
       <div className="fixture-tabs" role="tablist" aria-label="Choose a frozen fixture">
         {deskFixtures.map((item, index) => (
           <button
