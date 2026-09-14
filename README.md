@@ -5,6 +5,11 @@ say no trade.
 
 Public materials: https://github.com/dmetagame/nightbasis
 
+Live demo: https://dmetagame.github.io/nightbasis/
+
+Local demo: `make site`, then open the URL printed by Vite. The site lives in
+[`web/`](web/) and does not change the frozen Python research replay.
+
 ## What NightBasis Desk is
 
 NightBasis Desk explains whether an overnight rToken move looks supported by

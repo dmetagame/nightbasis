@@ -3,16 +3,16 @@
 > Living handoff for Codex sessions. Read this file before working. Do not put
 > secrets or raw credential-bearing values here.
 
-Last updated: `2026-09-14T14:38:05+01:00`
-Status: `SUBMISSION-READY LOCALLY — PUBLISH BLOCKED ON GH AUTH`
-Active objective: User completes authentication, publication, screenshots, video, X post, and form submission using the frozen pack.
+Last updated: `2026-09-14T16:56:21+01:00`
+Status: `WEB IMPLEMENTED AND VERIFIED — CHECKPOINT/PUSH PENDING`
+Active objective: Publish the isolated `/web` marketing and frozen-replay site without changing the locked Python research.
 
 ## Workspace
 
-- Repository: local Git repository; no remote configured
+- Repository: public GitHub repository at `https://github.com/dmetagame/nightbasis`; `origin` is configured for fetch and push
 - Worktree: `/home/rouma/projects/nightbasis`
 - Branch: `main`
-- Latest substantive checkpoint: `55e0550` (final human submission handoff); protected IS freeze checkpoint: `c92b9bd776ce43cf71d94ba90d3db23622b4395c`
+- Starting commit for the web checkpoint: `e4ffc8414fa821a6a11c2299a451d812482aaf98` (matches local `origin/main` before the web changes); protected IS freeze checkpoint: `c92b9bd776ce43cf71d94ba90d3db23622b4395c`
 - Protected releases/artifacts: price-only freeze hash `0898cca...` and commit `c92b9bd`; do not alter its model, thresholds, costs, universe, entry clock, or flat-inclusive ledgers
 
 ## Constraints
@@ -40,6 +40,12 @@ Active objective: User completes authentication, publication, screenshots, video
 - Historical session spread is screened with a labeled Corwin-Schultz OHLC proxy; live ticker snapshots provide observed median quoted spread.
 
 ## Work Completed
+
+- Added an isolated Vite/React 19/TypeScript/Tailwind v4 site under `/web`; no file under `src/nightbasis`, fixtures, prompts, schemas, or frozen control reports was changed.
+- Added Overview, Desk replay, Method, and Motion Lab routes. The replay embeds exactly the three accepted fixtures and 12 `stand_down` snapshots, supports autoplay/pause/scrub, and always renders “No trade.”
+- Integrated GSAP, `@gsap/react`, ScrollTrigger, and Lenis with GSAP ticker ownership. Reduced-motion disables Lenis and all pins/scrubs; mobile stacks the motion studies and exposes tappable snapshot clocks.
+- Added the root `make site` target without changing the `make demo-replay` recipe, route-level code splitting, `/nightbasis/` production base, direct-route `404.html`, and a GitHub Pages deployment workflow.
+- Visually checked Overview and Desk at desktop width, Desk and Motion at 390px mobile width, and Motion in a forced reduced-motion Chromium session.
 
 - Initialized the repository and minimal standard-library audit package.
 - Added `src/nightbasis/audit_data.py` and deterministic unit coverage for pagination, flat-price spread, and the Juneteenth calendar closure.
@@ -82,6 +88,11 @@ Active objective: User completes authentication, publication, screenshots, video
 
 | Check | Result | Evidence/date |
 | --- | --- | --- |
+| Web production build | passed | `cd web && npm run build`; Vite 7.3.6 built route-split assets to `web/dist` with no size warning, 2026-09-14 |
+| Web dependency audit | passed | `npm install` audited 130 packages with 0 vulnerabilities, 2026-09-14 |
+| Web route/base check | passed | production preview returned HTTP 200 for `/nightbasis/` and `/nightbasis/desk`; asset URLs use `/nightbasis/assets/`, 2026-09-14 |
+| Web visual/motion check | passed | Desktop and 390px captures checked; forced reduced-motion render explicitly disabled pins, scrubs, and Lenis, 2026-09-14 |
+| Locked Python verification after web | passed | 22/22 tests; `make demo-replay` 0.04s; exact rTSLA z=1.235711 and rGOOGL direction conflict retained, 2026-09-14 |
 | Git/GitHub | blocked | Local repo initialized; no remote; `gh auth status` reports expired authentication, 2026-09-11 |
 | Unit tests | passed | `PYTHONPATH=src python3 -m unittest discover -s tests -v` → 3/3 passed, 2026-09-11 |
 | Static compilation | passed | `python3 -m compileall -q src tests`, 2026-09-11 |
@@ -109,7 +120,7 @@ Active objective: User completes authentication, publication, screenshots, video
 
 ## Risks And Blockers
 
-- GitHub backup is blocked until authentication is refreshed and a remote is configured.
+- `origin` is configured and the public repository exists, but `gh auth status` currently reports an invalid stored token. A normal Git push will be attempted because Git may have separate credentials; GitHub Pages may require selecting GitHub Actions in repository Pages settings once.
 - Historical spread is necessarily an estimator without Reality data whitelist access.
 - The earlier 57-day contingency is superseded: it omitted BTC/ETH-only weekend/holiday nights. The corrected count is 83 and Alpha remains active.
 - Seven OOS calendar days (2026-09-12 through 2026-09-18) are future relative to the audit and were not fabricated as observed data.
@@ -121,8 +132,8 @@ Active objective: User completes authentication, publication, screenshots, video
 
 ## Next Actions
 
-1. Follow `docs/WHAT_YOU_DO_NEXT.md` in order.
-2. Use `docs/PUBLISH_COMMANDS.md` after one successful `gh auth login`.
+1. Commit the isolated web checkpoint and push `main` if the configured Git credential permits.
+2. Confirm the Pages workflow and enable `Settings → Pages → GitHub Actions` if GitHub has not already selected it.
 3. Keep every listed strategy, fixture, prompt, cache, and execution lock intact.
 
 ## Session Handoff
@@ -134,6 +145,7 @@ Active objective: User completes authentication, publication, screenshots, video
 
 | Timestamp | Session/agent | Event | Result |
 | --- | --- | --- | --- |
+| 2026-09-14T16:56:21+01:00 | Codex | Implemented production marketing and frozen replay site under `/web` | Build, dependency audit, desktop/mobile/reduced-motion visual checks, 22 Python tests, and 0.04s offline replay pass; locked research untouched; checkpoint/push pending |
 | 2026-09-11T15:16:29+01:00 | Codex | Initialized NightBasis Day-1 audit | Implementation in progress; remote/auth blockers recorded |
 | 2026-09-11T16:15:28+01:00 | Codex | Completed strict live data audit | Failed: 4/12 eligible tradables and 55/60 common usable sessions; downstream work blocked |
 | 2026-09-11T16:15:28+01:00 | Codex | Created local Day-1 checkpoint | Commit `0b826c1`; push unavailable because no remote is configured and GitHub auth is expired |
