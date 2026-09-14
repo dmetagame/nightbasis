@@ -25,10 +25,10 @@ The production build uses `/nightbasis/` as its base path for GitHub Pages and
 writes the static site to `web/dist/`. The build also copies `index.html` to
 `404.html` so direct links such as `/nightbasis/desk` return the React shell.
 
-The repository workflow at `.github/workflows/pages.yml` builds and deploys
-this directory on pushes to `main` that touch the site. In GitHub, choose
-**Settings → Pages → Build and deployment → GitHub Actions** once; then run the
-**Deploy NightBasis web** workflow or push an in-scope site commit.
+To publish without a repository workflow, build the site and deploy the
+contents of `web/dist/` to a `gh-pages` branch, then choose that branch in
+**Settings → Pages → Build and deployment**. Exact commands are included in the
+project handoff and the final implementation report.
 
 For a generic static host mounted at `/`, use:
 

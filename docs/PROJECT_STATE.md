@@ -4,7 +4,7 @@
 > secrets or raw credential-bearing values here.
 
 Last updated: `2026-09-14T16:56:21+01:00`
-Status: `WEB IMPLEMENTED AND VERIFIED — CHECKPOINT/PUSH PENDING`
+Status: `WEB IMPLEMENTED AND VERIFIED — PUSH RETRY PENDING`
 Active objective: Publish the isolated `/web` marketing and frozen-replay site without changing the locked Python research.
 
 ## Workspace
@@ -44,7 +44,7 @@ Active objective: Publish the isolated `/web` marketing and frozen-replay site w
 - Added an isolated Vite/React 19/TypeScript/Tailwind v4 site under `/web`; no file under `src/nightbasis`, fixtures, prompts, schemas, or frozen control reports was changed.
 - Added Overview, Desk replay, Method, and Motion Lab routes. The replay embeds exactly the three accepted fixtures and 12 `stand_down` snapshots, supports autoplay/pause/scrub, and always renders “No trade.”
 - Integrated GSAP, `@gsap/react`, ScrollTrigger, and Lenis with GSAP ticker ownership. Reduced-motion disables Lenis and all pins/scrubs; mobile stacks the motion studies and exposes tappable snapshot clocks.
-- Added the root `make site` target without changing the `make demo-replay` recipe, route-level code splitting, `/nightbasis/` production base, direct-route `404.html`, and a GitHub Pages deployment workflow.
+- Added the root `make site` target without changing the `make demo-replay` recipe, route-level code splitting, `/nightbasis/` production base, direct-route `404.html`, and static GitHub Pages output.
 - Visually checked Overview and Desk at desktop width, Desk and Motion at 390px mobile width, and Motion in a forced reduced-motion Chromium session.
 
 - Initialized the repository and minimal standard-library audit package.
@@ -120,7 +120,7 @@ Active objective: Publish the isolated `/web` marketing and frozen-replay site w
 
 ## Risks And Blockers
 
-- `origin` is configured and the public repository exists, but `gh auth status` currently reports an invalid stored token. A normal Git push will be attempted because Git may have separate credentials; GitHub Pages may require selecting GitHub Actions in repository Pages settings once.
+- `origin` is configured and the public repository exists. `gh auth status` reports an invalid stored token; the separate HTTPS Git credential can push ordinary source but rejected creation of a workflow file because it lacks `workflow` scope. The workflow was removed without touching the site, so publication can use a standard `gh-pages` branch instead.
 - Historical spread is necessarily an estimator without Reality data whitelist access.
 - The earlier 57-day contingency is superseded: it omitted BTC/ETH-only weekend/holiday nights. The corrected count is 83 and Alpha remains active.
 - Seven OOS calendar days (2026-09-12 through 2026-09-18) are future relative to the audit and were not fabricated as observed data.
@@ -132,8 +132,8 @@ Active objective: Publish the isolated `/web` marketing and frozen-replay site w
 
 ## Next Actions
 
-1. Commit the isolated web checkpoint and push `main` if the configured Git credential permits.
-2. Confirm the Pages workflow and enable `Settings → Pages → GitHub Actions` if GitHub has not already selected it.
+1. Push the isolated web checkpoint to `main` with the configured Git credential.
+2. Build and publish `web/dist` to `gh-pages`, then select that branch in repository Pages settings.
 3. Keep every listed strategy, fixture, prompt, cache, and execution lock intact.
 
 ## Session Handoff
@@ -146,6 +146,7 @@ Active objective: Publish the isolated `/web` marketing and frozen-replay site w
 | Timestamp | Session/agent | Event | Result |
 | --- | --- | --- | --- |
 | 2026-09-14T16:56:21+01:00 | Codex | Implemented production marketing and frozen replay site under `/web` | Build, dependency audit, desktop/mobile/reduced-motion visual checks, 22 Python tests, and 0.04s offline replay pass; locked research untouched; checkpoint/push pending |
+| 2026-09-14T16:59:00+01:00 | Codex | Reconciled GitHub workflow-scope push rejection | HTTPS credential lacks `workflow` scope and SSH has no accepted key; removed only the optional workflow and retained static `gh-pages` deployment path |
 | 2026-09-11T15:16:29+01:00 | Codex | Initialized NightBasis Day-1 audit | Implementation in progress; remote/auth blockers recorded |
 | 2026-09-11T16:15:28+01:00 | Codex | Completed strict live data audit | Failed: 4/12 eligible tradables and 55/60 common usable sessions; downstream work blocked |
 | 2026-09-11T16:15:28+01:00 | Codex | Created local Day-1 checkpoint | Commit `0b826c1`; push unavailable because no remote is configured and GitHub auth is expired |
