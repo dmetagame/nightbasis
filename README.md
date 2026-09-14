@@ -1,5 +1,8 @@
 # NightBasis Desk
 
+An evidence-first desk that explains overnight rToken moves and knows when to
+say no trade.
+
 ## What NightBasis Desk is
 
 NightBasis Desk explains whether an overnight rToken move looks supported by
@@ -23,6 +26,26 @@ make demo-replay
 The command uses exactly the three frozen fixtures, retains the machine
 transcripts, and performs no network or execution action.
 
+## Frozen negative control
+
+The price-only control was frozen before its OOS read:
+`0898cca4374ae68dfbc85ae73138f710539d314800de8548d3b37f28fd0ba5a0`
+(commit `c92b9bd`). We did not retune it after it lost money.
+
+- IS: 79 calendar days, 7 traded days, 10 trades; Sharpe -1.58 at 15 bps per
+  side and -2.96 at 25 bps per side.
+- Provisional OOS: 23 observed calendar days, 3 traded days, 5 trades; Sharpe
+  -5.57 at 15 bps per side.
+- Weekend rule: 26 eligible nights and 0 entries.
+
+The failed control is evidence for the product decision: NightBasis ships as an
+information-extraction and signal-explanation desk, not executable alpha.
+
+## Materials
+
 - [Read the judge-facing replay](reports/judge-replay.md)
+- [Inspect the frozen price-only metrics](reports/price-only-metrics.md)
 - [Review the submission draft](docs/SUBMISSION_DRAFT.md)
 - [Run the GitHub publish checklist](docs/GITHUB_PUBLISH_CHECKLIST.md)
+- [Review the secret scan](docs/SECRETS_SCAN.md)
+- [Read the MIT license](LICENSE)

@@ -68,6 +68,7 @@ Active objective: Produce and verify the public-repository submission pack witho
 - Added `reports/judge-replay.md`, a human view with percent paths, point-in-time 8-K facts, one-sentence reasons, and explicit no-trade outcomes for exactly the three frozen fixtures.
 - Added the README section “What NightBasis Desk is,” honest submission bullets documenting the loss-making 15 bps-per-side control and no-retune decision, and a GitHub publication checklist covering secrets, the freeze hash, and offline replay.
 - Scanned the complete worktree for sensitive filenames, credential markers, private-key material, common token formats, Qwen/DashScope/Bitget secrets, UIDs, cookies, and ignored files. No sensitive or blocked file was found; details are in `docs/SECRETS_SCAN.md`.
+- Expanded `README.md` into the judge materials landing page with the three-fixture table, offline command, full freeze hash, explicit no-retune statement, negative-control metrics, and direct artifact links. Added an MIT `LICENSE`.
 
 ## Verification
 
@@ -93,6 +94,7 @@ Active objective: Produce and verify the public-repository submission pack witho
 | Judge-facing copy | passed | 22/22 tests; 12/12 records schema-valid; offline replay 0.05s; secret-prefix scan clear; protected artifacts unchanged from pre-copy checkpoint `d3fd541`, 2026-09-14 |
 | Judge-materials checkpoint | local only | Commit `2b86518`; no remote configured and GitHub authentication expired, 2026-09-14 |
 | Secret scan | passed | 43 tracked files plus untracked/ignored paths scanned; no credential values or sensitive files found; only benign checklist terms matched, 2026-09-14 |
+| Judge repository root | passed | `make demo-replay` 0.05s with no network client/import; 22/22 tests and compilation pass; frozen artifacts unchanged; MIT license present, 2026-09-14 |
 
 ## Risks And Blockers
 
@@ -140,3 +142,4 @@ Active objective: Produce and verify the public-repository submission pack witho
 | 2026-09-14T13:15:10+01:00 | Codex | Added judge-facing replay, README copy, submission bullets, and publish checklist | Verification passes; exactly three fixtures retained; control and caches unchanged; no orders added |
 | 2026-09-14T13:15:10+01:00 | Codex | Created local judge-materials checkpoint | Commit `2b86518`; push unavailable because no remote is configured and GitHub auth is expired |
 | 2026-09-14T14:28:58+01:00 | Codex | Completed pre-publication secret scan | Clean; no files blocked, moved, or newly ignored; strategy locks untouched |
+| 2026-09-14T14:28:58+01:00 | Codex | Completed judge repository root | README landing page and MIT license added; offline demo and 22 tests pass; freeze remains untouched |
