@@ -12,11 +12,30 @@ from typing import Any
 
 
 SNAPSHOT_ORDER = ("16:30", "20:00", "00:00", "08:30")
+FIXTURE_IDS = (
+    "flat-rgoogl-2026-08-14",
+    "material-news-rgoogl-2026-07-23",
+    "large-move-no-event-rtsla-2026-06-23",
+)
 WASHOUT_Z = 1.25
 INCOMPLETE_SIGNED_INFO = 0.65
 PRICED_MOVE = 0.01
 MIN_COVERAGE = 0.80
 MAX_SPREAD_PROXY_BPS = 20.0
+REASON_ENUM = (
+    "priced_event_move_agrees",
+    "incomplete_material_event",
+    "uninformed_washout",
+    "event_price_direction_conflict",
+    "event_below_information_threshold",
+    "event_conditions_not_met",
+    "uninformed_but_below_washout",
+    "no_qualifying_event_nonnegative_move",
+    "washout_weeknight_gate_failed",
+    "data_quality_kill",
+    "event_timing_kill",
+    "event_score_kill",
+)
 
 
 def sha256_bytes(value: bytes) -> str:
@@ -177,7 +196,7 @@ def deterministic_label(
     score: dict[str, Any],
     event_timestamp_valid: bool,
     weeknight: bool,
-) -> tuple[str, list[str]]:
+) -> tuple[str, str, list[str]]:
     kill_reasons = []
     if price is None:
         kill_reasons.append("snapshot_or_factor_bar_missing")
@@ -192,18 +211,55 @@ def deterministic_label(
     if not event_timestamp_valid:
         kill_reasons.append("future_event_present")
     if kill_reasons:
-        return "stand_down", kill_reasons
+        reason = "event_timing_kill" if not event_timestamp_valid else "data_quality_kill"
+        return "stand_down", reason, kill_reasons
 
     has_event = bool(score["qualifying_event"])
     y = price["y"]
     if has_event and score["signed_info"] >= INCOMPLETE_SIGNED_INFO and abs(y) < PRICED_MOVE:
-        return "incomplete", []
+        return "incomplete", "incomplete_material_event", []
     direction_agrees = y != 0 and score["direction"] != 0 and (y > 0) == (score["direction"] > 0)
     if has_event and abs(y) >= PRICED_MOVE and direction_agrees:
-        return "priced", []
+        return "priced", "priced_event_move_agrees", []
     if not has_event and y < 0 and price["z"] >= WASHOUT_Z and weeknight:
-        return "washout", []
-    return "stand_down", ["no_label_rule_matched"]
+        return "washout", "uninformed_washout", []
+    if has_event and abs(y) >= PRICED_MOVE and not direction_agrees:
+        return "stand_down", "event_price_direction_conflict", []
+    if has_event and score["signed_info"] < INCOMPLETE_SIGNED_INFO and abs(y) < PRICED_MOVE:
+        return "stand_down", "event_below_information_threshold", []
+    if has_event:
+        return "stand_down", "event_conditions_not_met", []
+    if y < 0 and price["z"] < WASHOUT_Z:
+        return "stand_down", "uninformed_but_below_washout", []
+    if y < 0 and not weeknight:
+        return "stand_down", "washout_weeknight_gate_failed", []
+    return "stand_down", "no_qualifying_event_nonnegative_move", []
+
+
+def build_memo(
+    label: str,
+    reason: str,
+    price: dict[str, Any] | None,
+    score: dict[str, Any],
+    kill_reasons: list[str],
+) -> str:
+    if kill_reasons:
+        detail = f"Hard kill fired: {', '.join(kill_reasons)}."
+    elif reason == "event_price_direction_conflict":
+        detail = (
+            f"Qualifying event direction={score['direction']:+d} conflicts with "
+            f"y={price['y']:.6f}."
+        )
+    elif reason == "uninformed_but_below_washout":
+        detail = (
+            f"No qualifying event; y={price['y']:.6f} and z={price['z']:.6f} "
+            f"is below {WASHOUT_Z:.2f}."
+        )
+    elif reason == "no_qualifying_event_nonnegative_move":
+        detail = f"No qualifying event and y={price['y']:.6f} is nonnegative."
+    else:
+        detail = score["rationale"]
+    return f"{label} / {reason}. {detail} No trade instruction produced."
 
 
 def build_record(
@@ -230,10 +286,12 @@ def build_record(
     quality = quality_state(fixture, symbol, equity)
     price = compute_price_state(fixture, symbol, snapshot, equity) if equity else None
     if score_errors:
-        label, reasons = "stand_down", score_errors
+        label, reason, kill_reasons = "stand_down", "event_score_kill", score_errors
     else:
         weeknight = fixture["market"][symbol]["session_quality"]["kind"] == "weeknight"
-        label, reasons = deterministic_label(price, quality, score, event_timestamp_valid, weeknight)
+        label, reason, kill_reasons = deterministic_label(
+            price, quality, score, event_timestamp_valid, weeknight
+        )
 
     event_items = []
     for event in events:
@@ -282,9 +340,10 @@ def build_record(
             "explanation": score["rationale"],
         },
         "label": label,
+        "reason": reason,
         "kill_criteria": {
-            "killed": label == "stand_down",
-            "reasons": reasons,
+            "killed": bool(kill_reasons),
+            "reasons": kill_reasons,
             "checks": {
                 "schema_valid": not score_errors,
                 "snapshot_present": price is not None,
@@ -295,7 +354,7 @@ def build_record(
                 "llm_json_valid": not score_errors,
             },
         },
-        "memo": f"{label}: {'; '.join(reasons) if reasons else score['rationale']} No trade instruction produced.",
+        "memo": build_memo(label, reason, price, score, kill_reasons),
     }
 
 
@@ -308,6 +367,44 @@ def replay(fixture_path: Path, cache_path: Path, prompt_path: Path) -> list[dict
     if cache["prompt_sha256"] != prompt_sha256:
         raise RuntimeError("Event cache does not match frozen prompt hash")
     return [build_record(fixture, cache, prompt_sha256, snapshot) for snapshot in SNAPSHOT_ORDER]
+
+
+def render_transcript(records: list[dict[str, Any]]) -> str:
+    first = records[0]
+    lines = [
+        f"fixture={first['fixture_id']} symbol={first['symbol']} "
+        f"session_start={first['session_start_et']}"
+    ]
+    for record in records:
+        event_ids = [item["event_id"] for item in record["event_json"]["items"]]
+        event_id = ",".join(event_ids) if event_ids else "none"
+        price = record["price_state"]
+        lines.append(
+            f"t={record['snapshot']['name']} "
+            f"y={price['y']:.8f} "
+            f"z={price['z']:.6f} "
+            f"signed_info={record['llm']['signed_info']:.3f} "
+            f"event_id_or_none={event_id} "
+            f"label={record['label']} "
+            f"reason={record['reason']} "
+            f"kill_fired={str(record['kill_criteria']['killed']).lower()} "
+            f"memo={json.dumps(record['memo'])}"
+        )
+    return "\n".join(lines)
+
+
+def render_reason_matrix(groups: list[list[dict[str, Any]]]) -> str:
+    headers = [group[0]["fixture_id"] for group in groups]
+    lines = [
+        "# Frozen reason matrix",
+        "",
+        "| Snapshot ET | " + " | ".join(headers) + " |",
+        "| --- | " + " | ".join("---" for _ in headers) + " |",
+    ]
+    for index, snapshot in enumerate(SNAPSHOT_ORDER):
+        reasons = [f"`{group[index]['reason']}`" for group in groups]
+        lines.append(f"| {snapshot} | " + " | ".join(reasons) + " |")
+    return "\n".join(lines) + "\n"
 
 
 def parse_args() -> argparse.Namespace:
@@ -323,13 +420,38 @@ def parse_args() -> argparse.Namespace:
         default=Path("fixtures/desk/material-news-rgoogl-2026-07-23/event-score-human-v1.json"),
     )
     parser.add_argument("--prompt", type=Path, default=Path("prompts/event_score_v1.txt"))
+    parser.add_argument("--all", action="store_true", help="Replay exactly the three frozen fixtures")
+    parser.add_argument("--fixture-root", type=Path, default=Path("fixtures/desk"))
+    parser.add_argument("--transcript-dir", type=Path)
+    parser.add_argument("--reason-matrix", type=Path)
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_args()
-    records = replay(args.fixture, args.cache, args.prompt)
-    print(json.dumps(records, indent=2, sort_keys=True))
+    if args.all:
+        groups = []
+        transcripts = []
+        for fixture_id in FIXTURE_IDS:
+            fixture_dir = args.fixture_root / fixture_id
+            records = replay(
+                fixture_dir / "raw-input.json",
+                fixture_dir / "event-score-human-v1.json",
+                args.prompt,
+            )
+            groups.append(records)
+            transcript = render_transcript(records)
+            transcripts.append(transcript)
+            if args.transcript_dir:
+                args.transcript_dir.mkdir(parents=True, exist_ok=True)
+                (args.transcript_dir / f"{fixture_id}.txt").write_text(transcript + "\n")
+        if args.reason_matrix:
+            args.reason_matrix.parent.mkdir(parents=True, exist_ok=True)
+            args.reason_matrix.write_text(render_reason_matrix(groups))
+        print("\n\n".join(transcripts))
+    else:
+        records = replay(args.fixture, args.cache, args.prompt)
+        print(render_transcript(records))
     return 0
 
 

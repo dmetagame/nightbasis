@@ -3,9 +3,9 @@
 > Living handoff for Codex sessions. Read this file before working. Do not put
 > secrets or raw credential-bearing values here.
 
-Last updated: `2026-09-11T23:25:30+01:00`
-Status: `DESK OFFLINE REPLAY COMPLETE`
-Active objective: Preserve the frozen Desk label policy and prepare the next non-execution demo layer.
+Last updated: `2026-09-14T13:15:10+01:00`
+Status: `DESK REASON ATTRIBUTION COMPLETE`
+Active objective: Preserve the frozen labels and reason-attributed three-fixture offline replay.
 
 ## Workspace
 
@@ -60,8 +60,11 @@ Active objective: Preserve the frozen Desk label policy and prepare the next non
 - Added frozen `prompts/event_score_v1.txt` (SHA-256 `0cc1b90b...`) and `schemas/event-score.schema.json`. The prompt forbids price-derived event direction and all trading instructions.
 - Added human-v1, temperature-zero, content-addressed event-score caches for exactly the three locked fixtures and four snapshots each.
 - Added deterministic point-in-time labeling and record construction in `src/nightbasis/desk_replay.py`; the 4x3 focus-name matrix is all `stand_down` under the supplied thresholds.
-- Added offline `make demo-replay`, defaulting to the material-news fixture. It emits four schema-valid records in about 0.04 seconds and contains no network client or order path.
+- Added the initial offline `make demo-replay` for the material-news fixture; it contained no network client or order path.
 - Corrected the 2026-08-14 flat fixture metadata to `OOS_CALENDAR_EVALUATION_ONLY`; the Desk prompt and label thresholds were not fitted to it, and the published price control was not refit. News and washout-candidate fixtures remain IS.
+- Added a frozen reason enum that attributes every Desk label independently from hard-kill state. Unmatched `stand_down` records no longer falsely report a hard kill.
+- Expanded `make demo-replay` to replay exactly the three locked fixtures offline, print the required fields, and regenerate `reports/reason-matrix.md` plus three fixture transcripts under `reports/replay-transcripts/`.
+- Audited news rGOOGL 16:30: signed_info 0.855, all hard-kill checks pass, and the positive-event/negative-price conflict explains `stand_down`; no cache change was needed. Audited rTSLA 08:30 at exact z 1.235711, below 1.25, with reason `uninformed_but_below_washout`.
 
 ## Verification
 
@@ -82,6 +85,7 @@ Active objective: Preserve the frozen Desk label policy and prepare the next non
 | Desk checkpoint | local only | Commit `142f061`; fixture regeneration is byte-stable; no remote configured and GitHub authentication expired, 2026-09-11 |
 | Desk replay checks | passed | 18/18 tests; 12 cached event scores and 12 records schema-validated; point-in-time exclusion and label boundaries tested; offline replay 0.04s, 2026-09-11 |
 | Desk replay checkpoint | local only | Commit `89e190c`; protected price-control artifacts unchanged from `c92b9bd`; no remote/auth, 2026-09-11 |
+| Reason-attributed replay | passed | 22/22 tests; compileall and diff check pass; all three transcripts plus 3x4 matrix generated offline in 0.04s; protected control unchanged, 2026-09-12 |
 
 ## Risks And Blockers
 
@@ -97,8 +101,8 @@ Active objective: Preserve the frozen Desk label policy and prepare the next non
 
 ## Next Actions
 
-1. Keep Playbook limited to the frozen price-only negative control; do not add an execution path.
-2. On user direction, add presentation/demo integration around the existing offline records without changing dates, names, thresholds, or labels.
+1. Stop at the accepted reason matrix and three replay transcripts until the user authorizes another scope.
+2. Keep Playbook limited to the frozen price-only negative control; do not add an execution path.
 3. Configure a remote/authentication before claiming remote backup.
 
 ## Session Handoff
@@ -119,7 +123,9 @@ Active objective: Preserve the frozen Desk label policy and prepare the next non
 | 2026-09-11T21:51:19+01:00 | Codex | Implemented and froze price-only IS baseline | Freeze `0898cca...`; base-cost IS Sharpe -2.96; OOS remains unread |
 | 2026-09-11T21:53:29+01:00 | Codex | Ran first no-refit OOS evaluation | Price-only baseline fails provisionally at all costs; seven dates pending; Alpha title retained |
 | 2026-09-11T21:53:29+01:00 | Codex | Created local OOS checkpoint | Commit `e5f3456`; push unavailable because no remote is configured and GitHub auth is expired |
-| 2026-09-11T22:57:06+01:00 | Codex | Relocked NightBasis Desk and built schema/raw fixtures | Three IS-only fixtures complete; 12/12 tests pass; LLM and replay not started |
+| 2026-09-11T22:57:06+01:00 | Codex | Relocked NightBasis Desk and built schema/raw fixtures | Two IS fixtures plus one OOS-calendar evaluation-only fixture complete; 12/12 tests pass; LLM and replay not started |
 | 2026-09-11T22:57:06+01:00 | Codex | Created local Desk schema checkpoint | Commit `142f061`; push unavailable because no remote is configured and GitHub auth is expired |
 | 2026-09-11T23:25:30+01:00 | Codex | Implemented frozen point-in-time Desk replay | Prompt/schema, 12 cached scores, deterministic labeler, and 0.04s offline Make target complete; no execution policy |
 | 2026-09-11T23:25:30+01:00 | Codex | Created local offline-replay checkpoint | Commit `89e190c`; push unavailable because no remote is configured and GitHub auth is expired |
+| 2026-09-12T00:09:56+01:00 | Codex | Added frozen reason attribution and three-fixture transcripts | 22/22 tests pass; exact GOOGL and Tesla audits pass; no thresholds, fixtures, caches, universe, or frozen Alpha artifacts changed |
+| 2026-09-14T13:15:10+01:00 | Codex | Reconciled and resumed the reason-attribution checkpoint | Repository remains on main at `646af0f`; no remote configured and GitHub authentication remains expired |

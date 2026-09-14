@@ -18,6 +18,7 @@
     "event_json",
     "llm",
     "label",
+    "reason",
     "kill_criteria",
     "memo"
   ],
@@ -121,6 +122,23 @@
       }
     },
     "label": { "enum": ["priced", "incomplete", "washout", "stand_down"] },
+    "reason": {
+      "description": "Frozen deterministic attribution for the label; distinct from hard kill details.",
+      "enum": [
+        "priced_event_move_agrees",
+        "incomplete_material_event",
+        "uninformed_washout",
+        "event_price_direction_conflict",
+        "event_below_information_threshold",
+        "event_conditions_not_met",
+        "uninformed_but_below_washout",
+        "no_qualifying_event_nonnegative_move",
+        "washout_weeknight_gate_failed",
+        "data_quality_kill",
+        "event_timing_kill",
+        "event_score_kill"
+      ]
+    },
     "kill_criteria": {
       "type": "object",
       "additionalProperties": false,

@@ -48,6 +48,18 @@ snapshot, the record fails schema validation, or cached LLM JSON is invalid.
 Historical spread remains explicitly labeled as an OHLC proxy, not observed
 bid/ask.
 
+`reason` is a separate, frozen attribution enum. A record may remain
+`stand_down` because no positive label rule matched without firing a hard kill.
+Only the data-quality, event-timing, and invalid-cache reasons set
+`kill_criteria.killed=true`; `kill_criteria.reasons` exposes the failed checks.
+
+Frozen reason values are `priced_event_move_agrees`,
+`incomplete_material_event`, `uninformed_washout`,
+`event_price_direction_conflict`, `event_below_information_threshold`,
+`event_conditions_not_met`, `uninformed_but_below_washout`,
+`no_qualifying_event_nonnegative_move`, `washout_weeknight_gate_failed`,
+`data_quality_kill`, `event_timing_kill`, and `event_score_kill`.
+
 The eventual LLM receives only event material available by `as_of_et`. It will
 run with a versioned frozen prompt, temperature zero, and a content-addressed
 cache. It may explain and assign one of the four labels. It may not size, route,
@@ -105,13 +117,23 @@ affect earlier records.
 | 00:00 | `stand_down` | `stand_down` | `stand_down` |
 | 08:30 | `stand_down` | `stand_down` | `stand_down` |
 
+The frozen attribution matrix is `reports/reason-matrix.md`. The news fixture
+at 16:30 has `signed_info=0.855`, `y=-0.01965412`, and `z=-3.494552`. The event
+is present and every hard-kill check passes, so its reason is
+`event_price_direction_conflict`, not a kill. The Tesla fixture at 08:30 has
+exact `z=1.235711`, below rather than rounded to the frozen 1.25 washout
+threshold, and therefore reasons `uninformed_but_below_washout`.
+
 ## Offline replay artifacts
 
 - Frozen prompt: `prompts/event_score_v1.txt`
 - Event-score output contract: `schemas/event-score.schema.json`
 - Cached scores: one `event-score-human-v1.json` beside each raw fixture
 - Deterministic record builder and labeler: `src/nightbasis/desk_replay.py`
+- Frozen reason matrix: `reports/reason-matrix.md`
+- Three generated transcripts: `reports/replay-transcripts/*.txt`
 - Judge command: `make demo-replay`
 
-The default replay uses the material-news fixture, performs no network access,
-emits four focus-name records as JSON, and contains no order or execution path.
+The replay processes exactly the three locked fixtures, performs no network
+access, prints the four required focus snapshots for each, regenerates the
+reason matrix and transcripts, and contains no order or execution path.

@@ -5,9 +5,12 @@ import unittest
 from pathlib import Path
 
 from nightbasis.desk_replay import (
+    REASON_ENUM,
     SNAPSHOT_ORDER,
     deterministic_label,
     eligible_events,
+    render_reason_matrix,
+    render_transcript,
     replay,
 )
 
@@ -59,6 +62,48 @@ class DeskReplayTests(unittest.TestCase):
         self.assertTrue(
             all(row["session_start_et"] == "2026-07-22T16:15:00-04:00" for row in records)
         )
+
+    def test_frozen_reason_matrix(self):
+        fixture_ids = (
+            "flat-rgoogl-2026-08-14",
+            "material-news-rgoogl-2026-07-23",
+            "large-move-no-event-rtsla-2026-06-23",
+        )
+        groups = [self.replay_fixture(fixture_id) for fixture_id in fixture_ids]
+        self.assertEqual(
+            [[row["reason"] for row in group] for group in groups],
+            [
+                [
+                    "uninformed_but_below_washout",
+                    "uninformed_but_below_washout",
+                    "no_qualifying_event_nonnegative_move",
+                    "no_qualifying_event_nonnegative_move",
+                ],
+                ["event_price_direction_conflict"] * 4,
+                ["uninformed_but_below_washout"] * 4,
+            ],
+        )
+        self.assertTrue(all(row["reason"] in REASON_ENUM for group in groups for row in group))
+        self.assertIn("# Frozen reason matrix", render_reason_matrix(groups))
+
+    def test_news_1630_attribution_has_no_hard_kill(self):
+        row = self.replay_fixture("material-news-rgoogl-2026-07-23")[0]
+        self.assertAlmostEqual(row["llm"]["signed_info"], 0.855)
+        self.assertEqual(row["reason"], "event_price_direction_conflict")
+        self.assertFalse(row["kill_criteria"]["killed"])
+        self.assertEqual(row["kill_criteria"]["reasons"], [])
+        self.assertTrue(all(row["kill_criteria"]["checks"].values()))
+
+    def test_tesla_0830_is_exactly_below_washout(self):
+        row = self.replay_fixture("large-move-no-event-rtsla-2026-06-23")[-1]
+        self.assertAlmostEqual(row["price_state"]["z"], 1.2357, places=4)
+        self.assertLess(row["price_state"]["z"], 1.25)
+        self.assertEqual(row["reason"], "uninformed_but_below_washout")
+
+    def test_transcript_has_required_attribution_fields(self):
+        text = render_transcript(self.replay_fixture("flat-rgoogl-2026-08-14"))
+        for field in ("t=", "y=", "z=", "signed_info=", "event_id_or_none=", "label=", "reason=", "memo="):
+            self.assertIn(field, text)
 
     def test_each_snapshot_uses_only_its_own_point_in_time_inputs(self):
         records = self.replay_fixture("material-news-rgoogl-2026-07-23")
@@ -113,10 +158,12 @@ class DeskReplayTests(unittest.TestCase):
         )
 
     def test_washout_is_weeknight_only(self):
-        label, _ = deterministic_label(
+        label, reason, kill_reasons = deterministic_label(
             {"y": -0.01, "z": 2.0}, good_quality(), score(), True, False
         )
         self.assertEqual(label, "stand_down")
+        self.assertEqual(reason, "washout_weeknight_gate_failed")
+        self.assertEqual(kill_reasons, [])
 
 
 if __name__ == "__main__":
