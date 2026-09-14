@@ -73,6 +73,7 @@ Active objective: Produce and verify the public-repository submission pack witho
 - Added `docs/PLAYBOOK_MIRROR.md`: a click-by-click, natural-language mirror of only the frozen four-name price control, with 00:00/09:00 ET timing, locked z gates, 25 bps-per-side costs, no weekend washout, no deployment, and an explicit negative-control caption.
 - Added `docs/VIDEO_SHOT_LIST.md`, an exact 120-second sequence covering setup, offline replay, the rGOOGL 16:30 direction conflict, exact rTSLA z=1.235711, negative-control metrics, the Playbook disclaimer, and a repository end card.
 - Verified the exact X template against current official X help: 261 literal characters and 274 effective characters with one t.co-treated URL, below the standard 280-character composer limit; required hashtag and mention are present.
+- Added `docs/PUBLISH_COMMANDS.md` with exact authentication, public-repository creation, main push, protected-freeze tag, current-judge-replay tag, tag push, and verification commands. Publication was not attempted after the single failed authentication check.
 
 ## Verification
 
