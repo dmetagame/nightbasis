@@ -3,16 +3,16 @@
 > Living handoff for Codex sessions. Read this file before working. Do not put
 > secrets or raw credential-bearing values here.
 
-Last updated: `2026-09-14T14:28:58+01:00`
-Status: `FINAL SUBMISSION PACK IN PROGRESS — SECRET SCAN PASSED`
-Active objective: Produce and verify the public-repository submission pack without changing frozen strategy artifacts.
+Last updated: `2026-09-14T14:38:05+01:00`
+Status: `SUBMISSION-READY LOCALLY — PUBLISH BLOCKED ON GH AUTH`
+Active objective: User completes authentication, publication, screenshots, video, X post, and form submission using the frozen pack.
 
 ## Workspace
 
 - Repository: local Git repository; no remote configured
 - Worktree: `/home/rouma/projects/nightbasis`
 - Branch: `main`
-- Latest substantive checkpoint: `2b86518` (judge-facing Desk materials); protected IS freeze checkpoint: `c92b9bd776ce43cf71d94ba90d3db23622b4395c`
+- Latest substantive checkpoint: `55e0550` (final human submission handoff); protected IS freeze checkpoint: `c92b9bd776ce43cf71d94ba90d3db23622b4395c`
 - Protected releases/artifacts: price-only freeze hash `0898cca...` and commit `c92b9bd`; do not alter its model, thresholds, costs, universe, entry clock, or flat-inclusive ledgers
 
 ## Constraints
@@ -75,6 +75,8 @@ Active objective: Produce and verify the public-repository submission pack witho
 - Verified the exact X template against current official X help: 261 literal characters and 274 effective characters with one t.co-treated URL, below the standard 280-character composer limit; required hashtag and mention are present.
 - Added `docs/PUBLISH_COMMANDS.md` with exact authentication, public-repository creation, main push, protected-freeze tag, current-judge-replay tag, tag push, and verification commands. Publication was not attempted after the single failed authentication check.
 - Added `docs/WHAT_YOU_DO_NEXT.md`, a six-step human handoff covering authentication, push, Playbook screenshots, video, required X post, and Google Form submission before the requested 2026-09-21 18:00 UTC+8 safety deadline. README now links every final artifact.
+- Re-ran the secret scan after all files existed: 50 tracked files plus untracked/ignored paths are clean; generic credential words occur only in safety documentation.
+- Completed the final lock audit: exactly three fixtures, 12 schema-valid focus records, all 12 `stand_down`, frozen Desk thresholds intact, freeze hash exact, and no locked source/data/control diff from the run-start checkpoint `01c2a21`.
 
 ## Verification
 
@@ -101,6 +103,8 @@ Active objective: Produce and verify the public-repository submission pack witho
 | Judge-materials checkpoint | local only | Commit `2b86518`; no remote configured and GitHub authentication expired, 2026-09-14 |
 | Secret scan | passed | 43 tracked files plus untracked/ignored paths scanned; no credential values or sensitive files found; only benign checklist terms matched, 2026-09-14 |
 | Judge repository root | passed | `make demo-replay` 0.05s with no network client/import; 22/22 tests and compilation pass; frozen artifacts unchanged; MIT license present, 2026-09-14 |
+| Final submission verification | passed | `make demo-replay` 0.04s; 22/22 tests; 12/12 schema-valid and `stand_down`; three fixtures; locked artifacts unchanged; final secret scan clean, 2026-09-14 |
+| GitHub publish | blocked | One `gh auth status` check failed; per user instruction no retry, remote, repository, push, or tags attempted; commands preserved in `docs/PUBLISH_COMMANDS.md`, 2026-09-14 |
 
 ## Risks And Blockers
 
@@ -116,9 +120,9 @@ Active objective: Produce and verify the public-repository submission pack witho
 
 ## Next Actions
 
-1. Run `docs/GITHUB_PUBLISH_CHECKLIST.md` immediately before publication.
-2. Keep Playbook limited to the frozen price-only negative control; do not add an execution path or more fixtures.
-3. Configure a remote/authentication before claiming remote backup.
+1. Follow `docs/WHAT_YOU_DO_NEXT.md` in order.
+2. Use `docs/PUBLISH_COMMANDS.md` after one successful `gh auth login`.
+3. Keep every listed strategy, fixture, prompt, cache, and execution lock intact.
 
 ## Session Handoff
 
@@ -149,3 +153,4 @@ Active objective: Produce and verify the public-repository submission pack witho
 | 2026-09-14T13:15:10+01:00 | Codex | Created local judge-materials checkpoint | Commit `2b86518`; push unavailable because no remote is configured and GitHub auth is expired |
 | 2026-09-14T14:28:58+01:00 | Codex | Completed pre-publication secret scan | Clean; no files blocked, moved, or newly ignored; strategy locks untouched |
 | 2026-09-14T14:28:58+01:00 | Codex | Completed judge repository root | README landing page and MIT license added; offline demo and 22 tests pass; freeze remains untouched |
+| 2026-09-14T14:38:05+01:00 | Codex | Completed final submission and lock verification | All requested files exist; 22/22 tests and 12/12 schemas pass; demo 0.04s; push blocked on the single failed gh auth check |

@@ -1,8 +1,10 @@
 # Secrets scan
 
-Scan time: `2026-09-14T14:28:58+01:00`
+Initial scan: `2026-09-14T14:28:58+01:00`
 
-Scope: the NightBasis worktree excluding `.git/`, covering 43 tracked files,
+Final scan after all submission files existed: `2026-09-14T14:38:05+01:00`
+
+Scope: the NightBasis worktree excluding `.git/`, covering 50 tracked files,
 untracked files, hidden environment filenames, and ignored-file status. The scan
 printed file paths and marker classes only, never candidate values.
 
@@ -15,9 +17,10 @@ printed file paths and marker classes only, never candidate values.
   with embedded credentials were found.
 - No Qwen, DashScope, Bitget API-secret/passphrase, UID, user-ID, session-token,
   access-token, or refresh-token markers were found in project data or source.
-- The only generic credential words were the publication instructions in
-  `docs/GITHUB_PUBLISH_CHECKLIST.md`: `API key`, `access token`, `cookie`,
-  `password`, and `private key`. They are checklist labels, not values.
+- Generic credential words appeared only in documentation that discusses safe
+  publication: this report, `docs/GITHUB_PUBLISH_CHECKLIST.md`,
+  `docs/WHAT_YOU_DO_NEXT.md`, and `docs/PROJECT_STATE.md`. They are checklist or
+  security labels, not values.
 - The only ignored worktree paths were Python `__pycache__/` directories, which
   are covered by `.gitignore` and contain no submission material.
 
