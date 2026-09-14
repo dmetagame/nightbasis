@@ -12,7 +12,7 @@ Active objective: Preserve the frozen Desk evidence and prepare the verified rep
 - Repository: local Git repository; no remote configured
 - Worktree: `/home/rouma/projects/nightbasis`
 - Branch: `main`
-- Latest substantive checkpoint: `202d1b6` (frozen Desk reason attribution); protected IS freeze checkpoint: `c92b9bd776ce43cf71d94ba90d3db23622b4395c`
+- Latest substantive checkpoint: `2b86518` (judge-facing Desk materials); protected IS freeze checkpoint: `c92b9bd776ce43cf71d94ba90d3db23622b4395c`
 - Protected releases/artifacts: price-only freeze hash `0898cca...` and commit `c92b9bd`; do not alter its model, thresholds, costs, universe, entry clock, or flat-inclusive ledgers
 
 ## Constraints
@@ -90,6 +90,7 @@ Active objective: Preserve the frozen Desk evidence and prepare the verified rep
 | Reason-attributed replay | passed | 22/22 tests; compileall and diff check pass; all three transcripts plus 3x4 matrix generated offline in 0.04s; protected control unchanged, 2026-09-12 |
 | Reason-attribution checkpoint | local only | Commit `202d1b6`; no remote configured and GitHub authentication expired, verified 2026-09-14 |
 | Judge-facing copy | passed | 22/22 tests; 12/12 records schema-valid; offline replay 0.05s; secret-prefix scan clear; protected artifacts unchanged from pre-copy checkpoint `d3fd541`, 2026-09-14 |
+| Judge-materials checkpoint | local only | Commit `2b86518`; no remote configured and GitHub authentication expired, 2026-09-14 |
 
 ## Risks And Blockers
 
@@ -135,3 +136,4 @@ Active objective: Preserve the frozen Desk evidence and prepare the verified rep
 | 2026-09-14T13:15:10+01:00 | Codex | Reconciled and resumed the reason-attribution checkpoint | Repository remains on main at `646af0f`; no remote configured and GitHub authentication remains expired |
 | 2026-09-14T13:15:10+01:00 | Codex | Created local reason-attribution checkpoint | Commit `202d1b6`; push unavailable because no remote is configured and GitHub auth is expired |
 | 2026-09-14T13:15:10+01:00 | Codex | Added judge-facing replay, README copy, submission bullets, and publish checklist | Verification passes; exactly three fixtures retained; control and caches unchanged; no orders added |
+| 2026-09-14T13:15:10+01:00 | Codex | Created local judge-materials checkpoint | Commit `2b86518`; push unavailable because no remote is configured and GitHub auth is expired |
