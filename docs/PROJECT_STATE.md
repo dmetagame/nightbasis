@@ -104,6 +104,7 @@ Active objective: User completes authentication, publication, screenshots, video
 | Secret scan | passed | 43 tracked files plus untracked/ignored paths scanned; no credential values or sensitive files found; only benign checklist terms matched, 2026-09-14 |
 | Judge repository root | passed | `make demo-replay` 0.05s with no network client/import; 22/22 tests and compilation pass; frozen artifacts unchanged; MIT license present, 2026-09-14 |
 | Final submission verification | passed | `make demo-replay` 0.04s; 22/22 tests; 12/12 schema-valid and `stand_down`; three fixtures; locked artifacts unchanged; final secret scan clean, 2026-09-14 |
+| Final verification checkpoint | local only | Commit `3af7822`; no remote configured and GitHub authentication expired, 2026-09-14 |
 | GitHub publish | blocked | One `gh auth status` check failed; per user instruction no retry, remote, repository, push, or tags attempted; commands preserved in `docs/PUBLISH_COMMANDS.md`, 2026-09-14 |
 
 ## Risks And Blockers
@@ -154,3 +155,4 @@ Active objective: User completes authentication, publication, screenshots, video
 | 2026-09-14T14:28:58+01:00 | Codex | Completed pre-publication secret scan | Clean; no files blocked, moved, or newly ignored; strategy locks untouched |
 | 2026-09-14T14:28:58+01:00 | Codex | Completed judge repository root | README landing page and MIT license added; offline demo and 22 tests pass; freeze remains untouched |
 | 2026-09-14T14:38:05+01:00 | Codex | Completed final submission and lock verification | All requested files exist; 22/22 tests and 12/12 schemas pass; demo 0.04s; push blocked on the single failed gh auth check |
+| 2026-09-14T14:38:05+01:00 | Codex | Created final local verification checkpoint | Commit `3af7822`; no remote push was possible |
