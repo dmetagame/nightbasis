@@ -3,9 +3,9 @@
 > Living handoff for Codex sessions. Read this file before working. Do not put
 > secrets or raw credential-bearing values here.
 
-Last updated: `2026-09-14T13:15:10+01:00`
-Status: `JUDGE-FACING DESK COPY COMPLETE`
-Active objective: Preserve the frozen Desk evidence and prepare the verified repository for publication.
+Last updated: `2026-09-14T14:28:58+01:00`
+Status: `FINAL SUBMISSION PACK IN PROGRESS — SECRET SCAN PASSED`
+Active objective: Produce and verify the public-repository submission pack without changing frozen strategy artifacts.
 
 ## Workspace
 
@@ -67,6 +67,7 @@ Active objective: Preserve the frozen Desk evidence and prepare the verified rep
 - Audited news rGOOGL 16:30: signed_info 0.855, all hard-kill checks pass, and the positive-event/negative-price conflict explains `stand_down`; no cache change was needed. Audited rTSLA 08:30 at exact z 1.235711, below 1.25, with reason `uninformed_but_below_washout`.
 - Added `reports/judge-replay.md`, a human view with percent paths, point-in-time 8-K facts, one-sentence reasons, and explicit no-trade outcomes for exactly the three frozen fixtures.
 - Added the README section “What NightBasis Desk is,” honest submission bullets documenting the loss-making 15 bps-per-side control and no-retune decision, and a GitHub publication checklist covering secrets, the freeze hash, and offline replay.
+- Scanned the complete worktree for sensitive filenames, credential markers, private-key material, common token formats, Qwen/DashScope/Bitget secrets, UIDs, cookies, and ignored files. No sensitive or blocked file was found; details are in `docs/SECRETS_SCAN.md`.
 
 ## Verification
 
@@ -91,6 +92,7 @@ Active objective: Preserve the frozen Desk evidence and prepare the verified rep
 | Reason-attribution checkpoint | local only | Commit `202d1b6`; no remote configured and GitHub authentication expired, verified 2026-09-14 |
 | Judge-facing copy | passed | 22/22 tests; 12/12 records schema-valid; offline replay 0.05s; secret-prefix scan clear; protected artifacts unchanged from pre-copy checkpoint `d3fd541`, 2026-09-14 |
 | Judge-materials checkpoint | local only | Commit `2b86518`; no remote configured and GitHub authentication expired, 2026-09-14 |
+| Secret scan | passed | 43 tracked files plus untracked/ignored paths scanned; no credential values or sensitive files found; only benign checklist terms matched, 2026-09-14 |
 
 ## Risks And Blockers
 
@@ -137,3 +139,4 @@ Active objective: Preserve the frozen Desk evidence and prepare the verified rep
 | 2026-09-14T13:15:10+01:00 | Codex | Created local reason-attribution checkpoint | Commit `202d1b6`; push unavailable because no remote is configured and GitHub auth is expired |
 | 2026-09-14T13:15:10+01:00 | Codex | Added judge-facing replay, README copy, submission bullets, and publish checklist | Verification passes; exactly three fixtures retained; control and caches unchanged; no orders added |
 | 2026-09-14T13:15:10+01:00 | Codex | Created local judge-materials checkpoint | Commit `2b86518`; push unavailable because no remote is configured and GitHub auth is expired |
+| 2026-09-14T14:28:58+01:00 | Codex | Completed pre-publication secret scan | Clean; no files blocked, moved, or newly ignored; strategy locks untouched |
