@@ -3,6 +3,8 @@
 An evidence-first desk that explains overnight rToken moves and knows when to
 say no trade.
 
+Public materials: https://github.com/dmetagame/nightbasis
+
 ## What NightBasis Desk is
 
 NightBasis Desk explains whether an overnight rToken move looks supported by

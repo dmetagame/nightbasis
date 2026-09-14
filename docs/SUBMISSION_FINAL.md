@@ -14,6 +14,12 @@ NightBasis Desk
 AI Trading Desk → Information Extraction & Signal Generation
 ```
 
+## Public materials URL
+
+```text
+https://github.com/dmetagame/nightbasis
+```
+
 ## Thesis
 
 ```text
@@ -86,14 +92,19 @@ AI trading is most credible when AI structures messy evidence instead of acting 
 ## Exact X post
 
 ```text
-NightBasis Desk explains overnight rToken moves with point-in-time company evidence and a frozen factor baseline. It exposes conflicts and says “no trade” instead of forcing alpha. Three real-date fixtures, offline replay: [REPO_URL] #BitgetHackathon @Bitget_AI
+NightBasis Desk explains overnight rToken moves with point-in-time company evidence and a frozen factor baseline. It exposes conflicts and says “no trade” instead of forcing alpha. Three real-date fixtures, offline replay: https://github.com/dmetagame/nightbasis #BitgetHackathon @Bitget_AI
 ```
 
-The text is 261 characters before X applies its fixed link treatment. Replacing
-`[REPO_URL]` with one HTTPS repository URL remains within X's documented
+With X's link treatment, this post remains within the documented
 [280-character standard composer](https://help.x.com/en/using-x/how-to-post)
 because X [counts the shortened URL as 23 characters](https://help.x.com/en/using-x/how-to-post-a-link):
 274 effective characters.
+
+## X post URL
+
+```text
+
+```
 
 ## Materials index
 

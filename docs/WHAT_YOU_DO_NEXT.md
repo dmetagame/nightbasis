@@ -1,11 +1,10 @@
 # What you do next
 
-1. **Authenticate GitHub if still blocked.** From the repository root, run
-   `gh auth login -h github.com -p https -w`, then confirm with
-   `gh auth status -h github.com`.
-2. **Publish the repository.** Follow `docs/PUBLISH_COMMANDS.md` to create the
-   public `nightbasis` repository, push `main`, create both annotated tags, and
-   verify their commit targets. Do not force-push.
+1. **GitHub authentication — done.** GitHub CLI is authenticated as
+   `dmetagame` using an existing credential.
+2. **Repository publication — done.** The public repository is
+   https://github.com/dmetagame/nightbasis; `main` and both requested tags were
+   pushed and their targets verified.
 3. **Capture the Playbook mirror.** Follow `docs/PLAYBOOK_MIRROR.md` and save the
    screenshots in `reports/playbook/`. Hide account identifiers and balances.
    Keep the caption **“Negative control. Not the shipped product.”** Commit and
