@@ -101,11 +101,14 @@ because X [counts the shortened URL as 23 characters](https://help.x.com/en/usin
 README.md
 LICENSE
 docs/SECRETS_SCAN.md
+docs/SUBMISSION_DRAFT.md
 docs/SUBMISSION_FINAL.md
 docs/PLAYBOOK_MIRROR.md
 docs/VIDEO_SHOT_LIST.md
 docs/PUBLISH_COMMANDS.md
+docs/GITHUB_PUBLISH_CHECKLIST.md
 docs/WHAT_YOU_DO_NEXT.md
+reports/playbook/
 reports/judge-replay.md
 reports/reason-matrix.md
 reports/price-only-metrics.md
