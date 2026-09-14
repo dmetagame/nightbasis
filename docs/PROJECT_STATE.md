@@ -3,9 +3,9 @@
 > Living handoff for Codex sessions. Read this file before working. Do not put
 > secrets or raw credential-bearing values here.
 
-Last updated: `2026-09-14T21:25:27+01:00`
-Status: `VERCEL ROOT DEPLOYMENT CONFIGURED — COMMIT/DEPLOY PENDING`
-Active objective: Publish `/web` as the primary domain-root Vercel site; GitHub Pages is optional and locked Python research remains unchanged.
+Last updated: `2026-09-14T21:30:56+01:00`
+Status: `VERCEL PRODUCTION DEPLOYMENT READY`
+Active objective: Use the live Vercel demo and public research repository in the submission; locked Python research remains unchanged.
 
 ## Workspace
 
@@ -48,6 +48,7 @@ Active objective: Publish `/web` as the primary domain-root Vercel site; GitHub 
 - Added the root `make site` target without changing the `make demo-replay` recipe, route-level code splitting, `/nightbasis/` production base, direct-route `404.html`, and static GitHub Pages output.
 - Visually checked Overview and Desk at desktop width, Desk and Motion at 390px mobile width, and Motion in a forced reduced-motion Chromium session.
 - Added `web/vercel.json` so a Vercel project rooted at `web` installs with `npm ci`, runs only `npm run build:static`, publishes `dist`, and rewrites SPA routes to `index.html`. Vercel is now the documented primary host; Pages remains optional.
+- Deployed the isolated web root to Vercel production at `https://web-zeta-two-67.vercel.app`; no Python, data, fixtures, or reports were included in the project root.
 
 - Initialized the repository and minimal standard-library audit package.
 - Added `src/nightbasis/audit_data.py` and deterministic unit coverage for pagination, flat-price spread, and the Juneteenth calendar closure.
@@ -97,6 +98,7 @@ Active objective: Publish `/web` as the primary domain-root Vercel site; GitHub 
 | Locked Python verification after web | passed | 22/22 tests; `make demo-replay` 0.04s; exact rTSLA z=1.235711 and rGOOGL direction conflict retained, 2026-09-14 |
 | Web Git checkpoint | pushed | Site commit `72e5f7c`; static-deployment reconciliation `7023101`; local `main` and `origin/main` both resolve to `7023101c5166e08a5761654f5b4539f377035db7`, 2026-09-14 |
 | Vercel static build | passed | `cd web && npm run build:static`; assets emitted from `/assets/`, `vercel.json` parses, and `make demo-replay` remains passing in 0.08s, 2026-09-14 |
+| Vercel production | ready | Remote install/build passed with 0 vulnerabilities; root, `/desk`, `/method`, and `/motion` each returned HTTP 200 at `https://web-zeta-two-67.vercel.app`, 2026-09-14 |
 | Git/GitHub | blocked | Local repo initialized; no remote; `gh auth status` reports expired authentication, 2026-09-11 |
 | Unit tests | passed | `PYTHONPATH=src python3 -m unittest discover -s tests -v` → 3/3 passed, 2026-09-11 |
 | Static compilation | passed | `python3 -m compileall -q src tests`, 2026-09-11 |
@@ -136,8 +138,8 @@ Active objective: Publish `/web` as the primary domain-root Vercel site; GitHub 
 
 ## Next Actions
 
-1. Commit and push the scoped Vercel configuration/documentation checkpoint.
-2. Attempt one authenticated production deployment from `/web`; if authentication is unavailable, use the Vercel dashboard with root directory `web`.
+1. Use `https://web-zeta-two-67.vercel.app` as the primary live demo URL in the submission and X post.
+2. Keep Pages optional and retain `web` as the Vercel project root for future Git-integrated deploys.
 3. Keep every listed strategy, fixture, prompt, cache, and execution lock intact.
 
 ## Session Handoff
@@ -153,6 +155,7 @@ Active objective: Publish `/web` as the primary domain-root Vercel site; GitHub 
 | 2026-09-14T16:59:00+01:00 | Codex | Reconciled GitHub workflow-scope push rejection | HTTPS credential lacks `workflow` scope and SSH has no accepted key; removed only the optional workflow and retained static `gh-pages` deployment path |
 | 2026-09-14T16:59:11+01:00 | Codex | Pushed production web checkpoint | `origin/main` now contains `7023101`; locked research diff remains empty; only Pages branch publication/settings remain |
 | 2026-09-14T21:25:27+01:00 | Codex | Relocked primary hosting to Vercel | Domain-root static build and SPA rewrite configured under `/web`; replay passes; no locked research or desk-data diff |
+| 2026-09-14T21:30:56+01:00 | Codex | Deployed NightBasis Desk to Vercel production | Stable alias ready; all four routes return HTTP 200; disposable `.vercel` linkage removed; worktree clean before state update |
 | 2026-09-11T15:16:29+01:00 | Codex | Initialized NightBasis Day-1 audit | Implementation in progress; remote/auth blockers recorded |
 | 2026-09-11T16:15:28+01:00 | Codex | Completed strict live data audit | Failed: 4/12 eligible tradables and 55/60 common usable sessions; downstream work blocked |
 | 2026-09-11T16:15:28+01:00 | Codex | Created local Day-1 checkpoint | Commit `0b826c1`; push unavailable because no remote is configured and GitHub auth is expired |
