@@ -5,7 +5,9 @@ say no trade.
 
 Public materials: https://github.com/dmetagame/nightbasis
 
-Live demo: https://dmetagame.github.io/nightbasis/
+Primary live demo: `VERCEL_PRODUCTION_URL_PLACEHOLDER`
+
+Optional Pages mirror: https://dmetagame.github.io/nightbasis/
 
 Local demo: `make site`, then open the URL printed by Vite. The site lives in
 [`web/`](web/) and does not change the frozen Python research replay.

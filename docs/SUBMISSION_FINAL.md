@@ -17,7 +17,8 @@ AI Trading Desk → Information Extraction & Signal Generation
 ## Public materials URL
 
 ```text
-https://github.com/dmetagame/nightbasis
+Primary live demo: VERCEL_PRODUCTION_URL_PLACEHOLDER
+Research repository and materials: https://github.com/dmetagame/nightbasis
 ```
 
 ## Thesis
@@ -67,6 +68,7 @@ Not built by design: order routing, executable alpha, live Agent Hub orders, a f
 ## Deliverables
 
 ```text
+- Production NightBasis Desk web demo hosted at the domain root on Vercel.
 - Public repository with reproducible source, frozen inputs, schemas, tests, and documentation.
 - make demo-replay: offline replay of exactly three fixtures and four focus snapshots per fixture.
 - Machine transcripts exposing t, y, z, signed_info, event ID, label, reason, kill state, and memo.
