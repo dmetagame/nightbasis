@@ -166,12 +166,14 @@ export function ReplayPanel() {
         </div>
 
         <aside className="decision-panel" aria-live="polite">
-          <p className="eyebrow">Point-in-time read · {snapshot.time} ET</p>
+          <NoTradeMark compact />
+          <div className="observed-price">
+            <span>Observed move · {snapshot.time} ET</span>
+            <strong className={snapshot.yPercent < 0 ? "is-negative" : ""}>
+              {signed(snapshot.yPercent, 3)}
+            </strong>
+          </div>
           <div className="stat-pair">
-            <div>
-              <span>Observed y</span>
-              <strong>{signed(snapshot.yPercent, 3)}</strong>
-            </div>
             <div>
               <span>Residual z</span>
               <strong>{snapshot.z.toFixed(6)}</strong>
@@ -195,7 +197,6 @@ export function ReplayPanel() {
             <code>{snapshot.reason}</code>
             <p>{snapshot.memo}</p>
           </div>
-          <NoTradeMark compact />
         </aside>
       </div>
     </section>

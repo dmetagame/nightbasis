@@ -1,10 +1,9 @@
 import { useRef } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Braces, FileCheck2, ShieldCheck } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
-import { ControlChart } from "../components/ControlChart";
-import { NoTradeMark } from "../components/NoTradeMark";
+import { ReplayPanel } from "../components/ReplayPanel";
 import { SectionLabel } from "../components/SectionLabel";
 import { deskFixtures, freezeHash } from "../data/research";
 import { useReducedMotion } from "../hooks/useReducedMotion";
@@ -33,53 +32,44 @@ export function OverviewPage() {
   return (
     <div ref={root} className="page-wrap overview-page">
       <section className="hero-section">
-        <div className="hero-status hero-reveal">
-          <span className="status-dot" aria-hidden="true" />
-          Frozen research · 3 nights · 12 stand-downs
-        </div>
-        <div className="hero-layout">
-          <div>
-            <p className="eyebrow hero-reveal">After-hours information pricing</p>
-            <h1 className="hero-title hero-reveal">
-              When the filing and tape disagree,
-              <em>restraint is the signal.</em>
-            </h1>
-          </div>
-          <div className="hero-side hero-reveal">
-            <p>
-              NightBasis Desk pairs a frozen factor baseline with point-in-time
-              company evidence. It explains the move, exposes the conflict, and
-              refuses to manufacture conviction.
-            </p>
-            <div className="hero-actions">
-              <Link className="primary-link" to="/desk">
-                Open live replay <ArrowRight size={15} aria-hidden="true" />
-              </Link>
-              <Link className="text-link" to="/method">Read the frozen method</Link>
-            </div>
-          </div>
-        </div>
-        <div className="hero-verdict hero-reveal">
-          <NoTradeMark />
+        <p className="hero-kicker hero-reveal">The overnight information desk for rTokens</p>
+        <h1 className="hero-title hero-reveal">
+          Overnight rTokens do not need another bot that always buys.
+        </h1>
+        <p className="hero-copy hero-reveal">
+          NightBasis compares the tape with point-in-time company evidence—and
+          makes standing down a first-class product decision.
+        </p>
+        <div className="hero-actions hero-reveal">
+          <Link className="primary-link" to="/desk">
+            Replay the desk <ArrowRight size={16} aria-hidden="true" />
+          </Link>
+          <Link className="secondary-link" to="/method">Method</Link>
         </div>
       </section>
 
+      <section className="overview-section home-replay">
+        <SectionLabel index="Live desk">A frozen night, replayed point by point</SectionLabel>
+        <ReplayPanel />
+      </section>
+
       <section className="overview-section">
-        <SectionLabel index="01 / 03">Three nights, no hindsight</SectionLabel>
+        <SectionLabel index="Three nights">No hindsight. No manufactured conviction.</SectionLabel>
         <div className="fixture-ledger">
-          {deskFixtures.map((fixture, index) => {
+          {deskFixtures.map((fixture) => {
             const close = fixture.snapshots[3];
             return (
               <article className="ledger-row" key={fixture.id}>
-                <div className="ledger-index">0{index + 1}</div>
                 <div>
-                  <p className="eyebrow">{fixture.eyebrow}</p>
-                  <h2>{fixture.symbol} · {fixture.date}</h2>
+                  <p>{fixture.eyebrow}</p>
+                  <h2>{fixture.symbol} <span>{fixture.date}</span></h2>
                 </div>
                 <p className="ledger-evidence">{fixture.evidence}</p>
                 <div className="ledger-read">
-                  <span>{close.yPercent > 0 ? "+" : ""}{close.yPercent.toFixed(2)}%</span>
-                  <code>{close.reason}</code>
+                  <span className={close.yPercent < 0 ? "is-negative" : ""}>
+                    {close.yPercent > 0 ? "+" : ""}{close.yPercent.toFixed(2)}%
+                  </span>
+                  <small>No trade</small>
                 </div>
               </article>
             );
@@ -88,50 +78,16 @@ export function OverviewPage() {
       </section>
 
       <section className="overview-section control-section">
-        <SectionLabel index="02 / 03">The failure is a product decision</SectionLabel>
-        <div className="control-layout">
-          <div className="control-copy">
-            <h2>
-              We tested price alone.
-              <em>It lost money.</em>
-            </h2>
-            <p>
-              The frozen control produced an IS Sharpe of -1.58 at 15 bps per
-              side across 10 trades. Provisional OOS fell to -5.57. Twenty-six
-              weekend nights produced zero entries.
-            </p>
-            <p className="control-decision">
-              We did not retune. The failed alpha became the reason to ship an
-              evidence desk instead.
-            </p>
-          </div>
-          <ControlChart />
+        <SectionLabel index="Negative control">The failed alpha became the product decision</SectionLabel>
+        <div className="metric-tiles">
+          <article><span>IS Sharpe · 15 bps</span><strong>−1.58</strong><small>79 days</small></article>
+          <article><span>Trades</span><strong>10</strong><small>7 traded days</small></article>
+          <article><span>Provisional OOS</span><strong>−5.57</strong><small>15 bps per side</small></article>
+          <article><span>Weekend entries</span><strong>0 / 26</strong><small>nights observed</small></article>
         </div>
-      </section>
-
-      <section className="overview-section proof-section">
-        <SectionLabel index="03 / 03">Designed to be rejected</SectionLabel>
-        <div className="proof-grid">
-          <article>
-            <FileCheck2 aria-hidden="true" />
-            <h3>Point-in-time</h3>
-            <p>No 08:30 evidence can change a 16:30 read.</p>
-          </article>
-          <article>
-            <Braces aria-hidden="true" />
-            <h3>Structured</h3>
-            <p>Temperature-zero JSON is cached and schema checked.</p>
-          </article>
-          <article>
-            <ShieldCheck aria-hidden="true" />
-            <h3>Non-executing</h3>
-            <p>The LLM explains. Deterministic rules decide. Nothing trades.</p>
-          </article>
-        </div>
-        <div className="freeze-line">
-          <span>Frozen price-only control</span>
+        <div className="control-note">
+          <p>Price alone lost money. We published the result and did not retune.</p>
           <code>{freezeHash}</code>
-          <strong>Not retuned</strong>
         </div>
       </section>
     </div>

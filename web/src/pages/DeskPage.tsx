@@ -5,16 +5,16 @@ export function DeskPage() {
   return (
     <div className="page-wrap desk-page">
       <section className="page-intro">
-        <SectionLabel index="LIVE / 01">Frozen replay</SectionLabel>
+        <SectionLabel index="Desk replay">Three real nights. Twelve point-in-time reads.</SectionLabel>
         <div className="intro-grid">
           <h1>
-            Evidence arrives.
-            <em>The Desk waits.</em>
+            Watch the desk
+            <em>refuse a weak signal.</em>
           </h1>
           <div className="intro-copy">
             <p>
-              Four clocks. Three real nights. Twelve point-in-time reads. Every
-              verdict remains <code>stand_down</code> under the frozen policy.
+              Evidence and price advance together. The frozen policy never sees
+              tomorrow’s snapshot and every verdict remains stand down.
             </p>
             <p className="microcopy">Autoplay can be paused; every clock is directly selectable.</p>
           </div>

@@ -42,7 +42,7 @@ export function ControlChart() {
           />
           <Bar dataKey="sharpe" radius={0} maxBarSize={48}>
             {controlMetrics.map((entry) => (
-              <Cell key={entry.period} fill={entry.period.includes("OOS") ? "#C85B56" : "#777d86"} />
+              <Cell key={entry.period} fill="#C9CED6" />
             ))}
           </Bar>
         </BarChart>

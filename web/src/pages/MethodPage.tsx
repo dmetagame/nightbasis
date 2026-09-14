@@ -1,5 +1,4 @@
 import { Braces, Database, Scale } from "lucide-react";
-import { ControlChart } from "../components/ControlChart";
 import { SectionLabel } from "../components/SectionLabel";
 import { freezeHash } from "../data/research";
 
@@ -15,11 +14,11 @@ export function MethodPage() {
   return (
     <div className="page-wrap method-page">
       <section className="page-intro">
-        <SectionLabel index="METHOD / 01">Frozen before OOS</SectionLabel>
+        <SectionLabel index="Method">Frozen before the OOS read</SectionLabel>
         <div className="intro-grid">
           <h1>
-            A control that failed.
-            <em>A desk that learned.</em>
+            Freeze the rule.
+            <em>Then believe the result.</em>
           </h1>
           <div className="intro-copy">
             <p>
@@ -46,34 +45,29 @@ export function MethodPage() {
       </section>
 
       <section className="method-section">
-        <SectionLabel index="02 / 04">Locked policy</SectionLabel>
-        <div className="policy-list">
+        <SectionLabel index="Policy">Five definitions, held constant</SectionLabel>
+        <dl className="policy-list">
           {policy.map((item) => (
-            <article key={item.label}>
-              <p>{item.label}</p>
-              <strong>{item.value}</strong>
-              <span>{item.note}</span>
-            </article>
+            <div key={item.label}>
+              <dt>{item.label}</dt>
+              <dd><strong>{item.value}</strong><span>{item.note}</span></dd>
+            </div>
           ))}
+        </dl>
+      </section>
+
+      <section className="method-section">
+        <SectionLabel index="Result">The negative control stayed negative</SectionLabel>
+        <div className="method-metrics metric-tiles">
+          <article><span>IS window</span><strong>79 days</strong><small>7 traded · 10 trades</small></article>
+          <article><span>IS Sharpe · 15 bps</span><strong>−1.58</strong><small>per side</small></article>
+          <article><span>IS Sharpe · 25 bps</span><strong>−2.96</strong><small>per side</small></article>
+          <article><span>OOS provisional</span><strong>−5.57</strong><small>23 days · 5 trades</small></article>
         </div>
       </section>
 
       <section className="method-section">
-        <SectionLabel index="03 / 04">Negative-control result</SectionLabel>
-        <div className="control-layout method-control">
-          <ControlChart />
-          <div className="method-metrics">
-            <div><span>IS</span><strong>79 days</strong><small>7 traded · 10 trades</small></div>
-            <div><span>IS Sharpe</span><strong>-1.58</strong><small>15 bps / side</small></div>
-            <div><span>IS Sharpe</span><strong>-2.96</strong><small>25 bps / side</small></div>
-            <div><span>OOS provisional</span><strong>-5.57</strong><small>23 days · 5 trades · 15 bps</small></div>
-            <div><span>Weekend</span><strong>0 / 26</strong><small>entries / nights</small></div>
-          </div>
-        </div>
-      </section>
-
-      <section className="method-section">
-        <SectionLabel index="04 / 04">Separation of duties</SectionLabel>
+        <SectionLabel index="Duties">Each layer has one job</SectionLabel>
         <div className="proof-grid architecture-grid">
           <article>
             <Database aria-hidden="true" />

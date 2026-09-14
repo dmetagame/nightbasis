@@ -124,16 +124,16 @@ export function MotionPage() {
       />
 
       <section className="page-wrap page-intro motion-intro">
-        <SectionLabel index="MOTION / LAB">ScrollTrigger study</SectionLabel>
+        <SectionLabel index="Night in motion">One filing. Four clocks. One restrained verdict.</SectionLabel>
         <div className="intro-grid">
           <h1>
-            Motion tracks evidence.
-            <em>Never excitement.</em>
+            The tape moves.
+            <em>The standard does not.</em>
           </h1>
           <div className="intro-copy">
             <p>
-              A production test bench for document progress, ink, pinning,
-              horizontal traversal, and batched entry—each tied to a real Desk fact.
+              Follow a real overnight session from the filing to the opening bell.
+              The interface moves only to show how the evidence changes.
             </p>
             {reduced && <p className="reduced-note">Reduced motion active: pins, scrubs, and Lenis are off.</p>}
           </div>
@@ -141,7 +141,7 @@ export function MotionPage() {
       </section>
 
       <section ref={inkSection} className="ink-section page-wrap">
-        <p className="eyebrow">Verdict rendered as evidence closes</p>
+        <p className="eyebrow">The decision remains unchanged</p>
         <div className="ink-word" aria-label="No trade">
           <span className="ink-outline" aria-hidden="true">No trade</span>
           <span className="ink-fill" aria-hidden="true">No trade</span>
@@ -192,7 +192,9 @@ export function MotionPage() {
               </div>
               <div className="night-result">
                 <span>08:30 ET</span>
-                <strong>{fixture.snapshots[3].yPercent.toFixed(2)}%</strong>
+                <strong className={fixture.snapshots[3].yPercent < 0 ? "is-negative" : ""}>
+                  {fixture.snapshots[3].yPercent.toFixed(2)}%
+                </strong>
                 <code>{fixture.snapshots[3].reason}</code>
                 <b>No trade</b>
               </div>
@@ -202,7 +204,7 @@ export function MotionPage() {
       </section>
 
       <section className="page-wrap technique-section">
-        <SectionLabel index="CATALOG / 06">Motion with a research purpose</SectionLabel>
+        <SectionLabel index="Motion notes">Quiet mechanics, disclosed</SectionLabel>
         <div className="technique-grid">
           {techniques.map(([index, title, body]) => (
             <article className="technique-card" key={index}>

@@ -1,6 +1,5 @@
 import { lazy, Suspense, useEffect } from "react";
-import { NavLink, Route, Routes, useLocation } from "react-router-dom";
-import { ArrowUpRight } from "lucide-react";
+import { Link, NavLink, Route, Routes, useLocation } from "react-router-dom";
 import Lenis from "lenis";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -21,9 +20,9 @@ const MotionPage = lazy(() =>
 
 const nav = [
   { to: "/", label: "Overview" },
-  { to: "/desk", label: "Desk replay" },
+  { to: "/desk", label: "Desk" },
   { to: "/method", label: "Method" },
-  { to: "/motion", label: "Motion lab" },
+  { to: "/motion", label: "Motion" },
 ];
 
 function SmoothScroll() {
@@ -71,8 +70,8 @@ function Header() {
     <header className="site-header">
       <div className="header-inner">
         <NavLink className="wordmark" to="/" aria-label="NightBasis Desk home">
-          <span className="wordmark-mark" aria-hidden="true">NB</span>
-          <span>NightBasis Desk</span>
+          <span className="wordmark-name">NightBasis</span>
+          <span className="wordmark-desk">Desk</span>
         </NavLink>
         <nav className="main-nav" aria-label="Primary navigation">
           {nav.map((item) => (
@@ -86,14 +85,7 @@ function Header() {
             </NavLink>
           ))}
         </nav>
-        <a
-          className="repo-link"
-          href="https://github.com/dmetagame/nightbasis"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Source <ArrowUpRight size={14} aria-hidden="true" />
-        </a>
+        <Link className="header-cta" to="/desk">Replay</Link>
       </div>
     </header>
   );
@@ -102,14 +94,11 @@ function Header() {
 function Footer() {
   return (
     <footer className="site-footer">
-      <div>
-        <p className="eyebrow">Bitget AI Hackathon S2</p>
-        <p>AI Trading Desk · Information Extraction &amp; Signal Generation</p>
-      </div>
-      <div className="footer-verdict">
-        <span>Frozen research</span>
-        <strong>No trade</strong>
-      </div>
+      <span className="footer-brand">NightBasis</span>
+      <span aria-hidden="true">·</span>
+      <a href="https://github.com/dmetagame/nightbasis/blob/main/LICENSE">MIT</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://github.com/dmetagame/nightbasis">github.com/dmetagame/nightbasis</a>
     </footer>
   );
 }
