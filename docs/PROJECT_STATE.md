@@ -71,6 +71,8 @@ Active objective: Produce and verify the public-repository submission pack witho
 - Expanded `README.md` into the judge materials landing page with the three-fixture table, offline command, full freeze hash, explicit no-retune statement, negative-control metrics, and direct artifact links. Added an MIT `LICENSE`.
 - Added `docs/SUBMISSION_FINAL.md` with copy-paste form blocks for every requested field, exact locked metrics and fixtures, disclosed human-v1 LLM role, a 261-character X post template, and a relative materials index.
 - Added `docs/PLAYBOOK_MIRROR.md`: a click-by-click, natural-language mirror of only the frozen four-name price control, with 00:00/09:00 ET timing, locked z gates, 25 bps-per-side costs, no weekend washout, no deployment, and an explicit negative-control caption.
+- Added `docs/VIDEO_SHOT_LIST.md`, an exact 120-second sequence covering setup, offline replay, the rGOOGL 16:30 direction conflict, exact rTSLA z=1.235711, negative-control metrics, the Playbook disclaimer, and a repository end card.
+- Verified the exact X template against current official X help: 261 literal characters and 274 effective characters with one t.co-treated URL, below the standard 280-character composer limit; required hashtag and mention are present.
 
 ## Verification
 
