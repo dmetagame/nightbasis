@@ -69,6 +69,7 @@ Active objective: Produce and verify the public-repository submission pack witho
 - Added the README section “What NightBasis Desk is,” honest submission bullets documenting the loss-making 15 bps-per-side control and no-retune decision, and a GitHub publication checklist covering secrets, the freeze hash, and offline replay.
 - Scanned the complete worktree for sensitive filenames, credential markers, private-key material, common token formats, Qwen/DashScope/Bitget secrets, UIDs, cookies, and ignored files. No sensitive or blocked file was found; details are in `docs/SECRETS_SCAN.md`.
 - Expanded `README.md` into the judge materials landing page with the three-fixture table, offline command, full freeze hash, explicit no-retune statement, negative-control metrics, and direct artifact links. Added an MIT `LICENSE`.
+- Added `docs/SUBMISSION_FINAL.md` with copy-paste form blocks for every requested field, exact locked metrics and fixtures, disclosed human-v1 LLM role, a 261-character X post template, and a relative materials index.
 
 ## Verification
 
