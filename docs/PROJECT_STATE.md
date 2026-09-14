@@ -3,9 +3,9 @@
 > Living handoff for Codex sessions. Read this file before working. Do not put
 > secrets or raw credential-bearing values here.
 
-Last updated: `2026-09-14T16:56:21+01:00`
-Status: `WEB IMPLEMENTED AND VERIFIED — PUSH RETRY PENDING`
-Active objective: Publish the isolated `/web` marketing and frozen-replay site without changing the locked Python research.
+Last updated: `2026-09-14T16:59:11+01:00`
+Status: `WEB IMPLEMENTED, VERIFIED, AND PUSHED — PAGES ENABLEMENT REMAINS`
+Active objective: Enable the static GitHub Pages deployment for the isolated `/web` site; locked Python research remains unchanged.
 
 ## Workspace
 
@@ -13,6 +13,7 @@ Active objective: Publish the isolated `/web` marketing and frozen-replay site w
 - Worktree: `/home/rouma/projects/nightbasis`
 - Branch: `main`
 - Starting commit for the web checkpoint: `e4ffc8414fa821a6a11c2299a451d812482aaf98` (matches local `origin/main` before the web changes); protected IS freeze checkpoint: `c92b9bd776ce43cf71d94ba90d3db23622b4395c`
+- Published web checkpoint: `7023101c5166e08a5761654f5b4539f377035db7` on `origin/main`
 - Protected releases/artifacts: price-only freeze hash `0898cca...` and commit `c92b9bd`; do not alter its model, thresholds, costs, universe, entry clock, or flat-inclusive ledgers
 
 ## Constraints
@@ -93,6 +94,7 @@ Active objective: Publish the isolated `/web` marketing and frozen-replay site w
 | Web route/base check | passed | production preview returned HTTP 200 for `/nightbasis/` and `/nightbasis/desk`; asset URLs use `/nightbasis/assets/`, 2026-09-14 |
 | Web visual/motion check | passed | Desktop and 390px captures checked; forced reduced-motion render explicitly disabled pins, scrubs, and Lenis, 2026-09-14 |
 | Locked Python verification after web | passed | 22/22 tests; `make demo-replay` 0.04s; exact rTSLA z=1.235711 and rGOOGL direction conflict retained, 2026-09-14 |
+| Web Git checkpoint | pushed | Site commit `72e5f7c`; static-deployment reconciliation `7023101`; local `main` and `origin/main` both resolve to `7023101c5166e08a5761654f5b4539f377035db7`, 2026-09-14 |
 | Git/GitHub | blocked | Local repo initialized; no remote; `gh auth status` reports expired authentication, 2026-09-11 |
 | Unit tests | passed | `PYTHONPATH=src python3 -m unittest discover -s tests -v` → 3/3 passed, 2026-09-11 |
 | Static compilation | passed | `python3 -m compileall -q src tests`, 2026-09-11 |
@@ -132,8 +134,8 @@ Active objective: Publish the isolated `/web` marketing and frozen-replay site w
 
 ## Next Actions
 
-1. Push the isolated web checkpoint to `main` with the configured Git credential.
-2. Build and publish `web/dist` to `gh-pages`, then select that branch in repository Pages settings.
+1. Build and publish `web/dist` to `gh-pages`, then select that branch in repository Pages settings.
+2. Verify `https://dmetagame.github.io/nightbasis/` and its `/desk`, `/method`, and `/motion` routes.
 3. Keep every listed strategy, fixture, prompt, cache, and execution lock intact.
 
 ## Session Handoff
@@ -147,6 +149,7 @@ Active objective: Publish the isolated `/web` marketing and frozen-replay site w
 | --- | --- | --- | --- |
 | 2026-09-14T16:56:21+01:00 | Codex | Implemented production marketing and frozen replay site under `/web` | Build, dependency audit, desktop/mobile/reduced-motion visual checks, 22 Python tests, and 0.04s offline replay pass; locked research untouched; checkpoint/push pending |
 | 2026-09-14T16:59:00+01:00 | Codex | Reconciled GitHub workflow-scope push rejection | HTTPS credential lacks `workflow` scope and SSH has no accepted key; removed only the optional workflow and retained static `gh-pages` deployment path |
+| 2026-09-14T16:59:11+01:00 | Codex | Pushed production web checkpoint | `origin/main` now contains `7023101`; locked research diff remains empty; only Pages branch publication/settings remain |
 | 2026-09-11T15:16:29+01:00 | Codex | Initialized NightBasis Day-1 audit | Implementation in progress; remote/auth blockers recorded |
 | 2026-09-11T16:15:28+01:00 | Codex | Completed strict live data audit | Failed: 4/12 eligible tradables and 55/60 common usable sessions; downstream work blocked |
 | 2026-09-11T16:15:28+01:00 | Codex | Created local Day-1 checkpoint | Commit `0b826c1`; push unavailable because no remote is configured and GitHub auth is expired |
