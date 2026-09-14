@@ -4,8 +4,8 @@
 > secrets or raw credential-bearing values here.
 
 Last updated: `2026-09-14T13:15:10+01:00`
-Status: `DESK REASON ATTRIBUTION COMPLETE`
-Active objective: Preserve the frozen labels and reason-attributed three-fixture offline replay.
+Status: `JUDGE-FACING DESK COPY COMPLETE`
+Active objective: Preserve the frozen Desk evidence and prepare the verified repository for publication.
 
 ## Workspace
 
@@ -55,7 +55,7 @@ Active objective: Preserve the frozen labels and reason-attributed three-fixture
 - Wrote `reports/price-only-metrics.md` with the audit recount and all IS/OOS cost scenarios. The price-only baseline failed the research bar even at 15 bps per side and was subsequently closed by user direction.
 - Relocked the product as NightBasis Desk under AI Trading Desk / Information Extraction & Signal Generation.
 - Added `schemas/desk-record.schema.json` for per-name records at 16:30, 20:00, 00:00, and 08:30 ET, including y, frozen-model fair value, residual z, factor contributions, quality flags, event JSON, label, kill criteria, and memo.
-- Locked three IS-only raw replay fixtures: rGOOGL 2026-08-14 flat; rGOOGL 2026-07-23 material Alphabet earnings; rTSLA 2026-06-23 large move with no qualifying Tesla SEC/IR event in the bounded window.
+- Locked two IS raw replay fixtures plus one OOS-calendar evaluation-only fixture: rGOOGL 2026-08-14 flat; rGOOGL 2026-07-23 material Alphabet earnings; rTSLA 2026-06-23 large move with no qualifying Tesla SEC/IR event in the bounded window.
 - Added deterministic fixture generation in `src/nightbasis/desk_fixtures.py`; no prompt, cached LLM output, replay CLI, or executable signal policy was implemented in this checkpoint.
 - Added frozen `prompts/event_score_v1.txt` (SHA-256 `0cc1b90b...`) and `schemas/event-score.schema.json`. The prompt forbids price-derived event direction and all trading instructions.
 - Added human-v1, temperature-zero, content-addressed event-score caches for exactly the three locked fixtures and four snapshots each.
@@ -65,6 +65,8 @@ Active objective: Preserve the frozen labels and reason-attributed three-fixture
 - Added a frozen reason enum that attributes every Desk label independently from hard-kill state. Unmatched `stand_down` records no longer falsely report a hard kill.
 - Expanded `make demo-replay` to replay exactly the three locked fixtures offline, print the required fields, and regenerate `reports/reason-matrix.md` plus three fixture transcripts under `reports/replay-transcripts/`.
 - Audited news rGOOGL 16:30: signed_info 0.855, all hard-kill checks pass, and the positive-event/negative-price conflict explains `stand_down`; no cache change was needed. Audited rTSLA 08:30 at exact z 1.235711, below 1.25, with reason `uninformed_but_below_washout`.
+- Added `reports/judge-replay.md`, a human view with percent paths, point-in-time 8-K facts, one-sentence reasons, and explicit no-trade outcomes for exactly the three frozen fixtures.
+- Added the README section “What NightBasis Desk is,” honest submission bullets documenting the loss-making 15 bps-per-side control and no-retune decision, and a GitHub publication checklist covering secrets, the freeze hash, and offline replay.
 
 ## Verification
 
@@ -87,6 +89,7 @@ Active objective: Preserve the frozen labels and reason-attributed three-fixture
 | Desk replay checkpoint | local only | Commit `89e190c`; protected price-control artifacts unchanged from `c92b9bd`; no remote/auth, 2026-09-11 |
 | Reason-attributed replay | passed | 22/22 tests; compileall and diff check pass; all three transcripts plus 3x4 matrix generated offline in 0.04s; protected control unchanged, 2026-09-12 |
 | Reason-attribution checkpoint | local only | Commit `202d1b6`; no remote configured and GitHub authentication expired, verified 2026-09-14 |
+| Judge-facing copy | passed | 22/22 tests; 12/12 records schema-valid; offline replay 0.05s; secret-prefix scan clear; protected artifacts unchanged from pre-copy checkpoint `d3fd541`, 2026-09-14 |
 
 ## Risks And Blockers
 
@@ -102,8 +105,8 @@ Active objective: Preserve the frozen labels and reason-attributed three-fixture
 
 ## Next Actions
 
-1. Stop at the accepted reason matrix and three replay transcripts until the user authorizes another scope.
-2. Keep Playbook limited to the frozen price-only negative control; do not add an execution path.
+1. Run `docs/GITHUB_PUBLISH_CHECKLIST.md` immediately before publication.
+2. Keep Playbook limited to the frozen price-only negative control; do not add an execution path or more fixtures.
 3. Configure a remote/authentication before claiming remote backup.
 
 ## Session Handoff
@@ -131,3 +134,4 @@ Active objective: Preserve the frozen labels and reason-attributed three-fixture
 | 2026-09-12T00:09:56+01:00 | Codex | Added frozen reason attribution and three-fixture transcripts | 22/22 tests pass; exact GOOGL and Tesla audits pass; no thresholds, fixtures, caches, universe, or frozen Alpha artifacts changed |
 | 2026-09-14T13:15:10+01:00 | Codex | Reconciled and resumed the reason-attribution checkpoint | Repository remains on main at `646af0f`; no remote configured and GitHub authentication remains expired |
 | 2026-09-14T13:15:10+01:00 | Codex | Created local reason-attribution checkpoint | Commit `202d1b6`; push unavailable because no remote is configured and GitHub auth is expired |
+| 2026-09-14T13:15:10+01:00 | Codex | Added judge-facing replay, README copy, submission bullets, and publish checklist | Verification passes; exactly three fixtures retained; control and caches unchanged; no orders added |
