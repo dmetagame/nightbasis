@@ -4,7 +4,8 @@
    `dmetagame` using an existing credential.
 2. **Repository publication — done.** The public repository is
    https://github.com/dmetagame/nightbasis; `main` and both requested tags were
-   pushed and their targets verified.
+   pushed and their targets verified. The public production demo is
+   https://nightbasis.vercel.app.
 3. **Capture the Playbook mirror.** Follow `docs/PLAYBOOK_MIRROR.md` and save the
    screenshots in `reports/playbook/`. Hide account identifiers and balances.
    Keep the caption **“Negative control. Not the shipped product.”** Commit and

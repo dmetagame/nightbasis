@@ -3,9 +3,9 @@
 > Living handoff for Codex sessions. Read this file before working. Do not put
 > secrets or raw credential-bearing values here.
 
-Last updated: `2026-09-14T21:30:56+01:00`
-Status: `VERCEL PRODUCTION DEPLOYMENT READY`
-Active objective: Use the live Vercel demo and public research repository in the submission; locked Python research remains unchanged.
+Last updated: `2026-09-15T13:38:36+01:00`
+Status: `VERCEL PUBLIC URL READY`
+Active objective: Use `https://nightbasis.vercel.app` and the public research repository in the submission; locked Python research remains unchanged.
 
 ## Workspace
 
@@ -48,7 +48,7 @@ Active objective: Use the live Vercel demo and public research repository in the
 - Added the root `make site` target without changing the `make demo-replay` recipe, route-level code splitting, `/nightbasis/` production base, direct-route `404.html`, and static GitHub Pages output.
 - Visually checked Overview and Desk at desktop width, Desk and Motion at 390px mobile width, and Motion in a forced reduced-motion Chromium session.
 - Added `web/vercel.json` so a Vercel project rooted at `web` installs with `npm ci`, runs only `npm run build:static`, publishes `dist`, and rewrites SPA routes to `index.html`. Vercel is now the documented primary host; Pages remains optional.
-- Deployed the isolated web root to Vercel production at `https://web-zeta-two-67.vercel.app`; no Python, data, fixtures, or reports were included in the project root.
+- Renamed the Vercel project from `web` to `nightbasis`, deployed the isolated web root, and assigned the public production alias `https://nightbasis.vercel.app`; no Python, data, fixtures, or reports were included in the project root.
 
 - Initialized the repository and minimal standard-library audit package.
 - Added `src/nightbasis/audit_data.py` and deterministic unit coverage for pagination, flat-price spread, and the Juneteenth calendar closure.
@@ -98,7 +98,7 @@ Active objective: Use the live Vercel demo and public research repository in the
 | Locked Python verification after web | passed | 22/22 tests; `make demo-replay` 0.04s; exact rTSLA z=1.235711 and rGOOGL direction conflict retained, 2026-09-14 |
 | Web Git checkpoint | pushed | Site commit `72e5f7c`; static-deployment reconciliation `7023101`; local `main` and `origin/main` both resolve to `7023101c5166e08a5761654f5b4539f377035db7`, 2026-09-14 |
 | Vercel static build | passed | `cd web && npm run build:static`; assets emitted from `/assets/`, `vercel.json` parses, and `make demo-replay` remains passing in 0.08s, 2026-09-14 |
-| Vercel production | ready | Remote install/build passed with 0 vulnerabilities; root, `/desk`, `/method`, and `/motion` each returned HTTP 200 at `https://web-zeta-two-67.vercel.app`, 2026-09-14 |
+| Vercel production | ready | Project `nightbasis`; remote static build passed; root, `/desk`, `/method`, and `/motion` each returned unauthenticated HTTP 200 with a NightBasis title at `https://nightbasis.vercel.app`, 2026-09-15 |
 | Git/GitHub | blocked | Local repo initialized; no remote; `gh auth status` reports expired authentication, 2026-09-11 |
 | Unit tests | passed | `PYTHONPATH=src python3 -m unittest discover -s tests -v` → 3/3 passed, 2026-09-11 |
 | Static compilation | passed | `python3 -m compileall -q src tests`, 2026-09-11 |
@@ -138,7 +138,7 @@ Active objective: Use the live Vercel demo and public research repository in the
 
 ## Next Actions
 
-1. Use `https://web-zeta-two-67.vercel.app` as the primary live demo URL in the submission and X post.
+1. Use `https://nightbasis.vercel.app` as the primary live demo URL in the submission and X post.
 2. Keep Pages optional and retain `web` as the Vercel project root for future Git-integrated deploys.
 3. Keep every listed strategy, fixture, prompt, cache, and execution lock intact.
 
@@ -151,6 +151,7 @@ Active objective: Use the live Vercel demo and public research repository in the
 
 | Timestamp | Session/agent | Event | Result |
 | --- | --- | --- | --- |
+| 2026-09-15T13:38:36+01:00 | Codex | Renamed and publicly exposed the Vercel project | Project `nightbasis` serves `https://nightbasis.vercel.app`; SSO protection disabled; all four requested routes return HTTP 200 with the NightBasis title; locked research untouched |
 | 2026-09-14T16:56:21+01:00 | Codex | Implemented production marketing and frozen replay site under `/web` | Build, dependency audit, desktop/mobile/reduced-motion visual checks, 22 Python tests, and 0.04s offline replay pass; locked research untouched; checkpoint/push pending |
 | 2026-09-14T16:59:00+01:00 | Codex | Reconciled GitHub workflow-scope push rejection | HTTPS credential lacks `workflow` scope and SSH has no accepted key; removed only the optional workflow and retained static `gh-pages` deployment path |
 | 2026-09-14T16:59:11+01:00 | Codex | Pushed production web checkpoint | `origin/main` now contains `7023101`; locked research diff remains empty; only Pages branch publication/settings remain |

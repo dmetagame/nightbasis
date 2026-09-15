@@ -21,7 +21,7 @@ npm ci
 npm run build:static
 ```
 
-Primary production host: `VERCEL_PRODUCTION_URL_PLACEHOLDER`
+Primary production host: https://nightbasis.vercel.app
 
 Vercel serves the site at the domain root. Import the repository with **Root
 Directory** set to `web`; `web/vercel.json` then runs `npm ci`, calls only

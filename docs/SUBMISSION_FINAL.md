@@ -17,7 +17,7 @@ AI Trading Desk → Information Extraction & Signal Generation
 ## Public materials URL
 
 ```text
-Primary live demo: VERCEL_PRODUCTION_URL_PLACEHOLDER
+Primary live demo: https://nightbasis.vercel.app
 Research repository and materials: https://github.com/dmetagame/nightbasis
 ```
 

@@ -5,7 +5,7 @@ say no trade.
 
 Public materials: https://github.com/dmetagame/nightbasis
 
-Primary live demo: `VERCEL_PRODUCTION_URL_PLACEHOLDER`
+Primary live demo: https://nightbasis.vercel.app
 
 Optional Pages mirror: https://dmetagame.github.io/nightbasis/
 
