@@ -3,9 +3,9 @@
 > Living handoff for Codex sessions. Read this file before working. Do not put
 > secrets or raw credential-bearing values here.
 
-Last updated: `2026-09-15T13:38:36+01:00`
-Status: `VERCEL PUBLIC URL READY`
-Active objective: Use `https://nightbasis.vercel.app` and the public research repository in the submission; locked Python research remains unchanged.
+Last updated: `2026-09-16T14:37:41+01:00`
+Status: `MOTION POLISH DEPLOYED`
+Active objective: Use the restrained, production-verified NightBasis Desk presentation at `https://nightbasis.vercel.app`; locked Python research remains unchanged.
 
 ## Workspace
 
@@ -14,6 +14,7 @@ Active objective: Use `https://nightbasis.vercel.app` and the public research re
 - Branch: `main`
 - Starting commit for the web checkpoint: `e4ffc8414fa821a6a11c2299a451d812482aaf98` (matches local `origin/main` before the web changes); protected IS freeze checkpoint: `c92b9bd776ce43cf71d94ba90d3db23622b4395c`
 - Published web/state checkpoint before Vercel configuration: `c27cbbb6c231c56a7a2e3abb0fb34f7fdc29bb6e` on `origin/main`
+- Published motion-polish checkpoint: `da68ab37ee49ec62612e698325518e097ecc5d1c` on `origin/main`
 - Protected releases/artifacts: price-only freeze hash `0898cca...` and commit `c92b9bd`; do not alter its model, thresholds, costs, universe, entry clock, or flat-inclusive ledgers
 
 ## Constraints
@@ -49,6 +50,9 @@ Active objective: Use `https://nightbasis.vercel.app` and the public research re
 - Visually checked Overview and Desk at desktop width, Desk and Motion at 390px mobile width, and Motion in a forced reduced-motion Chromium session.
 - Added `web/vercel.json` so a Vercel project rooted at `web` installs with `npm ci`, runs only `npm run build:static`, publishes `dist`, and rewrites SPA routes to `index.html`. Vercel is now the documented primary host; Pages remains optional.
 - Renamed the Vercel project from `web` to `nightbasis`, deployed the isolated web root, and assigned the public production alias `https://nightbasis.vercel.app`; no Python, data, fixtures, or reports were included in the project root.
+- Audited all four web routes locally and in production at 1280px and 390px, then recorded the bounded eight-fix plan in `web/docs/MOTION_AUDIT.md` before implementation.
+- Centralized Lenis and ScrollTrigger lifecycle ownership in `web/src/motion/scrollContract.ts`, including route teardown, font-ready refresh, mobile-resize handling, and a static reduced-motion path with no Lenis, pins, scrubs, split text, or blur.
+- Refined presentation motion without changing research data: word-based Home hero reveal, one Method heading reveal, a 200ms opacity-only Desk verdict response, one document progress hairline, and desktop-only Motion-page ink, clock, and three-night studies. Removed the technique-card batch reveal, competing Home entrance sequence, manual refresh frame, and header backdrop blur.
 
 - Initialized the repository and minimal standard-library audit package.
 - Added `src/nightbasis/audit_data.py` and deterministic unit coverage for pagination, flat-price spread, and the Juneteenth calendar closure.
@@ -99,6 +103,12 @@ Active objective: Use `https://nightbasis.vercel.app` and the public research re
 | Web Git checkpoint | pushed | Site commit `72e5f7c`; static-deployment reconciliation `7023101`; local `main` and `origin/main` both resolve to `7023101c5166e08a5761654f5b4539f377035db7`, 2026-09-14 |
 | Vercel static build | passed | `cd web && npm run build:static`; assets emitted from `/assets/`, `vercel.json` parses, and `make demo-replay` remains passing in 0.08s, 2026-09-14 |
 | Vercel production | ready | Project `nightbasis`; remote static build passed; root, `/desk`, `/method`, and `/motion` each returned unauthenticated HTTP 200 with a NightBasis title at `https://nightbasis.vercel.app`, 2026-09-15 |
+| Motion audit and responsive check | passed | Local and production routes inspected at 1280px and 390px; no horizontal overflow; all snapshot clocks are at least 44px; route transitions leave exactly 2 Motion pin spacers and 0 elsewhere, 2026-09-16 |
+| Reduced-motion contract | passed | Forced `prefers-reduced-motion: reduce` has no Lenis classes, pin spacers, scrubs, split-text animation, hidden rail content, overflow, or console errors, 2026-09-16 |
+| Motion-polish web build | passed | `cd web && npm run build:static`; Vite 7.3.6 built 2287 modules successfully, 2026-09-16 |
+| Locked research after motion polish | passed | 22/22 tests; `make demo-replay` 0.04s; all 12 snapshots remain `stand_down`; rTSLA z=1.235711 and rGOOGL direction conflict unchanged, 2026-09-16 |
+| Motion-polish Git checkpoint | pushed | Commit `da68ab37ee49ec62612e698325518e097ecc5d1c` matches `origin/main`; protected-path diff and secret scan are clean, 2026-09-16 |
+| Motion-polish Vercel deployment | ready | Deployment `nightbasis-9kawv42l5-dmetagames-projects.vercel.app` is aliased to `https://nightbasis.vercel.app`; all four routes return HTTP 200 with new assets `index-BwlPP6dC.js` and `index-D32W8dvD.css`, 2026-09-16 |
 | Git/GitHub | blocked | Local repo initialized; no remote; `gh auth status` reports expired authentication, 2026-09-11 |
 | Unit tests | passed | `PYTHONPATH=src python3 -m unittest discover -s tests -v` → 3/3 passed, 2026-09-11 |
 | Static compilation | passed | `python3 -m compileall -q src tests`, 2026-09-11 |
@@ -127,6 +137,7 @@ Active objective: Use `https://nightbasis.vercel.app` and the public research re
 ## Risks And Blockers
 
 - `origin` is configured and the public repository exists. `gh auth status` reports an invalid stored token; the separate HTTPS Git credential can push ordinary source but rejected creation of a workflow file because it lacks `workflow` scope. The workflow was removed without touching the site, so publication can use a standard `gh-pages` branch instead.
+- The Vercel CLI session is authenticated and production deployment succeeds. GitHub CLI authentication remains stale, but ordinary HTTPS `git push` is verified independently.
 - Historical spread is necessarily an estimator without Reality data whitelist access.
 - The earlier 57-day contingency is superseded: it omitted BTC/ETH-only weekend/holiday nights. The corrected count is 83 and Alpha remains active.
 - Seven OOS calendar days (2026-09-12 through 2026-09-18) are future relative to the audit and were not fabricated as observed data.
@@ -140,7 +151,8 @@ Active objective: Use `https://nightbasis.vercel.app` and the public research re
 
 1. Use `https://nightbasis.vercel.app` as the primary live demo URL in the submission and X post.
 2. Keep Pages optional and retain `web` as the Vercel project root for future Git-integrated deploys.
-3. Keep every listed strategy, fixture, prompt, cache, and execution lock intact.
+3. Make no further presentation changes unless explicitly requested; the current motion system is intentionally restrained.
+4. Keep every listed strategy, fixture, prompt, cache, and execution lock intact.
 
 ## Session Handoff
 
@@ -151,6 +163,7 @@ Active objective: Use `https://nightbasis.vercel.app` and the public research re
 
 | Timestamp | Session/agent | Event | Result |
 | --- | --- | --- | --- |
+| 2026-09-16T14:37:41+01:00 | Codex | Audited and refined web motion, then deployed the bounded presentation checkpoint | Eight-fix audit implemented; responsive, reduced-motion, build, 22-test, replay, secret, and protected-path checks pass; commit `da68ab3` is pushed and `https://nightbasis.vercel.app` serves the new assets |
 | 2026-09-15T13:38:36+01:00 | Codex | Renamed and publicly exposed the Vercel project | Project `nightbasis` serves `https://nightbasis.vercel.app`; SSO protection disabled; all four requested routes return HTTP 200 with the NightBasis title; locked research untouched |
 | 2026-09-14T16:56:21+01:00 | Codex | Implemented production marketing and frozen replay site under `/web` | Build, dependency audit, desktop/mobile/reduced-motion visual checks, 22 Python tests, and 0.04s offline replay pass; locked research untouched; checkpoint/push pending |
 | 2026-09-14T16:59:00+01:00 | Codex | Reconciled GitHub workflow-scope push rejection | HTTPS credential lacks `workflow` scope and SSH has no accepted key; removed only the optional workflow and retained static `gh-pages` deployment path |
