@@ -3,9 +3,9 @@
 > Living handoff for Codex sessions. Read this file before working. Do not put
 > secrets or raw credential-bearing values here.
 
-Last updated: `2026-09-16T14:37:41+01:00`
-Status: `MOTION POLISH DEPLOYED`
-Active objective: Use the restrained, production-verified NightBasis Desk presentation at `https://nightbasis.vercel.app`; locked Python research remains unchanged.
+Last updated: `2026-09-16T15:21:12+01:00`
+Status: `JUDGE WALKTHROUGH RECORDED`
+Active objective: Use the verified live Desk and the recorded judge walkthrough in the submission; locked Python research remains unchanged.
 
 ## Workspace
 
@@ -53,6 +53,7 @@ Active objective: Use the restrained, production-verified NightBasis Desk presen
 - Audited all four web routes locally and in production at 1280px and 390px, then recorded the bounded eight-fix plan in `web/docs/MOTION_AUDIT.md` before implementation.
 - Centralized Lenis and ScrollTrigger lifecycle ownership in `web/src/motion/scrollContract.ts`, including route teardown, font-ready refresh, mobile-resize handling, and a static reduced-motion path with no Lenis, pins, scrubs, split text, or blur.
 - Refined presentation motion without changing research data: word-based Home hero reveal, one Method heading reveal, a 200ms opacity-only Desk verdict response, one document progress hairline, and desktop-only Motion-page ink, clock, and three-night studies. Removed the technique-card batch reveal, competing Home entrance sequence, manual refresh frame, and header backdrop blur.
+- Recorded the live `/desk` replay at `web/demo/desk-walkthrough.mp4` and added the matching 166-word human narration at `web/demo/VOICEOVER.txt`. The silent walkthrough covers the rGOOGL filing conflict and exact rTSLA threshold miss without altering the site or research.
 
 - Initialized the repository and minimal standard-library audit package.
 - Added `src/nightbasis/audit_data.py` and deterministic unit coverage for pagination, flat-price spread, and the Juneteenth calendar closure.
@@ -109,6 +110,8 @@ Active objective: Use the restrained, production-verified NightBasis Desk presen
 | Locked research after motion polish | passed | 22/22 tests; `make demo-replay` 0.04s; all 12 snapshots remain `stand_down`; rTSLA z=1.235711 and rGOOGL direction conflict unchanged, 2026-09-16 |
 | Motion-polish Git checkpoint | pushed | Commit `da68ab37ee49ec62612e698325518e097ecc5d1c` matches `origin/main`; protected-path diff and secret scan are clean, 2026-09-16 |
 | Motion-polish Vercel deployment | ready | Deployment `nightbasis-9kawv42l5-dmetagames-projects.vercel.app` is aliased to `https://nightbasis.vercel.app`; all four routes return HTTP 200 with new assets `index-BwlPP6dC.js` and `index-D32W8dvD.css`, 2026-09-16 |
+| Judge walkthrough media | passed | 111.467s, 1,994,182 bytes, 1280x720, H.264 High, yuv420p, 30fps, silent, fast-start `moov` before `mdat`; full decode succeeds, 2026-09-16 |
+| Locked replay after recording | passed | `make demo-replay`; all 12 snapshots remain `stand_down`, including rTSLA z=1.235711 and rGOOGL direction conflict; protected-path working diff empty, 2026-09-16 |
 | Git/GitHub | blocked | Local repo initialized; no remote; `gh auth status` reports expired authentication, 2026-09-11 |
 | Unit tests | passed | `PYTHONPATH=src python3 -m unittest discover -s tests -v` → 3/3 passed, 2026-09-11 |
 | Static compilation | passed | `python3 -m compileall -q src tests`, 2026-09-11 |
@@ -150,9 +153,10 @@ Active objective: Use the restrained, production-verified NightBasis Desk presen
 ## Next Actions
 
 1. Use `https://nightbasis.vercel.app` as the primary live demo URL in the submission and X post.
-2. Keep Pages optional and retain `web` as the Vercel project root for future Git-integrated deploys.
-3. Make no further presentation changes unless explicitly requested; the current motion system is intentionally restrained.
-4. Keep every listed strategy, fixture, prompt, cache, and execution lock intact.
+2. Attach `web/demo/desk-walkthrough.mp4` where the submission accepts video and read or burn in `web/demo/VOICEOVER.txt` if narration is desired.
+3. Keep Pages optional and retain `web` as the Vercel project root for future Git-integrated deploys.
+4. Make no further presentation changes unless explicitly requested; the current motion system is intentionally restrained.
+5. Keep every listed strategy, fixture, prompt, cache, and execution lock intact.
 
 ## Session Handoff
 
@@ -163,6 +167,7 @@ Active objective: Use the restrained, production-verified NightBasis Desk presen
 
 | Timestamp | Session/agent | Event | Result |
 | --- | --- | --- | --- |
+| 2026-09-16T15:21:12+01:00 | Codex | Recorded and verified the judge-facing Desk walkthrough | 111.467s H.264/yuv420p/30fps fast-start MP4 plus 166-word voiceover; replay locks pass and no research file changed |
 | 2026-09-16T14:37:41+01:00 | Codex | Audited and refined web motion, then deployed the bounded presentation checkpoint | Eight-fix audit implemented; responsive, reduced-motion, build, 22-test, replay, secret, and protected-path checks pass; commit `da68ab3` is pushed and `https://nightbasis.vercel.app` serves the new assets |
 | 2026-09-15T13:38:36+01:00 | Codex | Renamed and publicly exposed the Vercel project | Project `nightbasis` serves `https://nightbasis.vercel.app`; SSO protection disabled; all four requested routes return HTTP 200 with the NightBasis title; locked research untouched |
 | 2026-09-14T16:56:21+01:00 | Codex | Implemented production marketing and frozen replay site under `/web` | Build, dependency audit, desktop/mobile/reduced-motion visual checks, 22 Python tests, and 0.04s offline replay pass; locked research untouched; checkpoint/push pending |

@@ -1,0 +1,9 @@
+NightBasis Desk asks a simple question: did the overnight rToken move with the information, or against it?
+
+Here, Alphabet filed its 8-K at 16:01 Eastern, before the first 16:30 snapshot. The event score is positive: signed information is 0.855 and direction is plus one. But the tape is already down 1.97 percent. That is a conflict, so the desk says no trade.
+
+As the clock advances, the move deepens: down 5.14 percent at 20:00, down 4.41 percent at midnight, and down 7.09 percent by 08:30. The filing never changes direction to fit the tape. Every snapshot remains no trade.
+
+Now Tesla. There is no qualifying SEC or investor-relations event in the bounded window. By 08:30 the move is down 2.64 percent, but the residual z-score is exactly 1.236. The washout bar is 1.25. It misses, and we do not round it up. Again: no trade.
+
+NightBasis Desk is not a bot that always buys. It is an evidence desk designed to refuse weak or contradictory signals.
