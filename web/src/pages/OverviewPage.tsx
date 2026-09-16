@@ -8,6 +8,8 @@ import { SectionLabel } from "../components/SectionLabel";
 import { deskFixtures, freezeHash } from "../data/research";
 import { useReducedMotion } from "../hooks/useReducedMotion";
 
+const heroTitle = "Overnight rTokens do not need another bot that always buys.";
+
 export function OverviewPage() {
   const root = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
@@ -15,16 +17,24 @@ export function OverviewPage() {
   useGSAP(
     () => {
       if (reduced) {
-        gsap.set(".hero-reveal", { opacity: 1, clearProps: "transform" });
+        gsap.set(".hero-word", { autoAlpha: 1, y: 0, clearProps: "willChange" });
         return;
       }
-      gsap.from(".hero-reveal", {
-        y: 28,
-        opacity: 0,
-        duration: 0.9,
-        stagger: 0.09,
-        ease: "power3.out",
-      });
+
+      gsap.fromTo(
+        ".hero-word",
+        { autoAlpha: 0, y: 24 },
+        {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.8,
+          stagger: 0.05,
+          ease: "power3.out",
+          immediateRender: true,
+          onStart: () => gsap.set(".hero-word", { willChange: "transform, opacity" }),
+          onComplete: () => gsap.set(".hero-word", { clearProps: "willChange" }),
+        },
+      );
     },
     { scope: root, dependencies: [reduced], revertOnUpdate: true },
   );
@@ -32,15 +42,19 @@ export function OverviewPage() {
   return (
     <div ref={root} className="page-wrap overview-page">
       <section className="hero-section">
-        <p className="hero-kicker hero-reveal">The overnight information desk for rTokens</p>
-        <h1 className="hero-title hero-reveal">
-          Overnight rTokens do not need another bot that always buys.
+        <p className="hero-kicker">The overnight information desk for rTokens</p>
+        <h1 className="hero-title" aria-label={heroTitle}>
+          {heroTitle.split(" ").map((word, index) => (
+            <span className="hero-word-mask" aria-hidden="true" key={`${word}-${index}`}>
+              <span className="hero-word">{word}</span>
+            </span>
+          ))}
         </h1>
-        <p className="hero-copy hero-reveal">
+        <p className="hero-copy">
           NightBasis compares the tape with point-in-time company evidence—and
           makes standing down a first-class product decision.
         </p>
-        <div className="hero-actions hero-reveal">
+        <div className="hero-actions">
           <Link className="primary-link" to="/desk">
             Replay the desk <ArrowRight size={16} aria-hidden="true" />
           </Link>

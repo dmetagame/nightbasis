@@ -94,8 +94,7 @@ input:focus-visible {
   z-index: 100;
   top: 0;
   border-bottom: 1px solid var(--line);
-  background: rgba(11, 12, 14, 0.9);
-  backdrop-filter: blur(18px);
+  background: var(--bg);
 }
 
 .header-inner {
@@ -196,6 +195,16 @@ input:focus-visible {
   letter-spacing: -0.035em;
 }
 
+.hero-word-mask {
+  display: inline-block;
+  overflow: hidden;
+  margin-right: 0.2em;
+  vertical-align: bottom;
+}
+
+.hero-word-mask:last-child { margin-right: 0; }
+.hero-word { display: inline-block; }
+
 .hero-copy {
   max-width: 40rem;
   margin: 2rem 0 0;
@@ -292,7 +301,7 @@ input:focus-visible {
 
 .replay-shell.is-compact .evidence-block p,
 .replay-shell.is-compact .reason-block p {
-  font-size: 0.78rem;
+  font-size: 0.9rem;
 }
 
 .fixture-tabs {
@@ -511,7 +520,7 @@ input:focus-visible {
 .reason-block p {
   margin: 0;
   color: var(--ink);
-  font-size: 0.84rem;
+  font-size: 0.95rem;
   line-height: 1.55;
 }
 
@@ -562,7 +571,7 @@ input:focus-visible {
   max-width: 40rem;
   margin: 1.4rem 0;
   color: var(--muted);
-  font-size: 0.9rem;
+  font-size: 1rem;
 }
 
 .ledger-read {
@@ -765,7 +774,7 @@ input:focus-visible {
   max-width: 40rem;
   margin: 0;
   color: var(--muted);
-  font-size: 0.9rem;
+  font-size: 1rem;
 }
 
 .motion-progress {
@@ -774,7 +783,7 @@ input:focus-visible {
   top: 0;
   left: 0;
   width: 100%;
-  height: 2px;
+  height: 1px;
   transform: scaleX(0);
   transform-origin: left center;
   background: var(--silver);
@@ -792,7 +801,7 @@ input:focus-visible {
   position: relative;
   width: 100%;
   margin-top: 8vh;
-  font: italic 400 clamp(4rem, 12vw, 9rem)/0.8 "Instrument Serif", Georgia, serif;
+  font: italic 400 clamp(4.5rem, 12vw, 9rem)/0.8 "Instrument Serif", Georgia, serif;
   letter-spacing: -0.055em;
   white-space: nowrap;
 }
@@ -887,6 +896,7 @@ input:focus-visible {
 }
 
 .pin-clocks button {
+  min-height: 44px;
   padding: 0.7rem 0.25rem;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -934,7 +944,11 @@ input:focus-visible {
   font: italic 400 clamp(2.8rem, 5vw, 4.75rem)/0.95 "Instrument Serif", Georgia, serif;
 }
 
-.night-panel > div:nth-child(2) > p:last-child { max-width: 32rem; color: var(--muted); }
+.night-panel > div:nth-child(2) > p:last-child {
+  max-width: 32rem;
+  color: var(--muted);
+  font-size: 1rem;
+}
 
 .night-result {
   align-self: stretch;
@@ -979,7 +993,7 @@ input:focus-visible {
 
 .technique-card > span { color: var(--silver); font-size: 0.72rem; }
 .technique-card h3 { margin: 2.5rem 0 0.7rem; font: italic 400 1.55rem/1 "Instrument Serif", Georgia, serif; }
-.technique-card p { margin: 0; color: var(--muted); font-size: 0.84rem; }
+.technique-card p { margin: 0; color: var(--muted); font-size: 1rem; }
 
 .site-footer {
   display: flex;
@@ -1082,7 +1096,7 @@ input:focus-visible {
 
   .page-intro h1 { font-size: clamp(3.3rem, 15vw, 4.8rem); }
   .ink-section { min-height: 65vh; }
-  .ink-word { margin-top: 12vh; font-size: 20vw; }
+  .ink-word { margin-top: 12vh; }
   .filing-pin { min-height: auto; padding-block: 5rem; }
   .pinned-read { min-height: 27rem; }
   .horizontal-section { min-height: auto; }
@@ -1120,6 +1134,8 @@ input:focus-visible {
   }
 
   .hero-reveal,
+  .hero-word,
+  .method-title,
   .horizontal-track,
   .motion-progress,
   .ink-fill,
@@ -1132,4 +1148,18 @@ input:focus-visible {
 
   .motion-progress { display: none; }
   .ink-fill { clip-path: inset(0) !important; }
+
+  .horizontal-section {
+    min-height: auto;
+    overflow: visible;
+  }
+
+  .horizontal-track {
+    display: grid;
+    width: auto;
+    min-height: auto;
+    padding-block: 5rem;
+  }
+
+  .night-panel { width: 100%; }
 }

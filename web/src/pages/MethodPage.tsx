@@ -1,6 +1,10 @@
+import { useRef } from "react";
 import { Braces, Database, Scale } from "lucide-react";
+import { gsap } from "gsap";
+import { useGSAP } from "@gsap/react";
 import { SectionLabel } from "../components/SectionLabel";
 import { freezeHash } from "../data/research";
+import { useReducedMotion } from "../hooks/useReducedMotion";
 
 const policy = [
   { label: "Weeknight price control", value: "z ≥ 1.0", note: "rQQQ primary · rSPY fallback" },
@@ -11,12 +15,39 @@ const policy = [
 ];
 
 export function MethodPage() {
+  const root = useRef<HTMLDivElement>(null);
+  const reduced = useReducedMotion();
+
+  useGSAP(
+    () => {
+      if (reduced) {
+        gsap.set(".method-title", { autoAlpha: 1, y: 0, clearProps: "willChange" });
+        return;
+      }
+
+      gsap.fromTo(
+        ".method-title",
+        { autoAlpha: 0, y: 18 },
+        {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.7,
+          ease: "power3.out",
+          immediateRender: true,
+          onStart: () => gsap.set(".method-title", { willChange: "transform, opacity" }),
+          onComplete: () => gsap.set(".method-title", { clearProps: "willChange" }),
+        },
+      );
+    },
+    { scope: root, dependencies: [reduced], revertOnUpdate: true },
+  );
+
   return (
-    <div className="page-wrap method-page">
+    <div ref={root} className="page-wrap method-page">
       <section className="page-intro">
         <SectionLabel index="Method">Frozen before the OOS read</SectionLabel>
         <div className="intro-grid">
-          <h1>
+          <h1 className="method-title">
             Freeze the rule.
             <em>Then believe the result.</em>
           </h1>

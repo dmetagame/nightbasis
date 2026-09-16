@@ -173,7 +173,7 @@ export function ReplayPanel({ compact = false }: ReplayPanelProps) {
         </div>
 
         <aside className="decision-panel" aria-live="polite">
-          <NoTradeMark compact />
+          <NoTradeMark compact snapshotKey={`${fixture.id}-${snapshot.time}`} />
           <div className="observed-price">
             <span>Observed move · {snapshot.time} ET</span>
             <strong className={snapshot.yPercent < 0 ? "is-negative" : ""}>

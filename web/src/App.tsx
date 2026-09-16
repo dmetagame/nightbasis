@@ -1,9 +1,7 @@
-import { lazy, Suspense, useEffect } from "react";
+import { lazy, Suspense, useLayoutEffect } from "react";
 import { Link, NavLink, Route, Routes, useLocation } from "react-router-dom";
-import Lenis from "lenis";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useReducedMotion } from "./hooks/useReducedMotion";
+import { mountScrollContract } from "./motion/scrollContract";
 
 const OverviewPage = lazy(() =>
   import("./pages/OverviewPage").then((module) => ({ default: module.OverviewPage })),
@@ -25,42 +23,14 @@ const nav = [
   { to: "/motion", label: "Motion" },
 ];
 
-function SmoothScroll() {
+function MotionContract() {
+  const { pathname } = useLocation();
   const reduced = useReducedMotion();
 
-  useEffect(() => {
-    if (reduced) return;
-
-    const lenis = new Lenis({
-      duration: 1.05,
-      smoothWheel: true,
-      wheelMultiplier: 0.85,
-    });
-    const updateScrollTrigger = () => ScrollTrigger.update();
-    const raf = (time: number) => lenis.raf(time * 1000);
-
-    lenis.on("scroll", updateScrollTrigger);
-    gsap.ticker.add(raf);
-    gsap.ticker.lagSmoothing(0);
-
-    return () => {
-      gsap.ticker.remove(raf);
-      lenis.off("scroll", updateScrollTrigger);
-      lenis.destroy();
-      document.documentElement.style.removeProperty("scroll-behavior");
-    };
-  }, [reduced]);
-
-  return null;
-}
-
-function ScrollReset() {
-  const { pathname } = useLocation();
-
-  useEffect(() => {
+  useLayoutEffect(() => {
     window.scrollTo(0, 0);
-    ScrollTrigger.refresh();
-  }, [pathname]);
+    return mountScrollContract(reduced);
+  }, [pathname, reduced]);
 
   return null;
 }
@@ -106,8 +76,7 @@ function Footer() {
 export default function App() {
   return (
     <div className="app-shell">
-      <SmoothScroll />
-      <ScrollReset />
+      <MotionContract />
       <Header />
       <main id="main-content">
         <Suspense fallback={<div className="route-loading">Loading frozen record…</div>}>

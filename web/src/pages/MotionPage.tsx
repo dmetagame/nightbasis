@@ -1,6 +1,5 @@
 import { useRef, useState } from "react";
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { SectionLabel } from "../components/SectionLabel";
 import { deskFixtures } from "../data/research";
@@ -11,7 +10,7 @@ const techniques = [
   ["02", "Ink fill", "Clip-path reveals the verdict without moving the page beneath the reader."],
   ["03", "Evidence pin", "The filing remains fixed while four point-in-time tape observations advance."],
   ["04", "Night traverse", "Three frozen sessions move horizontally; the order remains the research order."],
-  ["05", "Batch reveal", "Technique notes enter as a cohort rather than unrelated decorative motion."],
+  ["05", "Snapshot ink", "The Desk verdict answers a clock change with one short opacity cue."],
   ["06", "Motion restraint", "Reduced motion removes Lenis, pins, scrubs, and large-area translation."],
 ] as const;
 
@@ -29,48 +28,48 @@ export function MotionPage() {
   useGSAP(
     () => {
       if (reduced) {
-        gsap.set([progress.current, ".ink-fill", ".technique-card"], {
+        gsap.set([progress.current, ".ink-fill"], {
           clearProps: "all",
         });
         return;
       }
 
       const media = gsap.matchMedia();
-      media.add("(min-width: 768px)", () => {
-        gsap.fromTo(
-          progress.current,
-          { scaleX: 0 },
-          {
-            scaleX: 1,
-            ease: "none",
-            scrollTrigger: { start: 0, end: "max", scrub: true },
-          },
-        );
+      media.add("(prefers-reduced-motion: no-preference)", () => {
+        gsap.to(progress.current, {
+          scaleX: 1,
+          ease: "none",
+          scrollTrigger: { start: 0, end: "max", scrub: 0.2 },
+        });
 
-        gsap.fromTo(
-          ".ink-fill",
-          { clipPath: "inset(100% 0 0 0)" },
-          {
-            clipPath: "inset(0% 0 0 0)",
-            ease: "none",
-            scrollTrigger: {
-              trigger: inkSection.current,
-              start: "top 78%",
-              end: "bottom 35%",
-              scrub: 0.45,
-            },
+        gsap.to(".ink-fill", {
+          clipPath: "inset(0% 0 0 0)",
+          ease: "none",
+          scrollTrigger: {
+            trigger: inkSection.current,
+            start: "top 75%",
+            end: "bottom 30%",
+            scrub: 0.35,
           },
-        );
+        });
+      });
 
-        ScrollTrigger.create({
-          trigger: filingSection.current,
-          start: "top 4rem",
-          end: "+=1800",
-          pin: true,
-          scrub: 0.5,
-          anticipatePin: 1,
-          onUpdate: (self) => {
-            setPinnedIndex(Math.min(3, Math.floor(self.progress * 4)));
+      media.add("(min-width: 768px) and (prefers-reduced-motion: no-preference)", () => {
+        const filingProgress = { value: 0 };
+        gsap.to(filingProgress, {
+          value: 1,
+          ease: "none",
+          onUpdate: () => {
+            setPinnedIndex(Math.min(3, Math.floor(filingProgress.value * 4)));
+          },
+          scrollTrigger: {
+            trigger: filingSection.current,
+            start: "top 4.75rem",
+            end: "+=1800",
+            pin: true,
+            scrub: 0.35,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
           },
         });
 
@@ -82,7 +81,7 @@ export function MotionPage() {
             ease: "none",
             scrollTrigger: {
               trigger: section,
-              start: "top 4rem",
+              start: "top 4.75rem",
               end: () => `+=${Math.max(window.innerWidth, track.scrollWidth - window.innerWidth)}`,
               pin: true,
               scrub: 0.55,
@@ -91,21 +90,6 @@ export function MotionPage() {
             },
           });
         }
-
-        ScrollTrigger.batch(".technique-card", {
-          start: "top 88%",
-          once: true,
-          interval: 0.08,
-          batchMax: 3,
-          onEnter: (items) =>
-            gsap.fromTo(
-              items,
-              { opacity: 0, y: 22 },
-              { opacity: 1, y: 0, duration: 0.55, stagger: 0.08, ease: "power2.out" },
-            ),
-        });
-
-        requestAnimationFrame(() => ScrollTrigger.refresh());
       });
 
       return () => media.revert();
@@ -127,7 +111,7 @@ export function MotionPage() {
         <SectionLabel index="Night in motion">One filing. Four clocks. One restrained verdict.</SectionLabel>
         <div className="intro-grid">
           <h1>
-            The tape moves.
+            The tape moves.{" "}
             <em>The standard does not.</em>
           </h1>
           <div className="intro-copy">
@@ -171,6 +155,7 @@ export function MotionPage() {
                 type="button"
                 key={snapshot.time}
                 className={pinnedIndex === index ? "is-active" : ""}
+                aria-pressed={pinnedIndex === index}
                 onClick={() => setPinnedIndex(index)}
               >
                 {snapshot.time}
