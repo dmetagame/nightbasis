@@ -3,9 +3,9 @@
 > Living handoff for Codex sessions. Read this file before working. Do not put
 > secrets or raw credential-bearing values here.
 
-Last updated: `2026-09-17T14:08:04+01:00`
-Status: `PRE-SUBMISSION AUDIT COMPLETE — HUMAN MATERIALS PENDING`
-Active objective: Finish Playbook screenshot capture and X posting, then submit the verified Desk materials before 2026-09-21 23:59 UTC+8 (18:00 safety target). See `docs/PRE_SUBMIT_AUDIT.md`.
+Last updated: `2026-09-17T21:12:24+01:00`
+Status: `SUBMITTED — AWAITING RESULTS`
+Active objective: Await the user's update when Bitget Genesis S2 results are available. The user confirmed submission is complete; no further submission work is active.
 
 ## Workspace
 
@@ -18,6 +18,7 @@ Active objective: Finish Playbook screenshot capture and X posting, then submit 
 - Recording-retake starting commit: `14e030eb4868022e908b4ee1d9f21a044e0fe844`; clean `main` matched `origin/main` before this task.
 - Published replacement walkthrough checkpoint: `ab9e0f7a78ef82b167cf4c793002cb53014fbd31`; clean `main` matched `origin/main` before subtitles were added.
 - Pre-submission audit starting checkpoint: `a25bacd4ea2531c0292ebf2f6f991ea28552dd75`; clean `main` matched `origin/main`; public repository confirmed without authentication.
+- Published pre-submission audit checkpoint: `6dea0ba1859c9b42103308080139272a61374d61`; clean `main` matched `origin/main` when the user reported submission complete.
 - Protected releases/artifacts: price-only freeze hash `0898cca...` and commit `c92b9bd`; do not alter its model, thresholds, costs, universe, entry clock, or flat-inclusive ledgers
 
 ## Constraints
@@ -159,13 +160,13 @@ Active objective: Finish Playbook screenshot capture and X posting, then submit 
 
 ## Next Actions
 
-1. Use `https://nightbasis.vercel.app` as the primary live demo URL in the submission and X post.
-2. Use the already-subtitled `web/demo/desk-walkthrough.mp4`; capture the pending Playbook screenshots following the existing recipe. Do not claim the screenshots are already delivered.
-3. Publish the corrected X draft, paste its URL into the currently blank field, and submit the form by the stated deadline. No posting or form submission occurred during this audit.
-4. Review the remaining external-link/historical-report warnings in `docs/PRE_SUBMIT_AUDIT.md`; keep every strategy, fixture, prompt, cache, execution and presentation lock intact.
+1. Await the user's results update; do not start monitoring, resubmit, or change the submitted project without a new request.
+2. Preserve the submitted research, demo, and all existing locks. The pre-submission audit remains historical evidence, not an active task list.
+3. Submission completion is user-confirmed. No receipt, submitted X URL, or final attachment list was supplied; do not infer which optional materials were included.
 
 ## Session Handoff
 
+- Submission is complete according to the user. Resume only when they provide results or request follow-up work.
 - Inspect `reports/data-audit.md` and the per-session evidence in `reports/data-audit.json`.
 - The offline Desk replay is the current handoff. Do not resume Alpha tuning or use later/OOS nights to change prompt text, thresholds, or labels.
 
@@ -173,6 +174,7 @@ Active objective: Finish Playbook screenshot capture and X posting, then submit 
 
 | Timestamp | Session/agent | Event | Result |
 | --- | --- | --- | --- |
+| 2026-09-17T21:12:24+01:00 | Codex | Recorded the user's confirmation that submission is complete | Status is submitted/awaiting results; only this handoff changed, with no product or research modifications |
 | 2026-09-17T14:08:04+01:00 | Codex | Completed read-only pre-submission checks and permitted docs-only fixes | Initial 14 PASS/2 FAIL; final 15 PASS/0 FAIL/1 WARN. Updated live X link, removed 404 mirror, reconciled materials and handoff, refreshed secret evidence. No research or site-source changes; screenshots/X post remain human actions |
 | 2026-09-17T11:03:09+01:00 | Codex | Burned the timed voiceover subtitles into the judge video | 19 readable header cues follow the locked shot timeline and clear for the final four seconds; repository and Downloads MP4 replaced; no research or product source changed |
 | 2026-09-17T10:54:36+01:00 | Codex | Replaced the judge walkthrough with a fresh readable take | 110-second MP4, 159-word narration, actual shot timeline, and Downloads copies verified; no research, source data, or live site changes; GitHub CLI token remains stale while HTTPS Git push is independently available |
