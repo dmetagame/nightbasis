@@ -75,7 +75,11 @@ Not built by design: order routing, executable alpha, live Agent Hub orders, a f
 - Judge-facing replay with percentage moves, timestamped 8-K facts, and explicit no-trade decisions.
 - Frozen negative-control metrics and daily/trade ledgers at 15/25/37.5 bps per side.
 - Price-only Bitget Playbook mirror recipe and screenshot checklist, explicitly labeled as a negative control rather than the shipped product.
+- Subtitled 110-second judge walkthrough, matching voiceover text, and actual shot log in web/demo/.
 ```
+
+Playbook screenshots are pending human capture; the recipe is delivered, but
+`reports/playbook/` is not yet an available submission artifact.
 
 ## Role of the LLM
 
@@ -94,13 +98,13 @@ AI trading is most credible when AI structures messy evidence instead of acting 
 ## Exact X post
 
 ```text
-NightBasis Desk explains overnight rToken moves with point-in-time company evidence and a frozen factor baseline. It exposes conflicts and says “no trade” instead of forcing alpha. Three real-date fixtures, offline replay: https://github.com/dmetagame/nightbasis #BitgetHackathon @Bitget_AI
+NightBasis Desk explains overnight rToken moves with point-in-time company evidence and a frozen factor baseline. It exposes conflicts and says “no trade” instead of forcing alpha. Three real-date fixtures. Replay: https://nightbasis.vercel.app/desk #BitgetHackathon @Bitget_AI
 ```
 
 With X's link treatment, this post remains within the documented
 [280-character standard composer](https://help.x.com/en/using-x/how-to-post)
 because X [counts the shortened URL as 23 characters](https://help.x.com/en/using-x/how-to-post-a-link):
-274 effective characters.
+266 effective characters.
 
 ## X post URL
 
@@ -121,7 +125,11 @@ docs/VIDEO_SHOT_LIST.md
 docs/PUBLISH_COMMANDS.md
 docs/GITHUB_PUBLISH_CHECKLIST.md
 docs/WHAT_YOU_DO_NEXT.md
-reports/playbook/
+docs/PRE_SUBMIT_AUDIT.md
+web/demo/desk-walkthrough.mp4
+web/demo/VOICEOVER.txt
+web/demo/VOICEOVER.ass
+web/demo/SHOT_LOG.md
 reports/judge-replay.md
 reports/reason-matrix.md
 reports/price-only-metrics.md

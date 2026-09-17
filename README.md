@@ -7,7 +7,7 @@ Public materials: https://github.com/dmetagame/nightbasis
 
 Primary live demo: https://nightbasis.vercel.app
 
-Optional Pages mirror: https://dmetagame.github.io/nightbasis/
+GitHub Pages is an optional deployment path; no Pages mirror is currently published.
 
 Local demo: `make site`, then open the URL printed by Vite. The site lives in
 [`web/`](web/) and does not change the frozen Python research replay.
@@ -50,6 +50,10 @@ The price-only control was frozen before its OOS read:
 The failed control is evidence for the product decision: NightBasis ships as an
 information-extraction and signal-explanation desk, not executable alpha.
 
+The historical control report retains the Alpha-track wording from its original
+checkpoint. The current submission is **AI Trading Desk / Information Extraction
+& Signal Generation**; the later Desk relock supersedes that historical wording.
+
 ## Materials
 
 - [Read the judge-facing replay](reports/judge-replay.md)
@@ -57,9 +61,15 @@ information-extraction and signal-explanation desk, not executable alpha.
 - [Review the submission draft](docs/SUBMISSION_DRAFT.md)
 - [Copy the final form pack](docs/SUBMISSION_FINAL.md)
 - [Follow the Playbook mirror recipe](docs/PLAYBOOK_MIRROR.md)
-- [Record the two-minute video](docs/VIDEO_SHOT_LIST.md)
+- [Watch the subtitled 110-second demo](web/demo/desk-walkthrough.mp4)
+- [Read the voiceover](web/demo/VOICEOVER.txt)
+- [Inspect the actual shot timings](web/demo/SHOT_LOG.md)
+- [Review the pre-submission audit](docs/PRE_SUBMIT_AUDIT.md)
 - [Publish the repository and tags](docs/PUBLISH_COMMANDS.md)
 - [Run the GitHub publish checklist](docs/GITHUB_PUBLISH_CHECKLIST.md)
 - [Review the secret scan](docs/SECRETS_SCAN.md)
 - [Complete the human handoff](docs/WHAT_YOU_DO_NEXT.md)
 - [Read the MIT license](LICENSE)
+
+Playbook screenshots are still pending. The mirror recipe is available above;
+screenshots will be added to `reports/playbook/` after capture.

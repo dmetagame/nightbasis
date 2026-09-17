@@ -3,9 +3,9 @@
 > Living handoff for Codex sessions. Read this file before working. Do not put
 > secrets or raw credential-bearing values here.
 
-Last updated: `2026-09-17T11:03:09+01:00`
-Status: `SUBTITLED JUDGE WALKTHROUGH VERIFIED`
-Active objective: Use the verified live Desk and the recorded judge walkthrough in the submission; locked Python research remains unchanged.
+Last updated: `2026-09-17T14:08:04+01:00`
+Status: `PRE-SUBMISSION AUDIT COMPLETE — HUMAN MATERIALS PENDING`
+Active objective: Finish Playbook screenshot capture and X posting, then submit the verified Desk materials before 2026-09-21 23:59 UTC+8 (18:00 safety target). See `docs/PRE_SUBMIT_AUDIT.md`.
 
 ## Workspace
 
@@ -17,6 +17,7 @@ Active objective: Use the verified live Desk and the recorded judge walkthrough 
 - Published motion-polish checkpoint: `da68ab37ee49ec62612e698325518e097ecc5d1c` on `origin/main`
 - Recording-retake starting commit: `14e030eb4868022e908b4ee1d9f21a044e0fe844`; clean `main` matched `origin/main` before this task.
 - Published replacement walkthrough checkpoint: `ab9e0f7a78ef82b167cf4c793002cb53014fbd31`; clean `main` matched `origin/main` before subtitles were added.
+- Pre-submission audit starting checkpoint: `a25bacd4ea2531c0292ebf2f6f991ea28552dd75`; clean `main` matched `origin/main`; public repository confirmed without authentication.
 - Protected releases/artifacts: price-only freeze hash `0898cca...` and commit `c92b9bd`; do not alter its model, thresholds, costs, universe, entry clock, or flat-inclusive ledgers
 
 ## Constraints
@@ -116,6 +117,7 @@ Active objective: Use the verified live Desk and the recorded judge walkthrough 
 | Judge walkthrough media | passed | 111.467s, 1,994,182 bytes, 1280x720, H.264 High, yuv420p, 30fps, silent, fast-start `moov` before `mdat`; full decode succeeds, 2026-09-16 |
 | Replacement walkthrough | passed | Supersedes the first take: exactly 110.000s, 1,142,650 bytes, 1280x720 H.264/yuv420p, 30fps, fast-start, silent; full decode and encoded key-frame visual checks pass. GOOGL 16:30 holds through 00:33; Tesla 08:30 holds 01:10–01:50. `make demo-replay` passes; protected-path diff empty, 2026-09-17 |
 | Burned-in voiceover subtitles | passed | MP4 now 1,280,151 bytes, still 110.000s/1280x720/H.264/yuv420p/30fps/fast-start/silent. All 19 cues in `web/demo/VOICEOVER.ass` match the 159-word script exactly; header-only placement visually verified without obscuring evidence; full decode passes; Downloads copy updated, 2026-09-17 |
+| Pre-submission audit | 15 PASS / 0 FAIL / 1 WARN | 22 tests, offline replay, 12/12 Draft 2020-12 records, public routes, build, 16 browser combinations, full freeze and numeric consistency pass. History scan: 39 commits/182 blobs, no credential matches. Fixed X destination, dead Pages advertisement, material index and handoff drift; X help URLs return 403. Research/product-source diff empty, 2026-09-17 |
 | Locked replay after recording | passed | `make demo-replay`; all 12 snapshots remain `stand_down`, including rTSLA z=1.235711 and rGOOGL direction conflict; protected-path working diff empty, 2026-09-16 |
 | Git/GitHub | blocked | Local repo initialized; no remote; `gh auth status` reports expired authentication, 2026-09-11 |
 | Unit tests | passed | `PYTHONPATH=src python3 -m unittest discover -s tests -v` → 3/3 passed, 2026-09-11 |
@@ -158,10 +160,9 @@ Active objective: Use the verified live Desk and the recorded judge walkthrough 
 ## Next Actions
 
 1. Use `https://nightbasis.vercel.app` as the primary live demo URL in the submission and X post.
-2. Attach `web/demo/desk-walkthrough.mp4` where the submission accepts video and read or burn in `web/demo/VOICEOVER.txt` if narration is desired.
-3. Keep Pages optional and retain `web` as the Vercel project root for future Git-integrated deploys.
-4. Make no further presentation changes unless explicitly requested; the current motion system is intentionally restrained.
-5. Keep every listed strategy, fixture, prompt, cache, and execution lock intact.
+2. Use the already-subtitled `web/demo/desk-walkthrough.mp4`; capture the pending Playbook screenshots following the existing recipe. Do not claim the screenshots are already delivered.
+3. Publish the corrected X draft, paste its URL into the currently blank field, and submit the form by the stated deadline. No posting or form submission occurred during this audit.
+4. Review the remaining external-link/historical-report warnings in `docs/PRE_SUBMIT_AUDIT.md`; keep every strategy, fixture, prompt, cache, execution and presentation lock intact.
 
 ## Session Handoff
 
@@ -172,6 +173,7 @@ Active objective: Use the verified live Desk and the recorded judge walkthrough 
 
 | Timestamp | Session/agent | Event | Result |
 | --- | --- | --- | --- |
+| 2026-09-17T14:08:04+01:00 | Codex | Completed read-only pre-submission checks and permitted docs-only fixes | Initial 14 PASS/2 FAIL; final 15 PASS/0 FAIL/1 WARN. Updated live X link, removed 404 mirror, reconciled materials and handoff, refreshed secret evidence. No research or site-source changes; screenshots/X post remain human actions |
 | 2026-09-17T11:03:09+01:00 | Codex | Burned the timed voiceover subtitles into the judge video | 19 readable header cues follow the locked shot timeline and clear for the final four seconds; repository and Downloads MP4 replaced; no research or product source changed |
 | 2026-09-17T10:54:36+01:00 | Codex | Replaced the judge walkthrough with a fresh readable take | 110-second MP4, 159-word narration, actual shot timeline, and Downloads copies verified; no research, source data, or live site changes; GitHub CLI token remains stale while HTTPS Git push is independently available |
 | 2026-09-16T15:21:12+01:00 | Codex | Recorded and verified the judge-facing Desk walkthrough | 111.467s H.264/yuv420p/30fps fast-start MP4 plus 166-word voiceover; replay locks pass and no research file changed |
