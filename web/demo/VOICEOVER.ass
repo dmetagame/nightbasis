@@ -1,0 +1,33 @@
+[Script Info]
+Title: NightBasis Desk — timed voiceover subtitles
+ScriptType: v4.00+
+PlayResX: 1280
+PlayResY: 720
+WrapStyle: 2
+ScaledBorderAndShadow: yes
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Narration,DejaVu Sans,24,&H00E1E6E8,&H00E1E6E8,&H000E0C0B,&H000E0C0B,0,0,0,0,100,100,0,0,1,1,0,5,64,64,18,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:04.80,Narration,,0,0,0,,{\pos(640,38)}Did overnight rGOOGL move with the filing, or against it?
+Dialogue: 0,0:00:05.00,0:00:09.80,Narration,,0,0,0,,{\pos(640,38)}NightBasis Desk keeps the evidence\Nand the observed price together.
+Dialogue: 0,0:00:10.00,0:00:15.80,Narration,,0,0,0,,{\pos(640,38)}Alphabet's 8-K was accepted at 16:01 Eastern, before 16:30.
+Dialogue: 0,0:00:16.00,0:00:22.80,Narration,,0,0,0,,{\pos(640,38)}At that first snapshot, signed information is 0.855,\Nwith direction plus one.
+Dialogue: 0,0:00:23.00,0:00:27.80,Narration,,0,0,0,,{\pos(640,38)}But the tape is already down 1.97 percent.
+Dialogue: 0,0:00:28.00,0:00:32.80,Narration,,0,0,0,,{\pos(640,38)}That is a conflict. The verdict is no trade.
+Dialogue: 0,0:00:33.00,0:00:39.80,Narration,,0,0,0,,{\pos(640,38)}At 20:00, the decline is 5.14 percent. Still no trade.
+Dialogue: 0,0:00:40.00,0:00:46.80,Narration,,0,0,0,,{\pos(640,38)}At midnight, it is down 4.41 percent. The conflict remains.
+Dialogue: 0,0:00:47.00,0:00:51.00,Narration,,0,0,0,,{\pos(640,38)}By 08:30, it is down 7.09 percent.
+Dialogue: 0,0:00:51.20,0:00:54.80,Narration,,0,0,0,,{\pos(640,38)}The filing's direction has not changed.
+Dialogue: 0,0:00:55.00,0:00:57.80,Narration,,0,0,0,,{\pos(640,38)}Now Tesla.
+Dialogue: 0,0:00:58.00,0:01:04.80,Narration,,0,0,0,,{\pos(640,38)}No qualifying SEC or investor-relations event\Nappears in this bounded window.
+Dialogue: 0,0:01:05.00,0:01:09.80,Narration,,0,0,0,,{\pos(640,38)}We advance through the same four clocks.
+Dialogue: 0,0:01:10.00,0:01:15.80,Narration,,0,0,0,,{\pos(640,38)}At 08:30, Tesla is down 2.64 percent.
+Dialogue: 0,0:01:16.00,0:01:22.80,Narration,,0,0,0,,{\pos(640,38)}Its z-score is 1.236 versus a 1.25 bar.
+Dialogue: 0,0:01:23.00,0:01:29.80,Narration,,0,0,0,,{\pos(640,38)}The screen preserves the full value, 1.235711.
+Dialogue: 0,0:01:30.00,0:01:34.80,Narration,,0,0,0,,{\pos(640,38)}It misses. This is not a washout. No trade.
+Dialogue: 0,0:01:35.00,0:01:40.80,Narration,,0,0,0,,{\pos(640,38)}NightBasis Desk is not a bot that always buys.
+Dialogue: 0,0:01:41.00,0:01:46.00,Narration,,0,0,0,,{\pos(640,38)}It makes the reason for standing down visible.

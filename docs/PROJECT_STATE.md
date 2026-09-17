@@ -3,8 +3,8 @@
 > Living handoff for Codex sessions. Read this file before working. Do not put
 > secrets or raw credential-bearing values here.
 
-Last updated: `2026-09-17T10:54:36+01:00`
-Status: `JUDGE WALKTHROUGH REPLACED AND VERIFIED`
+Last updated: `2026-09-17T11:03:09+01:00`
+Status: `SUBTITLED JUDGE WALKTHROUGH VERIFIED`
 Active objective: Use the verified live Desk and the recorded judge walkthrough in the submission; locked Python research remains unchanged.
 
 ## Workspace
@@ -16,6 +16,7 @@ Active objective: Use the verified live Desk and the recorded judge walkthrough 
 - Published web/state checkpoint before Vercel configuration: `c27cbbb6c231c56a7a2e3abb0fb34f7fdc29bb6e` on `origin/main`
 - Published motion-polish checkpoint: `da68ab37ee49ec62612e698325518e097ecc5d1c` on `origin/main`
 - Recording-retake starting commit: `14e030eb4868022e908b4ee1d9f21a044e0fe844`; clean `main` matched `origin/main` before this task.
+- Published replacement walkthrough checkpoint: `ab9e0f7a78ef82b167cf4c793002cb53014fbd31`; clean `main` matched `origin/main` before subtitles were added.
 - Protected releases/artifacts: price-only freeze hash `0898cca...` and commit `c92b9bd`; do not alter its model, thresholds, costs, universe, entry clock, or flat-inclusive ledgers
 
 ## Constraints
@@ -114,6 +115,7 @@ Active objective: Use the verified live Desk and the recorded judge walkthrough 
 | Motion-polish Vercel deployment | ready | Deployment `nightbasis-9kawv42l5-dmetagames-projects.vercel.app` is aliased to `https://nightbasis.vercel.app`; all four routes return HTTP 200 with new assets `index-BwlPP6dC.js` and `index-D32W8dvD.css`, 2026-09-16 |
 | Judge walkthrough media | passed | 111.467s, 1,994,182 bytes, 1280x720, H.264 High, yuv420p, 30fps, silent, fast-start `moov` before `mdat`; full decode succeeds, 2026-09-16 |
 | Replacement walkthrough | passed | Supersedes the first take: exactly 110.000s, 1,142,650 bytes, 1280x720 H.264/yuv420p, 30fps, fast-start, silent; full decode and encoded key-frame visual checks pass. GOOGL 16:30 holds through 00:33; Tesla 08:30 holds 01:10–01:50. `make demo-replay` passes; protected-path diff empty, 2026-09-17 |
+| Burned-in voiceover subtitles | passed | MP4 now 1,280,151 bytes, still 110.000s/1280x720/H.264/yuv420p/30fps/fast-start/silent. All 19 cues in `web/demo/VOICEOVER.ass` match the 159-word script exactly; header-only placement visually verified without obscuring evidence; full decode passes; Downloads copy updated, 2026-09-17 |
 | Locked replay after recording | passed | `make demo-replay`; all 12 snapshots remain `stand_down`, including rTSLA z=1.235711 and rGOOGL direction conflict; protected-path working diff empty, 2026-09-16 |
 | Git/GitHub | blocked | Local repo initialized; no remote; `gh auth status` reports expired authentication, 2026-09-11 |
 | Unit tests | passed | `PYTHONPATH=src python3 -m unittest discover -s tests -v` → 3/3 passed, 2026-09-11 |
@@ -170,6 +172,7 @@ Active objective: Use the verified live Desk and the recorded judge walkthrough 
 
 | Timestamp | Session/agent | Event | Result |
 | --- | --- | --- | --- |
+| 2026-09-17T11:03:09+01:00 | Codex | Burned the timed voiceover subtitles into the judge video | 19 readable header cues follow the locked shot timeline and clear for the final four seconds; repository and Downloads MP4 replaced; no research or product source changed |
 | 2026-09-17T10:54:36+01:00 | Codex | Replaced the judge walkthrough with a fresh readable take | 110-second MP4, 159-word narration, actual shot timeline, and Downloads copies verified; no research, source data, or live site changes; GitHub CLI token remains stale while HTTPS Git push is independently available |
 | 2026-09-16T15:21:12+01:00 | Codex | Recorded and verified the judge-facing Desk walkthrough | 111.467s H.264/yuv420p/30fps fast-start MP4 plus 166-word voiceover; replay locks pass and no research file changed |
 | 2026-09-16T14:37:41+01:00 | Codex | Audited and refined web motion, then deployed the bounded presentation checkpoint | Eight-fix audit implemented; responsive, reduced-motion, build, 22-test, replay, secret, and protected-path checks pass; commit `da68ab3` is pushed and `https://nightbasis.vercel.app` serves the new assets |

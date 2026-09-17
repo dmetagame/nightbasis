@@ -8,6 +8,8 @@ Capture uses lossless 1280×720 PNG frames assembled into a silent, 30 fps H.264
 
 For readability, temporary browser-only CSS widens the evidence column and reduces panel spacing at 100% scale. All evidence remains present. A three-second opening question overlays only the header. Neither adjustment is deployed or written into the site's source.
 
+The final MP4 now burns in all 159 words of the voiceover as 19 timed subtitle cues from `VOICEOVER.ass`. Subtitles occupy the 76px header area, replacing the opening banner and navigation during narration so the full replay evidence remains unobstructed. The header returns and subtitles clear at 01:46 for the final four-second hold. Audio remains silent.
+
 | Video interval | Fixture / selected clock | Hold | Observed move on screen | Evidence and verdict |
 | --- | --- | --- | --- | --- |
 | 00:00–00:03 | Material filing · 16:30 | 3s | −1.965% | Opening question; replay paused; No trade |
@@ -30,7 +32,8 @@ Read the eight paragraphs of `VOICEOVER.txt` starting at 00:00, 00:10, 00:33, 00
 
 ## Verification
 
-- ffprobe: 110.000 seconds; 1,142,650 bytes; 1280×720; H.264; yuv420p; 30/1 fps; silent.
+- ffprobe, subtitled version: 110.000 seconds; 1,280,151 bytes; 1280×720; H.264; yuv420p; 30/1 fps; silent; fast-start verified.
+- All 19 subtitle cues match `VOICEOVER.txt` word for word. Encoded subtitle frames at 00:18 and 01:19 were reviewed for legibility and unobstructed evidence; full decode passed.
 - Full MP4 decode passed. Encoded frames at 00:15 and 01:20 were visually reviewed at native size: both critical evidence sets are readable together.
 - `make demo-replay` passed; no changes to Python, fixtures, control reports, or `web/src/data/research.ts`.
 - Narration: 159 words. No fourth fixture. No stock music, cursor effects, or terminal footage.
