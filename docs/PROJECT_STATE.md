@@ -3,8 +3,8 @@
 > Living handoff for Codex sessions. Read this file before working. Do not put
 > secrets or raw credential-bearing values here.
 
-Last updated: `2026-09-16T15:21:12+01:00`
-Status: `JUDGE WALKTHROUGH RECORDED`
+Last updated: `2026-09-17T10:54:36+01:00`
+Status: `JUDGE WALKTHROUGH REPLACED AND VERIFIED`
 Active objective: Use the verified live Desk and the recorded judge walkthrough in the submission; locked Python research remains unchanged.
 
 ## Workspace
@@ -15,6 +15,7 @@ Active objective: Use the verified live Desk and the recorded judge walkthrough 
 - Starting commit for the web checkpoint: `e4ffc8414fa821a6a11c2299a451d812482aaf98` (matches local `origin/main` before the web changes); protected IS freeze checkpoint: `c92b9bd776ce43cf71d94ba90d3db23622b4395c`
 - Published web/state checkpoint before Vercel configuration: `c27cbbb6c231c56a7a2e3abb0fb34f7fdc29bb6e` on `origin/main`
 - Published motion-polish checkpoint: `da68ab37ee49ec62612e698325518e097ecc5d1c` on `origin/main`
+- Recording-retake starting commit: `14e030eb4868022e908b4ee1d9f21a044e0fe844`; clean `main` matched `origin/main` before this task.
 - Protected releases/artifacts: price-only freeze hash `0898cca...` and commit `c92b9bd`; do not alter its model, thresholds, costs, universe, entry clock, or flat-inclusive ledgers
 
 ## Constraints
@@ -54,6 +55,7 @@ Active objective: Use the verified live Desk and the recorded judge walkthrough 
 - Centralized Lenis and ScrollTrigger lifecycle ownership in `web/src/motion/scrollContract.ts`, including route teardown, font-ready refresh, mobile-resize handling, and a static reduced-motion path with no Lenis, pins, scrubs, split text, or blur.
 - Refined presentation motion without changing research data: word-based Home hero reveal, one Method heading reveal, a 200ms opacity-only Desk verdict response, one document progress hairline, and desktop-only Motion-page ink, clock, and three-night studies. Removed the technique-card batch reveal, competing Home entrance sequence, manual refresh frame, and header backdrop blur.
 - Recorded the live `/desk` replay at `web/demo/desk-walkthrough.mp4` and added the matching 166-word human narration at `web/demo/VOICEOVER.txt`. The silent walkthrough covers the rGOOGL filing conflict and exact rTSLA threshold miss without altering the site or research.
+- Replaced the first recording with a fresh 110-second edited walkthrough from manually clicked live Chromium states. Full-size text and a temporary browser-only capture layout keep price, signed info, direction, reason, and verdict visible together. Added `web/demo/SHOT_LOG.md`, replaced narration with 159 spoken words, and refreshed the requested Downloads copies. No deployed UI or research was changed.
 
 - Initialized the repository and minimal standard-library audit package.
 - Added `src/nightbasis/audit_data.py` and deterministic unit coverage for pagination, flat-price spread, and the Juneteenth calendar closure.
@@ -111,6 +113,7 @@ Active objective: Use the verified live Desk and the recorded judge walkthrough 
 | Motion-polish Git checkpoint | pushed | Commit `da68ab37ee49ec62612e698325518e097ecc5d1c` matches `origin/main`; protected-path diff and secret scan are clean, 2026-09-16 |
 | Motion-polish Vercel deployment | ready | Deployment `nightbasis-9kawv42l5-dmetagames-projects.vercel.app` is aliased to `https://nightbasis.vercel.app`; all four routes return HTTP 200 with new assets `index-BwlPP6dC.js` and `index-D32W8dvD.css`, 2026-09-16 |
 | Judge walkthrough media | passed | 111.467s, 1,994,182 bytes, 1280x720, H.264 High, yuv420p, 30fps, silent, fast-start `moov` before `mdat`; full decode succeeds, 2026-09-16 |
+| Replacement walkthrough | passed | Supersedes the first take: exactly 110.000s, 1,142,650 bytes, 1280x720 H.264/yuv420p, 30fps, fast-start, silent; full decode and encoded key-frame visual checks pass. GOOGL 16:30 holds through 00:33; Tesla 08:30 holds 01:10–01:50. `make demo-replay` passes; protected-path diff empty, 2026-09-17 |
 | Locked replay after recording | passed | `make demo-replay`; all 12 snapshots remain `stand_down`, including rTSLA z=1.235711 and rGOOGL direction conflict; protected-path working diff empty, 2026-09-16 |
 | Git/GitHub | blocked | Local repo initialized; no remote; `gh auth status` reports expired authentication, 2026-09-11 |
 | Unit tests | passed | `PYTHONPATH=src python3 -m unittest discover -s tests -v` → 3/3 passed, 2026-09-11 |
@@ -167,6 +170,7 @@ Active objective: Use the verified live Desk and the recorded judge walkthrough 
 
 | Timestamp | Session/agent | Event | Result |
 | --- | --- | --- | --- |
+| 2026-09-17T10:54:36+01:00 | Codex | Replaced the judge walkthrough with a fresh readable take | 110-second MP4, 159-word narration, actual shot timeline, and Downloads copies verified; no research, source data, or live site changes; GitHub CLI token remains stale while HTTPS Git push is independently available |
 | 2026-09-16T15:21:12+01:00 | Codex | Recorded and verified the judge-facing Desk walkthrough | 111.467s H.264/yuv420p/30fps fast-start MP4 plus 166-word voiceover; replay locks pass and no research file changed |
 | 2026-09-16T14:37:41+01:00 | Codex | Audited and refined web motion, then deployed the bounded presentation checkpoint | Eight-fix audit implemented; responsive, reduced-motion, build, 22-test, replay, secret, and protected-path checks pass; commit `da68ab3` is pushed and `https://nightbasis.vercel.app` serves the new assets |
 | 2026-09-15T13:38:36+01:00 | Codex | Renamed and publicly exposed the Vercel project | Project `nightbasis` serves `https://nightbasis.vercel.app`; SSO protection disabled; all four requested routes return HTTP 200 with the NightBasis title; locked research untouched |
